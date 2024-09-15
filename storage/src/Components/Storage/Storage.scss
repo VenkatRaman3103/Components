@@ -1,0 +1,206 @@
+.storage-main-container {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #f3f3f3;
+
+    .storage-container {
+        height: 75vh;
+        width: 60vh;
+        background-color: #ffff;
+        border: 2px solid #DCE0E4;
+
+        border-radius: 100px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .storage-wrapper {
+            width: 85%;
+            height: 89%;
+
+            display: flex;
+            flex-direction: column;
+            // justify-content: space-between;
+            gap: 50px;
+
+            .header-container {
+                width: 100%;
+                height: 12%;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: start;
+
+                .header-wrapper {
+                    width: 100%;
+                    height: 100%;
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: start;
+                    align-items: center;
+
+                    gap: 30px;
+
+                    .storage-icon {
+                        height: 80px;
+                        width: 80px;
+
+                        background-color: #97A5B9;
+                        border-radius: 200px;
+                    }
+
+                    .storage-heading-wrapper {
+                        width: auto;
+                        height: 100%;
+
+                        color: #445266;
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        align-items: start;
+                        gap: 5px;
+                        margin-top: -20px;
+
+                        .storage-heading {
+                            font-size: 44px;
+                            font-weight: 600;
+                        }
+
+                    }
+                }
+            }
+
+            .stats-overview-container {
+                width: 100%;
+                height: auto;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                background-color: #FAFAFA;
+                border: 2px solid #DCE0E4;
+                border-radius: 30px;
+
+                padding-top: 20px;
+                padding-bottom: 20px;
+
+                color: #445266;
+
+                .stats-overview-wrapper {
+                    width: 90%;
+                    height: auto;
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    .numeric-stats-wrapper {
+                        width: 50%;
+                        height: auto;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        gap: 10px;
+
+                        .numeric-stats-heading {
+                            font-size: 18px;
+                        }
+
+                        .numeric-stats-percentage {
+                            font-size: 54px;
+                            font-weight: 500;
+                        }
+
+                        .numeric-stats-description {
+                            font-size: 18px;
+                        }
+                    }
+
+                    .list-of-elements-wrapper {
+                        width: 50%;
+                        height: auto;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        align-items: end;
+
+
+                        .list-of-elements-item {
+                            display: flex;
+                            flex-direction: row;
+                            gap: 10px;
+
+                            .element-dot {
+                                height: 20px;
+                                width: 20px;
+                                background-color: #445266;
+                                border-radius: 100px;
+                            }
+
+                            .element-name {}
+                        }
+                    }
+                }
+            }
+
+            .stats-bar-wrapper {
+                width: 100%;
+                height: 30px;
+
+                border-radius: 10px;
+                background-color: #FAFAFA;
+                border: 2px solid #DCE0E4;
+
+                display: flex;
+                // overflow: hidden;
+                position: relative;
+
+                &::before {
+                    content: "0%";
+                    position: absolute;
+                    bottom: -25px;
+                }
+
+                &::after {
+                    content: "100%";
+                    position: absolute;
+                    bottom: -25px;
+                    right: 0px;
+                }
+
+                .stats-highlight {
+                    width: 100px;
+                    height: 100%;
+
+                    background-color: red;
+                    position: relative;
+
+                    &::after {
+                        content: "0%";
+                        position: absolute;
+                        bottom: -25px;
+                        right: 0px;
+                    } 
+                                       &:first-child {
+                        border-top-left-radius: 8px;
+                        border-bottom-left-radius: 8px;
+                    }
+
+
+                }
+            }
+        }
+
+    }
+
+}
