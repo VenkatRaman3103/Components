@@ -2,6 +2,7 @@ import React from 'react'
 import './Storage.scss'
 
 const Storage = () => {
+    const itemsArray = [1, 2, 3, 4];
     return (
         <div className='storage-main-container'>
             <div className='storage-container'>
@@ -15,22 +16,23 @@ const Storage = () => {
                                 <div className='numeric-stats-description'>lorem ipsum</div>
                             </div>
                             <div className='list-of-elements-wrapper'>
-                                <div className='list-of-elements-item'>
-                                    <div className='element-dot'></div>
-                                    <div className='element-name'>item</div>
-                                </div>
+                                {itemsArray.map((item) => <StatsItems />)}
                             </div>
                         </div>
                     </div>
                     <div className='stats-bar-wrapper'>
-                        <div className='stats-highlight first'></div>
-                        <div className='stats-highlight second'></div>
-                        <div className='stats-highlight third'></div>
-                        <div className='stats-highlight fourth'></div>
+                        {itemsArray.map((item) => <div className={`stats-highlight ${item}`}></div>)}
                     </div>
                 </div>
+                <div class="folder">
+                    <div class="folder-tab"></div>
+                    <div class="folder-body"></div>
+                </div>
             </div>
+
+
         </div>
+        // <h1>hello world</h1>
     )
 }
 
@@ -44,6 +46,16 @@ const Heading = () => {
                     <div className='storage-heading-description'>lorem ipsum</div>
                 </div>
             </div>
+        </div>
+    )
+}
+
+const StatsItems = () => {
+    return (
+
+        <div className='list-of-elements-item'>
+            <div className='element-dot'></div>
+            <div className='element-name'>item</div>
         </div>
     )
 }
