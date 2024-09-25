@@ -79,77 +79,93 @@
                 }
             }
 
-            .stats-overview-container {
+            .stats-carousal-container {
                 width: 100%;
                 height: auto;
+                overflow: hidden;
 
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                background-color: #FAFAFA;
-                border: 2px solid #DCE0E4;
-                border-radius: 30px;
-
-                padding-top: 20px;
-                padding-bottom: 20px;
-
-                color: #445266;
-
-                .stats-overview-wrapper {
-                    width: 90%;
-                    height: auto;
-
+                .stats-carousal-wrapper {
+                    width: 100vw;
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-between;
 
-                    .numeric-stats-wrapper {
-                        width: 50%;
+                    .stats-overview-container {
+                        width: 100%;
                         height: auto;
+
                         display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        gap: 10px;
+                        justify-content: center;
+                        align-items: center;
 
-                        .numeric-stats-heading {
-                            font-size: 18px;
-                        }
+                        background-color: #FAFAFA;
+                        border: 2px solid #DCE0E4;
+                        border-radius: 30px;
 
-                        .numeric-stats-percentage {
-                            font-size: 54px;
-                            font-weight: 500;
-                        }
+                        padding-top: 20px;
+                        padding-bottom: 20px;
 
-                        .numeric-stats-description {
-                            font-size: 18px;
-                        }
-                    }
+                        color: #445266;
 
-                    .list-of-elements-wrapper {
-                        width: 50%;
-                        height: auto;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        align-items: end;
+                        .stats-overview-wrapper {
+                            width: 90%;
+                            height: auto;
 
-
-                        .list-of-elements-item {
                             display: flex;
                             flex-direction: row;
-                            gap: 10px;
+                            justify-content: space-between;
 
-                            .element-dot {
-                                height: 20px;
-                                width: 20px;
-                                background-color: #445266;
-                                border-radius: 100px;
+                            .numeric-stats-wrapper {
+                                width: 50%;
+                                height: auto;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                gap: 10px;
+
+                                flex: 70%;
+
+                                .numeric-stats-heading {
+                                    font-size: 18px;
+                                }
+
+                                .numeric-stats-percentage {
+                                    font-size: 54px;
+                                    font-weight: 500;
+                                }
+
+                                .numeric-stats-description {
+                                    font-size: 18px;
+                                }
                             }
 
-                            .element-name {}
+                            .list-of-elements-wrapper {
+                                width: 50%;
+                                height: auto;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                align-items: start;
+                                flex: 30%;
+
+
+                                .list-of-elements-item {
+                                    display: flex;
+                                    flex-direction: row;
+                                    gap: 10px;
+
+                                    .element-dot {
+                                        height: 20px;
+                                        width: 20px;
+                                        background-color: #445266;
+                                        border-radius: 100px;
+                                    }
+
+                                    .element-name {}
+                                }
+                            }
                         }
                     }
+
                 }
             }
 
@@ -183,6 +199,8 @@
 
                     position: relative;
 
+                    transition: all 500ms linear;
+
                     &::after {
                         content: "0%";
                         position: absolute;
@@ -209,7 +227,7 @@
                     width: 100%;
                 }
 
-                .content-container{
+                .content-container {
                     height: calc(79% - 2.5px);
                     width: 100%;
                     padding-top: 40px;

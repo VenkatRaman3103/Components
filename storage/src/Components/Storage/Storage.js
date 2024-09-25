@@ -2,11 +2,43 @@ import React, { useEffect, useRef, useState } from 'react'
 import './Storage.scss'
 
 const itemsArray = [
-    { id: 1, value: 1, subItems: [{ id: 1, value: 1 }, { id: 2, value: 1 }, { id: 3, value: 1 }, { id: 3, value: 1 }] },
-    { id: 2, value: 2, subItems: [{ id: 1, value: 4 }, { id: 2, value: 1 }, { id: 3, value: 1 }, { id: 3, value: 1 }] },
-    { id: 3, value: 2, subItems: [{ id: 1, value: 1 }, { id: 2, value: 1 }, { id: 3, value: 1 }, { id: 3, value: 1 }] },
-    { id: 4, value: 3, subItems: [{ id: 1, value: 2 }, { id: 2, value: 1 }, { id: 3, value: 4 },] }
+    {
+        id: 1, value: 1, name: "Apples",
+        subItems: [
+            { id: 1, name: "Green Apple", value: 1 },
+            { id: 2, name: "Red Apple", value: 1 },
+            { id: 3, name: "Yellow Apple", value: 1 },
+            { id: 4, name: "Golden Apple", value: 1 }
+        ]
+    },
+    {
+        id: 2, value: 2, name: "Bananas",
+        subItems: [
+            { id: 1, name: "Ripe Banana", value: 4 },
+            { id: 2, name: "Unripe Banana", value: 1 },
+            { id: 3, name: "Frozen Banana", value: 1 },
+            { id: 4, name: "Dried Banana", value: 1 }
+        ]
+    },
+    {
+        id: 3, value: 2, name: "Oranges",
+        subItems: [
+            { id: 1, name: "Navel Orange", value: 1 },
+            { id: 2, name: "Blood Orange", value: 1 },
+            { id: 3, name: "Mandarin Orange", value: 1 },
+            { id: 4, name: "Tangerine", value: 1 }
+        ]
+    },
+    {
+        id: 4, value: 3, name: "Berries",
+        subItems: [
+            { id: 1, name: "Blueberry", value: 2 },
+            { id: 2, name: "Strawberry", value: 1 },
+            { id: 3, name: "Raspberry", value: 4 }
+        ]
+    }
 ];
+
 const baseColor = "#445266"
 
 const n = itemsArray.length
@@ -52,15 +84,34 @@ const Storage = () => {
             <div className='storage-container'>
                 <div className='storage-wrapper'>
                     <Heading />
-                    <div className='stats-overview-container'>
-                        <div className='stats-overview-wrapper'>
-                            <div className='numeric-stats-wrapper'>
-                                <div className='numeric-stats-heading'>storage</div>
-                                <div className='numeric-stats-percentage'>95%</div>
-                                <div className='numeric-stats-description'>lorem ipsum</div>
+
+                    <div className='stats-carousal-container'>
+                        <div className='stats-carousal-wrapper'>
+
+                            <div className='stats-overview-container'>
+                                <div className='stats-overview-wrapper'>
+                                    <div className='numeric-stats-wrapper'>
+                                        <div className='numeric-stats-heading'>storage</div>
+                                        <div className='numeric-stats-percentage'>95%</div>
+                                        <div className='numeric-stats-description'>lorem ipsum</div>
+                                    </div>
+                                    <div className='list-of-elements-wrapper'>
+                                        {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                                    </div>
+                                </div>
                             </div>
-                            <div className='list-of-elements-wrapper'>
-                                {selectedArray.map((item, index) => <StatsItems n={n} index={index} />)}
+
+                            <div className='stats-overview-container'>
+                                <div className='stats-overview-wrapper'>
+                                    <div className='numeric-stats-wrapper'>
+                                        <div className='numeric-stats-heading'>storage</div>
+                                        <div className='numeric-stats-percentage'>95%</div>
+                                        <div className='numeric-stats-description'>lorem ipsum</div>
+                                    </div>
+                                    <div className='list-of-elements-wrapper'>
+                                        {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -94,12 +145,12 @@ const Heading = () => {
     )
 }
 
-const StatsItems = ({ n, index }) => {
+const StatsItems = ({ n, index, item }) => {
     return (
 
         <div className='list-of-elements-item'>
             <div className='element-dot' style={{ backgroundColor: `rgb(68, 82, 102, 0.${(n - index) + n})` }}></div>
-            <div className='element-name'>item</div>
+            <div className='element-name'>{item.name}</div>
         </div>
     )
 }
