@@ -28,7 +28,7 @@ const Storage = () => {
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (statsBarWrapperRef.current && !statsBarWrapperRef.current.contains(event.target)) {
+            if (event.target !== statsBarWrapperRef.current) {
                 setSelectedArray(itemsArray)
                 setSelectedItem(null)
             }
