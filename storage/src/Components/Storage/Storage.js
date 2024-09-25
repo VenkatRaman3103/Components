@@ -44,25 +44,33 @@ const baseColor = "#445266"
 const n = itemsArray.length
 
 const Storage = () => {
+    const [cards, setCards] = useState([])
+
     const [selectedArray, setSelectedArray] = useState(itemsArray)
 
-    const [selectedItem, setSelectedItem] = useState()
-    const statsBarWrapperRef = useRef(null)
-    useEffect(() => {
+    const [selectedItem, setSelectedItem] = useState(null)
 
-        const clickedItem = itemsArray.filter((item) => item.id == selectedItem)
-        console.log(selectedItem, clickedItem[0]?.subItems)
+    const [selectedItemId, setSelectedItemId] = useState(null)
+
+    const statsBarWrapperRef = useRef(null)
+
+    useEffect(() => {
+        const clickedItem = itemsArray.filter((item) => item.id == selectedItemId)
+        console.log(selectedItemId, clickedItem[0]?.subItems)
         if (clickedItem[0]) {
             setSelectedArray(clickedItem[0]?.subItems)
         }
 
-    }, [selectedItem])
+        setSelectedItem(clickedItem[0])
+
+        console.log(clickedItem, 'clickedItem')
+    }, [selectedItemId])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (event.target !== statsBarWrapperRef.current) {
                 setSelectedArray(itemsArray)
-                setSelectedItem(null)
+                setSelectedItemId(null)
             }
         }
 
@@ -87,36 +95,39 @@ const Storage = () => {
 
                     <div className='stats-carousal-container'>
                         <div className='stats-carousal-wrapper'>
-
-                            <div className='stats-overview-container'>
-                                <div className='stats-overview-wrapper'>
-                                    <div className='numeric-stats-wrapper'>
-                                        <div className='numeric-stats-heading'>storage</div>
-                                        <div className='numeric-stats-percentage'>95%</div>
-                                        <div className='numeric-stats-description'>lorem ipsum</div>
-                                    </div>
-                                    <div className='list-of-elements-wrapper'>
-                                        {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className='stats-overview-container'>
-                                <div className='stats-overview-wrapper'>
-                                    <div className='numeric-stats-wrapper'>
-                                        <div className='numeric-stats-heading'>storage</div>
-                                        <div className='numeric-stats-percentage'>95%</div>
-                                        <div className='numeric-stats-description'>lorem ipsum</div>
-                                    </div>
-                                    <div className='list-of-elements-wrapper'>
-                                        {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                            {/* {!selectedItem && ( */}
+                                <div className={`stats-overview-container ${selectedItemId !== null ? 'moveBackward' : ''}`}>
+                                    <div className='stats-overview-wrapper'>
+                                        <div className='numeric-stats-wrapper'>
+                                            <div className='numeric-stats-heading'>storage</div>
+                                            <div className='numeric-stats-percentage'>95%</div>
+                                            <div className='numeric-stats-description'>lorem ipsum</div>
+                                        </div>
+                                        <div className='list-of-elements-wrapper'>
+                                            {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {/* )} */}
+
+                            {selectedItem && (
+                                <div className='stats-overview-container-item'>
+                                    <div className='stats-overview-wrapper'>
+                                        <div className='numeric-stats-wrapper'>
+                                            <div className='numeric-stats-heading'>{selectedItem.name}</div>
+                                            <div className='numeric-stats-percentage'>{selectedItem.id}</div>
+                                            <div className='numeric-stats-description'>lorem ipsum</div>
+                                        </div>
+                                        <div className='list-of-elements-wrapper'>
+                                            {selectedArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className='stats-bar-wrapper' ref={statsBarWrapperRef}>
-                        {selectedArray.map((item, index) => <div className={`stats-highlight ${item}`} style={dynamicColor(n, index, item)} onClick={() => setSelectedItem(item.id)}></div>)}
+                        {selectedArray.map((item, index) => <div className={`stats-highlight ${item}`} style={dynamicColor(n, index, item)} onClick={() => setSelectedItemId(item.id)}></div>)}
                     </div>
 
                     <div class="folder">

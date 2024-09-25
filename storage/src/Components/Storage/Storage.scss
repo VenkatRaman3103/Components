@@ -81,30 +81,115 @@
 
             .stats-carousal-container {
                 width: 100%;
-                height: auto;
+                height: 200px;
                 overflow: hidden;
 
                 .stats-carousal-wrapper {
                     width: 100vw;
+                    height: 100%;
                     display: flex;
                     flex-direction: row;
 
-                    .stats-overview-container {
-                        width: 100%;
-                        height: auto;
+                    position: relative;
 
+                    .stats-overview-container {
+                        width: 60%;
+                        height: auto;
                         display: flex;
                         justify-content: center;
                         align-items: center;
-
                         background-color: #FAFAFA;
                         border: 2px solid #DCE0E4;
                         border-radius: 30px;
-
                         padding-top: 20px;
                         padding-bottom: 20px;
-
                         color: #445266;
+                        position: absolute;
+                        bottom: 0px;
+
+                        transition: all 500ms linear;
+
+                        &.moveBackward {
+                            transform: translateY(-45px) scale(0.8);
+                        }
+
+                        .stats-overview-wrapper {
+                            width: 90%;
+                            height: auto;
+
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: space-between;
+
+                            .numeric-stats-wrapper {
+                                width: 50%;
+                                height: auto;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                gap: 10px;
+
+                                flex: 70%;
+
+                                .numeric-stats-heading {
+                                    font-size: 18px;
+                                }
+
+                                .numeric-stats-percentage {
+                                    font-size: 54px;
+                                    font-weight: 500;
+                                }
+
+                                .numeric-stats-description {
+                                    font-size: 18px;
+                                }
+                            }
+
+                            .list-of-elements-wrapper {
+                                width: 50%;
+                                height: auto;
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                align-items: start;
+                                flex: 30%;
+
+
+                                .list-of-elements-item {
+                                    display: flex;
+                                    flex-direction: row;
+                                    gap: 10px;
+
+                                    .element-dot {
+                                        height: 20px;
+                                        width: 20px;
+                                        background-color: #445266;
+                                        border-radius: 100px;
+                                    }
+
+                                    .element-name {}
+                                }
+                            }
+                        }
+                    }
+
+                    .stats-overview-container-item {
+
+                        width: 60%;
+                        height: auto;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: #FAFAFA;
+                        border: 2px solid #DCE0E4;
+                        border-radius: 30px;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                        color: #445266;
+                        position: absolute;
+                        bottom: 0px;
+
+
 
                         .stats-overview-wrapper {
                             width: 90%;
