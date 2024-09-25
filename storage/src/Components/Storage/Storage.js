@@ -26,6 +26,8 @@ const Storage = () => {
 
                     <div class="folder">
                         <FolderIcon/>
+                        <div className='content-container'>
+                        </div>
                     </div>
                 </div>
 

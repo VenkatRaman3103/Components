@@ -209,6 +209,16 @@
                 .folder-icon {
                     width: 100%;
                 }
+
+                .content-container{
+                    height: calc(79% - 2.5px);
+                    width: 100%;
+                    padding-top: 40px;
+
+                    position: absolute;
+                    top: 32.5px;
+                    left: 0px;
+                }
             }
         }
 
