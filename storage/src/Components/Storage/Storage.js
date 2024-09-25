@@ -95,35 +95,33 @@ const Storage = () => {
 
                     <div className='stats-carousal-container'>
                         <div className='stats-carousal-wrapper'>
-                            {/* {!selectedItem && ( */}
-                                <div className={`stats-overview-container ${selectedItemId !== null ? 'moveBackward' : ''}`}>
-                                    <div className='stats-overview-wrapper'>
-                                        <div className='numeric-stats-wrapper'>
-                                            <div className='numeric-stats-heading'>storage</div>
-                                            <div className='numeric-stats-percentage'>95%</div>
-                                            <div className='numeric-stats-description'>lorem ipsum</div>
-                                        </div>
-                                        <div className='list-of-elements-wrapper'>
-                                            {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
-                                        </div>
+                            <div className={`stats-overview-container ${selectedItemId !== null ? 'moveBackward' : ''}`}>
+                                <div className='stats-overview-wrapper'>
+                                    <div className='numeric-stats-wrapper'>
+                                        <div className='numeric-stats-heading'>storage</div>
+                                        <div className='numeric-stats-percentage'>95%</div>
+                                        <div className='numeric-stats-description'>lorem ipsum</div>
+                                    </div>
+                                    <div className='list-of-elements-wrapper'>
+                                        {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
                                     </div>
                                 </div>
-                            {/* )} */}
+                            </div>
 
-                            {selectedItem && (
-                                <div className='stats-overview-container-item'>
-                                    <div className='stats-overview-wrapper'>
-                                        <div className='numeric-stats-wrapper'>
-                                            <div className='numeric-stats-heading'>{selectedItem.name}</div>
-                                            <div className='numeric-stats-percentage'>{selectedItem.id}</div>
-                                            <div className='numeric-stats-description'>lorem ipsum</div>
-                                        </div>
-                                        <div className='list-of-elements-wrapper'>
-                                            {selectedArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
-                                        </div>
+                            <div className={`stats-overview-container-item ${selectedItemId !== null ? "move-left" : ''}`}>
+                                <div className='stats-overview-wrapper'>
+                                    <div className='numeric-stats-wrapper'>
+                                        <div className='numeric-stats-heading'>{selectedItem?.name} o</div>
+                                        <div className='numeric-stats-percentage'>{selectedItem?.id}</div>
+                                        <div className='numeric-stats-description'>lorem ipsum</div>
+                                    </div>
+                                    <div className='list-of-elements-wrapper'>
+                                        {selectedArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
                                     </div>
                                 </div>
-                            )}
+                            </div>
+
+
                         </div>
                     </div>
                     <div className='stats-bar-wrapper' ref={statsBarWrapperRef}>
