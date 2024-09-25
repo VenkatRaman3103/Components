@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Storage.scss'
 
 const itemsArray = [
-    { id: 1, value: 1, subItems: [1, 2, 3] },
-    { id: 2, value: 2, subItems: [2, 2, 3] },
-    { id: 3, value: 2, subItems: [2, 2, 3] },
-    { id: 4, value: 3, subItems: [3, 2, 3] }
+    { id: 1, value: 1, subItems: [{ id: 1, value: 1 }, { id: 2, value: 1 }, { id: 3, value: 1 }, { id: 3, value: 1 }] },
+    { id: 2, value: 2, subItems: [{ id: 1, value: 4 }, { id: 2, value: 1 }, { id: 3, value: 1 }, { id: 3, value: 1 }] },
+    { id: 3, value: 2, subItems: [{ id: 1, value: 1 }, { id: 2, value: 1 }, { id: 3, value: 1 }, { id: 3, value: 1 }] },
+    { id: 4, value: 3, subItems: [{ id: 1, value: 2 }, { id: 2, value: 1 }, { id: 3, value: 4 },] }
 ];
 const baseColor = "#445266"
 
@@ -15,7 +15,7 @@ const Storage = () => {
     const [selectedArray, setSelectedArray] = useState(itemsArray)
 
     const [selectedItem, setSelectedItem] = useState()
-
+    const statsBarWrapperRef = useRef(null)
     useEffect(() => {
 
         const clickedItem = itemsArray.filter((item) => item.id == selectedItem)
@@ -25,6 +25,22 @@ const Storage = () => {
         }
 
     }, [selectedItem])
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (statsBarWrapperRef.current && !statsBarWrapperRef.current.contains(event.target)) {
+                setSelectedArray(itemsArray)
+                setSelectedItem(null)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
+
 
     function dynamicColor(n, index, item) {
         const statBarColor = { backgroundColor: `rgb(68, 82, 102, 0.${(n - index) + n})`, width: `${item.value}0%` }
@@ -48,7 +64,7 @@ const Storage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='stats-bar-wrapper'>
+                    <div className='stats-bar-wrapper' ref={statsBarWrapperRef}>
                         {selectedArray.map((item, index) => <div className={`stats-highlight ${item}`} style={dynamicColor(n, index, item)} onClick={() => setSelectedItem(item.id)}></div>)}
                     </div>
 
