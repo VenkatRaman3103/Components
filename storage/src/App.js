@@ -5,8 +5,8 @@ import Storage from './Components/Storage/Storage';
 function App() {
   return (
     <div className="App">
-      {/* <Storage/>  */}
-      <AdminPanel/>
+      <Storage/> 
+      {/* <AdminPanel/> */}
     </div>
   );
 }

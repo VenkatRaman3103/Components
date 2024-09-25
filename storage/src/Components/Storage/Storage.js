@@ -29,10 +29,7 @@ const Storage = () => {
                     <div class="folder-body"></div>
                 </div>
             </div>
-
-
         </div>
-        // <h1>hello world</h1>
     )
 }
 
