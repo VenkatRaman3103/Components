@@ -1,8 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Storage.scss'
 
+const itemsArray = [
+    { id: 1, value: 1, subItems: [1, 2, 3] },
+    { id: 2, value: 2, subItems: [2, 2, 3] },
+    { id: 3, value: 2, subItems: [2, 2, 3] },
+    { id: 4, value: 3, subItems: [3, 2, 3] }
+];
+const baseColor = "#445266"
+
+const n = itemsArray.length
+
 const Storage = () => {
-    const itemsArray = [1, 2, 3, 4];
+    const [selectedArray, setSelectedArray] = useState(itemsArray)
+
+    const [selectedItem, setSelectedItem] = useState()
+
+    useEffect(() => {
+
+        const clickedItem = itemsArray.filter((item) => item.id == selectedItem)
+        console.log(selectedItem, clickedItem[0]?.subItems)
+        if (clickedItem[0]) {
+            setSelectedArray(clickedItem[0]?.subItems)
+        }
+
+    }, [selectedItem])
+
+    function dynamicColor(n, index, item) {
+        const statBarColor = { backgroundColor: `rgb(68, 82, 102, 0.${(n - index) + n})`, width: `${item.value}0%` }
+        return statBarColor
+    }
+
     return (
         <div className='storage-main-container'>
             <div className='storage-container'>
@@ -16,16 +44,16 @@ const Storage = () => {
                                 <div className='numeric-stats-description'>lorem ipsum</div>
                             </div>
                             <div className='list-of-elements-wrapper'>
-                                {itemsArray.map((item) => <StatsItems />)}
+                                {selectedArray.map((item, index) => <StatsItems n={n} index={index} />)}
                             </div>
                         </div>
                     </div>
                     <div className='stats-bar-wrapper'>
-                        {itemsArray.map((item) => <div className={`stats-highlight ${item}`}></div>)}
+                        {selectedArray.map((item, index) => <div className={`stats-highlight ${item}`} style={dynamicColor(n, index, item)} onClick={() => setSelectedItem(item.id)}></div>)}
                     </div>
 
                     <div class="folder">
-                        <FolderIcon/>
+                        <FolderIcon />
                         <div className='content-container'>
                         </div>
                     </div>
@@ -50,13 +78,12 @@ const Heading = () => {
     )
 }
 
-const StatsItems = () => {
+const StatsItems = ({ n, index }) => {
     return (
 
         <div className='list-of-elements-item'>
-            <div className='element-dot'></div>
+            <div className='element-dot' style={{ backgroundColor: `rgb(68, 82, 102, 0.${(n - index) + n})` }}></div>
             <div className='element-name'>item</div>
-
         </div>
     )
 }
