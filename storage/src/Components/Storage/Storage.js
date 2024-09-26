@@ -44,7 +44,7 @@ const baseColor = "#445266"
 const n = itemsArray.length
 
 const Storage = () => {
-    const [cards, setCards] = useState([])
+    const [cards, setCards] = useState(null)
 
     const [selectedArray, setSelectedArray] = useState(itemsArray)
 
@@ -108,18 +108,20 @@ const Storage = () => {
                                 </div>
                             </div>
 
-                            <div className={`stats-overview-container-item ${selectedItemId !== null ? "move-left" : ''}`}>
+                            {itemsArray.map((item, index) => 
+                            <div key={item.id} className={`stats-overview-container-item ${selectedItemId !== null ? "move-left" : ''}`} style={{left:`${index + 1}00%`}}>
                                 <div className='stats-overview-wrapper'>
                                     <div className='numeric-stats-wrapper'>
-                                        <div className='numeric-stats-heading'>{selectedItem?.name} o</div>
-                                        <div className='numeric-stats-percentage'>{selectedItem?.id}</div>
+                                        <div className='numeric-stats-heading'>{item?.name}</div>
+                                        <div className='numeric-stats-percentage'>{item?.id}</div>
                                         <div className='numeric-stats-description'>lorem ipsum</div>
                                     </div>
                                     <div className='list-of-elements-wrapper'>
-                                        {selectedArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                                        {item.subItems.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
                                     </div>
                                 </div>
-                            </div>
+                            </div>)}
+
 
 
                         </div>

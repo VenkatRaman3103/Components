@@ -85,7 +85,7 @@
                 overflow: hidden;
 
                 .stats-carousal-wrapper {
-                    width: 100vw;
+                    width: 100%;
                     height: 100%;
                     display: flex;
                     flex-direction: row;
@@ -93,8 +93,9 @@
                     position: relative;
 
                     .stats-overview-container {
-                        width: 60%;
+                        width: 99%;
                         height: auto;
+                        min-height: 65%;
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -110,7 +111,7 @@
                         transition: all 300ms linear;
 
                         &.moveBackward {
-                            transform: translateY(-45px) scale(0.8);
+                            transform: translateY(-25px) scale(0.9);
                         }
 
                         .stats-overview-wrapper {
@@ -174,9 +175,9 @@
                     }
 
                     .stats-overview-container-item {
-
-                        width: 60%;
+                        width: 99%;
                         height: auto;
+                        min-height: 65%;
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -186,13 +187,14 @@
                         padding-top: 20px;
                         padding-bottom: 20px;
                         color: #445266;
+
                         position: absolute;
                         bottom: 0px;
-                        left: 100%;
+                        // left: 100%;
 
                         transition: all 300ms linear;
 
-                        &.move-left{
+                        &.move-left {
                             left: 0px;
                         }
 
