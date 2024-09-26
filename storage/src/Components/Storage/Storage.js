@@ -111,8 +111,10 @@ const Storage = () => {
 
                             {itemsArray.map((item, index) =>
                                 <div key={item.id}
-                                    className={`stats-overview-container-item ${selectedItemId !== null ? "move-left" : ''}`}
-                                    style={{ left: `${index + 1}00%`, transform: `translateX(-${(selectedItemId !== null) && (selectedItemId <= (index + 1)) ? cards : "1"}00%)`, zIndex: `${(index + 1)}` }}>
+                                    className={`stats-overview-container-item `}
+                                    style={{ 
+                                        left: `calc(${index + 2}00%)`, 
+                                        transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId+ 1 : index + 1}00%)`,marginLeft: `-${index + 2}px` }}>
                                     <div className='stats-overview-wrapper'>
                                         <div className='numeric-stats-wrapper'>
                                             <div className='numeric-stats-heading'>{item?.name}</div>
