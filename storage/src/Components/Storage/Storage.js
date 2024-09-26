@@ -71,6 +71,7 @@ const Storage = () => {
             if (event.target !== statsBarWrapperRef.current) {
                 setSelectedArray(itemsArray)
                 setSelectedItemId(null)
+                setCards(null)
             }
         }
 
@@ -108,26 +109,33 @@ const Storage = () => {
                                 </div>
                             </div>
 
-                            {itemsArray.map((item, index) => 
-                            <div key={item.id} className={`stats-overview-container-item ${selectedItemId !== null ? "move-left" : ''}`} style={{left:`${index + 1}00%`}}>
-                                <div className='stats-overview-wrapper'>
-                                    <div className='numeric-stats-wrapper'>
-                                        <div className='numeric-stats-heading'>{item?.name}</div>
-                                        <div className='numeric-stats-percentage'>{item?.id}</div>
-                                        <div className='numeric-stats-description'>lorem ipsum</div>
+                            {itemsArray.map((item, index) =>
+                                <div key={item.id}
+                                    className={`stats-overview-container-item ${selectedItemId !== null ? "move-left" : ''}`}
+                                    style={{ left: `${index + 1}00%`, transform: `translateX(-${selectedItemId !== null ? cards : ""}00%) translateY(-${selectedItemId !== null ? cards : ""}5px)` }}>
+                                    <div className='stats-overview-wrapper'>
+                                        <div className='numeric-stats-wrapper'>
+                                            <div className='numeric-stats-heading'>{item?.name}</div>
+                                            <div className='numeric-stats-percentage'>{item?.id}</div>
+                                            <div className='numeric-stats-description'>lorem ipsum</div>
+                                        </div>
+                                        <div className='list-of-elements-wrapper'>
+                                            {item.subItems.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                                        </div>
                                     </div>
-                                    <div className='list-of-elements-wrapper'>
-                                        {item.subItems.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
-                                    </div>
-                                </div>
-                            </div>)}
-
-
-
+                                </div>)}
                         </div>
                     </div>
                     <div className='stats-bar-wrapper' ref={statsBarWrapperRef}>
-                        {selectedArray.map((item, index) => <div className={`stats-highlight ${item}`} style={dynamicColor(n, index, item)} onClick={() => setSelectedItemId(item.id)}></div>)}
+                        {selectedArray.map((item, index) =>
+                            <div className={`stats-highlight ${item}`}
+                                style={dynamicColor(n, index, item)}
+                                onClick={() => {
+                                    setCards(index + 1);
+                                    setSelectedItemId(item.id)
+                                }}>
+
+                            </div>)}
                     </div>
 
                     <div class="folder">
