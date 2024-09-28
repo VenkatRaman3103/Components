@@ -5,10 +5,10 @@ const itemsArray = [
     {
         id: 1, value: 1, name: "Apples",
         subItems: [
-            { id: 1, name: "Green Apple", value: 1 },
-            { id: 2, name: "Red Apple", value: 1 },
-            { id: 3, name: "Yellow Apple", value: 1 },
-            { id: 4, name: "Golden Apple", value: 1 }
+            { id: 1, name: "Green", value: 1 },
+            { id: 2, name: "Red", value: 1 },
+            { id: 3, name: "Yellow", value: 1 },
+            { id: 4, name: "Golden", value: 1 }
         ]
     },
     {
@@ -50,7 +50,7 @@ const Storage = () => {
 
     const [selectedItem, setSelectedItem] = useState(null)
 
-    const [selectedItemId, setSelectedItemId] = useState(null)
+    const [selectedItemId, setSelectedItemId] = useState(1)
 
     const statsBarWrapperRef = useRef(null)
 
@@ -100,23 +100,8 @@ const Storage = () => {
                             <StatsOverview selectedItemId={selectedItemId} />
 
                             {itemsArray.map((item, index) =>
-                                <div key={item.id}
-                                    className={`stats-overview-container-item `}
-                                    style={{
-                                        left: `calc(${index + 2}00%)`,
-                                        transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId + 1 : index + 1}00%)`, marginLeft: `-${index + 2}px`
-                                    }}>
-                                    <div className='stats-overview-wrapper'>
-                                        <div className='numeric-stats-wrapper'>
-                                            <div className='numeric-stats-heading'>{item?.name}</div>
-                                            <div className='numeric-stats-percentage'>{item?.id}</div>
-                                            <div className='numeric-stats-description'>lorem ipsum</div>
-                                        </div>
-                                        <div className='list-of-elements-wrapper'>
-                                            {item.subItems.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
-                                        </div>
-                                    </div>
-                                </div>)}
+                                <StatsOverviewCard item={item} index={index} selectedItemId={selectedItemId} />
+                            )}
                         </div>
                     </div>
                     <div className='stats-bar-wrapper' ref={statsBarWrapperRef}>
@@ -134,8 +119,8 @@ const Storage = () => {
                         <FolderIcon />
                         <div className='content-container'>
                             <div className='card-item-container'>
-                                {Array.from({ length: 5 }).map((item, index) =>
-                                    <div className='card-item ' style={{ zIndex: `${5 - index}` }}>{index}</div>
+                                {itemsArray.map((item, index) =>
+                                    <div className='card-item ' style={{ zIndex: `${5 - index}` }}></div>
                                 )}
                             </div>
                         </div>
@@ -160,6 +145,27 @@ const StatsOverview = ({ selectedItemId }) => {
                 <div className='list-of-elements-wrapper'>
                     {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
                 </div>
+            </div>
+        </div>
+    )
+}
+
+const StatsOverviewCard = ({ selectedItemId, item, index }) => {
+    return (
+        <div key={item.id}
+            className={`stats-overview-container-item `}
+            style={{
+                left: `calc(${index + 2}00%)`,
+                transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId + 1 : index + 1}00%)`, marginLeft: `-${index + 2}px`
+            }}>
+            <div className='stats-item-wrapper'>
+                <div className='stats-content'>
+                    <div className='stats-heading'>{item.name}</div>
+                    <div className='list-of-elements-wrapper'>
+                        {item.subItems.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                    </div>
+                </div>
+                <div className='stats-visual'></div>
             </div>
         </div>
     )

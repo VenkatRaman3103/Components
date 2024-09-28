@@ -28,7 +28,7 @@
 
             display: flex;
             flex-direction: column;
-            gap: 50px;
+            gap: 40px;
 
             .header-container {
                 width: 100%;
@@ -60,19 +60,16 @@
                     .storage-heading-wrapper {
                         width: auto;
                         height: 100%;
-
                         color: #445266;
-
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
                         align-items: start;
-                        gap: 5px;
-                        margin-top: -20px;
+                        // margin-top: -20px;
 
                         .storage-heading {
-                            font-size: 44px;
-                            font-weight: 600;
+                            font-size: 36px;
+                            font-weight: 550;
                         }
 
                     }
@@ -156,20 +153,7 @@
                                 flex: 30%;
 
 
-                                .list-of-elements-item {
-                                    display: flex;
-                                    flex-direction: row;
-                                    gap: 10px;
 
-                                    .element-dot {
-                                        height: 20px;
-                                        width: 20px;
-                                        background-color: #445266;
-                                        border-radius: 100px;
-                                    }
-
-                                    .element-name {}
-                                }
                             }
                         }
                     }
@@ -193,62 +177,34 @@
 
                         transition: all 300ms linear;
 
-                        .stats-overview-wrapper {
-                            width: 90%;
+                        .stats-item-wrapper {
+                            width: 85%;
                             height: auto;
 
                             display: flex;
                             flex-direction: row;
                             justify-content: space-between;
 
-                            .numeric-stats-wrapper {
-                                width: 50%;
-                                height: auto;
+                            .stats-content {
+                                width: 70%;
+
                                 display: flex;
                                 flex-direction: column;
-                                justify-content: space-between;
-                                gap: 10px;
+                                gap: 20px;
 
-                                flex: 70%;
+                                .stats-heading {
+                                    font-size: 30px;
+                                    font-weight: 550;
 
-                                .numeric-stats-heading {
-                                    font-size: 18px;
+                                    margin-top: -30px;
                                 }
 
-                                .numeric-stats-percentage {
-                                    font-size: 54px;
-                                    font-weight: 500;
-                                }
-
-                                .numeric-stats-description {
-                                    font-size: 18px;
-                                }
-                            }
-
-                            .list-of-elements-wrapper {
-                                min-width: 50%;
-                                height: auto;
-                                display: flex;
-                                flex-direction: column;
-                                justify-content: space-between;
-                                align-items: start;
-                                flex: 30%;
-
-
-                                .list-of-elements-item {
+                                .list-of-elements-wrapper {
                                     display: flex;
-                                    flex-direction: row;
-                                    gap: 10px;
-
-                                    .element-dot {
-                                        height: 20px;
-                                        width: 20px;
-                                        background-color: #445266;
-                                        border-radius: 100px;
-                                    }
-
-                                    .element-name {}
+                                    flex-wrap: wrap;
+                                    gap: 20px;
                                 }
+
                             }
                         }
                     }
@@ -325,7 +281,8 @@
                     left: 0px;
 
                     overflow: hidden;
-                    border-bottom-left-radius: 40px;
+                    border-bottom-left-radius: 34px;
+                    border-bottom-right-radius: 34px;
 
                     .card-item-container {
                         height: 100%;
@@ -336,16 +293,16 @@
                         justify-content: center;
                         position: absolute;
                         left: 50%;
-                        transform: translateX(-30%);
+                        transform: translateX(-33%);
                         bottom: -80px;
 
                         .card-item {
                             height: 200px;
-                            width: 150px;
+                            width: 175px;
 
                             border-radius: 20px;
 
-                            border: 2px solid red;
+                            border: 2px solid #DCE0E4;
 
                             margin-left: -100px;
 
@@ -358,5 +315,24 @@
         }
 
 
+    }
+}
+
+.list-of-elements-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    .element-dot {
+        height: 12px;
+        width: 12px;
+        background-color: #445266;
+        border-radius: 100px;
+    }
+
+    .element-name {
+        font-size: 16px;
+        font-weight: 500;
     }
 }
