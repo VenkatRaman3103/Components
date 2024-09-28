@@ -120,7 +120,7 @@ const Storage = () => {
                         <div className='content-container'>
                             <div className='card-item-container'>
                                 {itemsArray.map((item, index) =>
-                                    <div className='card-item ' style={{ zIndex: `${5 - index}`, marginTop: `${index * 12}px` }}></div>
+                                    <Card setCards={setCards} setSelectedItemId={setSelectedItemId} index={index} item={item} />
                                 )}
                             </div>
                         </div>
@@ -156,7 +156,7 @@ const StatsOverviewCard = ({ selectedItemId, item, index }) => {
             className={`stats-overview-container-item `}
             style={{
                 left: `calc(${index + 2}00%)`,
-                transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId + 1 : index + 1}00%)`, marginLeft: `-${index + 2}px`,
+                transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId + 1 : index + 4}00%)`, marginLeft: `-${index + 2}px`,
             }}>
             <div className='stats-item-wrapper'>
                 <div className='stats-content'>
@@ -165,12 +165,30 @@ const StatsOverviewCard = ({ selectedItemId, item, index }) => {
                         {item.subItems.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
                     </div>
                 </div>
-                <div className='stats-visual'></div>
+                <div className='stats-visual'>
+                    <div className='circle1'>
+                        <div className='circle2'>
+                            <div className='circle3'>
+                                <div className='circle4'>
+                                    {item.value}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
 }
 
+const Card = ({ setCards, setSelectedItemId, index, item }) => {
+    return (
+        <div className='card-item ' style={{ zIndex: `${5 - index}`, marginTop: `${index * 12}px` }} onClick={() => {
+            setCards(index + 1);
+            setSelectedItemId(item.id)
+        }}></div>
+    )
+}
 const Heading = () => {
     return (
         <div className='header-container'>
