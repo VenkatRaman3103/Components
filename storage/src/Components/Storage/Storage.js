@@ -9,7 +9,8 @@ const itemsArray = [
             { id: 2, name: "Red", value: 1 },
             { id: 3, name: "Yellow", value: 1 },
             { id: 4, name: "Golden", value: 1 }
-        ]
+        ],
+        color: '#FF8B5A'
     },
     {
         id: 2, value: 2, name: "Bananas",
@@ -18,7 +19,8 @@ const itemsArray = [
             { id: 2, name: "Unripe", value: 1 },
             { id: 3, name: "Frozen", value: 1 },
             { id: 4, name: "Dried", value: 1 }
-        ]
+        ],
+        color: '#FFB9B1'
     },
     {
         id: 3, value: 2, name: "Oranges",
@@ -27,7 +29,8 @@ const itemsArray = [
             { id: 2, name: "Blood", value: 1 },
             { id: 3, name: "Mandarin", value: 1 },
             { id: 4, name: "Tangerine", value: 1 }
-        ]
+        ],
+        color: '#FABC1D'
     },
     {
         id: 4, value: 3, name: "Berries",
@@ -35,7 +38,8 @@ const itemsArray = [
             { id: 1, name: "Blueberry", value: 2 },
             { id: 2, name: "Strawberry", value: 1 },
             { id: 3, name: "Raspberry", value: 4 }
-        ]
+        ],
+        color: '#BCCADE'
     }
 ];
 
@@ -45,43 +49,33 @@ const n = itemsArray.length
 
 const Storage = () => {
     const [cards, setCards] = useState(null)
-
-    const [selectedArray, setSelectedArray] = useState(itemsArray)
-
+    const [selectedArray, setSelectedArray] = useState(itemsArray);
     const [selectedItem, setSelectedItem] = useState(null)
-
-    const [selectedItemId, setSelectedItemId] = useState(null)
-
-    const statsBarWrapperRef = useRef(null)
+    const [selectedItemId, setSelectedItemId] = useState(null);
+    const statsBarWrapperRef = useRef(null);
 
 
     useEffect(() => {
-        const clickedItem = itemsArray.filter((item) => item.id == selectedItemId)
-        console.log(selectedItemId, clickedItem[0]?.subItems)
-        if (clickedItem[0]) {
-            setSelectedArray(clickedItem[0]?.subItems)
+        const clickedItem = itemsArray.find((item) => item.id === selectedItemId);
+        if (clickedItem) {
+            setSelectedArray(clickedItem.subItems);
         }
-
-        setSelectedItem(clickedItem[0])
-
-        console.log(clickedItem, 'clickedItem')
-    }, [selectedItemId])
+    }, [selectedItemId]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (event.target !== statsBarWrapperRef.current) {
-                setSelectedArray(itemsArray)
-                setSelectedItemId(null)
-                setCards(null)
+            if (statsBarWrapperRef.current && !statsBarWrapperRef.current.contains(event.target)) {
+                setSelectedArray(itemsArray);
+                setSelectedItemId(null);
             }
-        }
+            console.log(event.target);
+        };
 
-        document.addEventListener('mousedown', handleClickOutside)
-
+        document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [])
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
 
     function dynamicColor(n, index, item) {
@@ -94,44 +88,53 @@ const Storage = () => {
             <div className='storage-container'>
                 <div className='storage-wrapper'>
                     <Heading />
-
                     <div className='stats-carousal-container'>
                         <div className='stats-carousal-wrapper'>
-
                             <StatsOverview selectedItemId={selectedItemId} />
 
-                            {itemsArray.map((item, index) =>
-                                <StatsOverviewCard item={item} index={index} selectedItemId={selectedItemId} />
-                            )}
+                            {itemsArray.map((item, index) => (
+                                <StatsOverviewCard
+                                    key={item.id}
+                                    selectedItemId={selectedItemId}
+                                    item={item}
+                                    index={index}
+                                    totalItems={itemsArray.length}
+                                />
+                            ))}
                         </div>
                     </div>
+
                     <div className='stats-bar-wrapper' ref={statsBarWrapperRef}>
-                        {selectedArray.map((item, index) =>
-                            <div className={`stats-highlight ${item}`}
-                                style={dynamicColor(n, index, item)}
-                                onClick={() => {
-                                    setCards(index + 1);
-                                    setSelectedItemId(item.id)
-                                }}>
-                            </div>)}
+                        {selectedArray.map((item, index) => (
+                            <div
+                                key={item.id}
+                                className={`stats-highlight ${item.name}`}
+                                style={dynamicColor(itemsArray.length, index, item)}
+                                onClick={() => setSelectedItemId(item.id)}
+                            />
+                        ))}
                     </div>
 
-                    <div class="folder">
+                    <div className="folder">
                         <FolderIcon />
                         <div className='content-container'>
                             <div className='card-item-container'>
-                                {itemsArray.map((item, index) =>
-                                    <Card setCards={setCards} setSelectedItemId={setSelectedItemId} index={index} item={item} />
-                                )}
+                                {itemsArray.map((item, index) => (
+                                    <Card
+                                        key={item.id}
+                                        setSelectedItemId={setSelectedItemId}
+                                        index={index}
+                                        item={item}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-    )
-}
+    );
+};
 
 const StatsOverview = ({ selectedItemId }) => {
     return (
@@ -191,10 +194,28 @@ const StatsOverviewCard = ({ selectedItemId, item, index, totalItems }) => {
 };
 const Card = ({ setCards, setSelectedItemId, index, item }) => {
     return (
-        <div className='card-item ' style={{ zIndex: `${5 - index}`, marginTop: `${index * 12}px` }} onClick={() => {
-            setCards(index + 1);
-            setSelectedItemId(item.id)
-        }}></div>
+        <div
+            className='card-item'
+            style={{
+                zIndex: 5 - index,
+                marginTop: `${index * 12}px`,
+                background: `linear-gradient(0deg, rgba(255,255,255,1) 0%, ${item.color} 100%)`
+            }}
+            onClick={() => setSelectedItemId(item.id)}
+        >
+            <div className='card-item-wrapper'>
+                <div className='header-container'>
+                    <div className='icon'></div>
+                    <div className='header-content-wrapper'>
+                        <div className='header-heading'></div>
+                        <div className='header-description'></div>
+                        <div className='header-description'></div>
+                    </div>
+                </div>
+
+                <div className='card-item-content'></div>
+            </div>
+        </div>
     )
 }
 const Heading = () => {
