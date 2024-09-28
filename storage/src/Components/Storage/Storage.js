@@ -14,18 +14,18 @@ const itemsArray = [
     {
         id: 2, value: 2, name: "Bananas",
         subItems: [
-            { id: 1, name: "Ripe Banana", value: 4 },
-            { id: 2, name: "Unripe Banana", value: 1 },
-            { id: 3, name: "Frozen Banana", value: 1 },
-            { id: 4, name: "Dried Banana", value: 1 }
+            { id: 1, name: "Ripe", value: 4 },
+            { id: 2, name: "Unripe", value: 1 },
+            { id: 3, name: "Frozen", value: 1 },
+            { id: 4, name: "Dried", value: 1 }
         ]
     },
     {
         id: 3, value: 2, name: "Oranges",
         subItems: [
-            { id: 1, name: "Navel Orange", value: 1 },
-            { id: 2, name: "Blood Orange", value: 1 },
-            { id: 3, name: "Mandarin Orange", value: 1 },
+            { id: 1, name: "Navel", value: 1 },
+            { id: 2, name: "Blood", value: 1 },
+            { id: 3, name: "Mandarin", value: 1 },
             { id: 4, name: "Tangerine", value: 1 }
         ]
     },
@@ -120,7 +120,7 @@ const Storage = () => {
                         <div className='content-container'>
                             <div className='card-item-container'>
                                 {itemsArray.map((item, index) =>
-                                    <div className='card-item ' style={{ zIndex: `${5 - index}` }}></div>
+                                    <div className='card-item ' style={{ zIndex: `${5 - index}`, marginTop: `${index * 12}px` }}></div>
                                 )}
                             </div>
                         </div>
@@ -156,7 +156,7 @@ const StatsOverviewCard = ({ selectedItemId, item, index }) => {
             className={`stats-overview-container-item `}
             style={{
                 left: `calc(${index + 2}00%)`,
-                transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId + 1 : index + 1}00%)`, marginLeft: `-${index + 2}px`
+                transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId + 1 : index + 1}00%)`, marginLeft: `-${index + 2}px`,
             }}>
             <div className='stats-item-wrapper'>
                 <div className='stats-content'>
