@@ -50,7 +50,7 @@ const Storage = () => {
 
     const [selectedItem, setSelectedItem] = useState(null)
 
-    const [selectedItemId, setSelectedItemId] = useState(1)
+    const [selectedItemId, setSelectedItemId] = useState(null)
 
     const statsBarWrapperRef = useRef(null)
 
@@ -134,7 +134,6 @@ const Storage = () => {
 
 const StatsOverview = ({ selectedItemId }) => {
     return (
-
         <div className={`stats-overview-container ${selectedItemId !== null ? 'moveBackward' : ''}`}>
             <div className='stats-overview-wrapper'>
                 <div className='numeric-stats-wrapper'>
