@@ -5,39 +5,84 @@ const itemsArray = [
     {
         id: 1, value: 1, name: "Apples",
         subItems: [
-            { id: 1, name: "Green", value: 1 },
-            { id: 2, name: "Red", value: 1 },
-            { id: 3, name: "Yellow", value: 1 },
-            { id: 4, name: "Golden", value: 1 }
+            {
+                id: 1, name: "Green", value: 1,
+                color: '#FF8B5A'
+            },
+            {
+                id: 2, name: "Red", value: 1,
+                color: '#FF8B5A'
+            },
+            {
+                id: 3, name: "Yellow", value: 1,
+                color: '#FF8B5A'
+            },
+            {
+                id: 4, name: "Golden", value: 1,
+                color: '#FF8B5A'
+            }
         ],
         color: '#FF8B5A'
     },
     {
         id: 2, value: 2, name: "Bananas",
         subItems: [
-            { id: 1, name: "Ripe", value: 4 },
-            { id: 2, name: "Unripe", value: 1 },
-            { id: 3, name: "Frozen", value: 1 },
-            { id: 4, name: "Dried", value: 1 }
+            {
+                id: 1, name: "Ripe", value: 4,
+                color: '#FFB9B1'
+            },
+            {
+                id: 2, name: "Unripe", value: 1,
+                color: '#FFB9B1'
+            },
+            {
+                id: 3, name: "Frozen", value: 1,
+                color: '#FFB9B1'
+            },
+            {
+                id: 4, name: "Dried", value: 1,
+                color: '#FFB9B1'
+            }
         ],
         color: '#FFB9B1'
     },
     {
         id: 3, value: 2, name: "Oranges",
         subItems: [
-            { id: 1, name: "Navel", value: 1 },
-            { id: 2, name: "Blood", value: 1 },
-            { id: 3, name: "Mandarin", value: 1 },
-            { id: 4, name: "Tangerine", value: 1 }
+            {
+                id: 1, name: "Navel", value: 1,
+                color: '#FABC1D'
+            },
+            {
+                id: 2, name: "Blood", value: 1,
+                color: '#FABC1D'
+            },
+            {
+                id: 3, name: "Mandarin", value: 1,
+                color: '#FABC1D'
+            },
+            {
+                id: 4, name: "Tangerine", value: 1,
+                color: '#FABC1D'
+            }
         ],
         color: '#FABC1D'
     },
     {
         id: 4, value: 3, name: "Berries",
         subItems: [
-            { id: 1, name: "Blueberry", value: 2 },
-            { id: 2, name: "Strawberry", value: 1 },
-            { id: 3, name: "Raspberry", value: 4 }
+            {
+                id: 1, name: "Blueberry", value: 2,
+                color: '#BCCADE'
+            },
+            {
+                id: 2, name: "Strawberry", value: 1,
+                color: '#BCCADE'
+            },
+            {
+                id: 3, name: "Raspberry", value: 4,
+                color: '#BCCADE'
+            }
         ],
         color: '#BCCADE'
     }
@@ -109,7 +154,7 @@ const Storage = () => {
                             <div
                                 key={item.id}
                                 className={`stats-highlight ${item.name}`}
-                                style={dynamicColor(itemsArray.length, index, item)}
+                                style={{ backgroundColor: `${item.color}`, width: `${item.value}0%` }}
                                 onClick={() => setSelectedItemId(item.id)}
                             />
                         ))}
@@ -125,6 +170,8 @@ const Storage = () => {
                                         setSelectedItemId={setSelectedItemId}
                                         index={index}
                                         item={item}
+                                        isSelected={item.id === selectedItemId}
+                                        totalCards={itemsArray.length}
                                     />
                                 ))}
                             </div>
@@ -192,14 +239,17 @@ const StatsOverviewCard = ({ selectedItemId, item, index, totalItems }) => {
         </div>
     );
 };
-const Card = ({ setCards, setSelectedItemId, index, item }) => {
+
+const Card = ({ setSelectedItemId, index, item, isSelected, totalCards }) => {
     return (
         <div
-            className='card-item'
+            className={`card-item ${isSelected ? 'selected' : ''}`}
             style={{
-                zIndex: 5 - index,
+                zIndex: isSelected ? totalCards + 1 : totalCards - index,
                 marginTop: `${index * 12}px`,
-                background: `linear-gradient(0deg, rgba(255,255,255,1) 0%, ${item.color} 100%)`
+                background: `linear-gradient(0deg, rgba(255,255,255,1) 0%, ${item.color} 100%)`,
+                transition: 'all 0.3s ease',
+                transform: isSelected ? 'translateY(-12px)' : 'none'
             }}
             onClick={() => setSelectedItemId(item.id)}
         >
@@ -212,7 +262,6 @@ const Card = ({ setCards, setSelectedItemId, index, item }) => {
                         <div className='header-description'></div>
                     </div>
                 </div>
-
                 <div className='card-item-content'></div>
             </div>
         </div>

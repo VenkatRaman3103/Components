@@ -376,6 +376,13 @@
 
                             background-color: white;
 
+                            transition: all 0.3s ease;
+
+                            &.selected {
+                                transform: translateY(-12px);
+                                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                            }
+
                             .card-item-wrapper {
                                 width: 95%;
                                 height: 100%;
@@ -465,4 +472,9 @@
         font-size: 16px;
         font-weight: 500;
     }
+}
+
+.card-item-container {
+    position: relative;
+    height: 300px; 
 }
