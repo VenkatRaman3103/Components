@@ -96,25 +96,16 @@ const Storage = () => {
 
                     <div className='stats-carousal-container'>
                         <div className='stats-carousal-wrapper'>
-                            <div className={`stats-overview-container ${selectedItemId !== null ? 'moveBackward' : ''}`}>
-                                <div className='stats-overview-wrapper'>
-                                    <div className='numeric-stats-wrapper'>
-                                        <div className='numeric-stats-heading'>storage</div>
-                                        <div className='numeric-stats-percentage'>95%</div>
-                                        <div className='numeric-stats-description'>lorem ipsum</div>
-                                    </div>
-                                    <div className='list-of-elements-wrapper'>
-                                        {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
-                                    </div>
-                                </div>
-                            </div>
+
+                            <StatsOverview selectedItemId={selectedItemId} />
 
                             {itemsArray.map((item, index) =>
                                 <div key={item.id}
                                     className={`stats-overview-container-item `}
-                                    style={{ 
-                                        left: `calc(${index + 2}00%)`, 
-                                        transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId+ 1 : index + 1}00%)`,marginLeft: `-${index + 2}px` }}>
+                                    style={{
+                                        left: `calc(${index + 2}00%)`,
+                                        transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId + 1 : index + 1}00%)`, marginLeft: `-${index + 2}px`
+                                    }}>
                                     <div className='stats-overview-wrapper'>
                                         <div className='numeric-stats-wrapper'>
                                             <div className='numeric-stats-heading'>{item?.name}</div>
@@ -136,17 +127,39 @@ const Storage = () => {
                                     setCards(index + 1);
                                     setSelectedItemId(item.id)
                                 }}>
-
                             </div>)}
                     </div>
 
                     <div class="folder">
                         <FolderIcon />
                         <div className='content-container'>
+                            <div className='card-item-container'>
+                                {Array.from({ length: 5 }).map((item, index) =>
+                                    <div className='card-item ' style={{ zIndex: `${5 - index}` }}>{index}</div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
 
+            </div>
+        </div>
+    )
+}
+
+const StatsOverview = ({ selectedItemId }) => {
+    return (
+
+        <div className={`stats-overview-container ${selectedItemId !== null ? 'moveBackward' : ''}`}>
+            <div className='stats-overview-wrapper'>
+                <div className='numeric-stats-wrapper'>
+                    <div className='numeric-stats-heading'>storage</div>
+                    <div className='numeric-stats-percentage'>95%</div>
+                    <div className='numeric-stats-description'>lorem ipsum</div>
+                </div>
+                <div className='list-of-elements-wrapper'>
+                    {itemsArray.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                </div>
             </div>
         </div>
     )

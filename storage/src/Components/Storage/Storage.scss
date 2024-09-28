@@ -85,7 +85,7 @@
                 overflow: hidden;
 
                 .stats-carousal-wrapper {
-                    width: 100%;
+                    width: 100.2%;
                     height: 100%;
                     display: flex;
                     flex-direction: row;
@@ -95,7 +95,7 @@
                     .stats-overview-container {
                         width: 99%;
                         height: auto;
-                        min-height: 65%;
+                        min-height: 70%;
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -177,7 +177,7 @@
                     .stats-overview-container-item {
                         width: 99%;
                         height: auto;
-                        min-height: 65%;
+                        min-height: 70%;
                         display: flex;
                         justify-content: center;
                         align-items: center;
@@ -191,7 +191,7 @@
                         position: absolute;
                         bottom: 0px;
                         // left: 100%;
-                        
+
 
                         transition: all 300ms linear;
 
@@ -318,12 +318,46 @@
 
                 .content-container {
                     height: calc(79% - 2.5px);
+                    height: calc(67% - 4.5px);
+
                     width: 100%;
                     padding-top: 40px;
 
                     position: absolute;
                     top: 32.5px;
                     left: 0px;
+
+                    overflow: hidden;
+                    border-bottom-left-radius: 40px;
+
+                    .card-item-container {
+                        height: 100%;
+                        width: auto;
+
+                        // transform: translateX(-50%);
+
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        position: absolute;
+                        left: 50%;
+                        transform: translateX(-30%);
+                        bottom: -80px;
+
+                        .card-item {
+                            height: 200px;
+                            width: 150px;
+
+                            border-radius: 20px;
+
+                            border: 2px solid red;
+
+                            margin-left: -100px;
+
+                            background-color: white;
+                        }
+
+                    }
                 }
             }
         }
