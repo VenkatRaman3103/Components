@@ -54,6 +54,7 @@ const Storage = () => {
 
     const statsBarWrapperRef = useRef(null)
 
+
     useEffect(() => {
         const clickedItem = itemsArray.filter((item) => item.id == selectedItemId)
         console.log(selectedItemId, clickedItem[0]?.subItems)
@@ -149,19 +150,28 @@ const StatsOverview = ({ selectedItemId }) => {
     )
 }
 
-const StatsOverviewCard = ({ selectedItemId, item, index }) => {
+const StatsOverviewCard = ({ selectedItemId, item, index, totalItems }) => {
+    const isSelected = selectedItemId === item.id;
+    const position = isSelected ? 1 : (selectedItemId === null ? index + 1 : index + 2);
+
+    const style = {
+        position: 'absolute',
+        left: `${position * 100}%`,
+        transition: 'all 0.5s ease-in-out',
+        transform: `translateX(-${isSelected ? 100 : 0}%)`,
+        opacity: isSelected || selectedItemId === null ? 1 : 0.5,
+        pointerEvents: isSelected || selectedItemId === null ? 'auto' : 'none',
+    };
+
     return (
-        <div key={item.id}
-            className={`stats-overview-container-item `}
-            style={{
-                left: `calc(${index + 2}00%)`,
-                transform: `translateX(-${(selectedItemId !== null) && (selectedItemId == (index + 1)) ? selectedItemId + 1 : index + 4}00%)`, marginLeft: `-${index + 2}px`,
-            }}>
+        <div className="stats-overview-container-item" style={style}>
             <div className='stats-item-wrapper'>
                 <div className='stats-content'>
                     <div className='stats-heading'>{item.name}</div>
                     <div className='list-of-elements-wrapper'>
-                        {item.subItems.map((item, index) => <StatsItems n={n} index={index} item={item} />)}
+                        {item.subItems.map((subItem, subIndex) => (
+                            <StatsItems key={subItem.id} n={totalItems} index={subIndex} item={subItem} />
+                        ))}
                     </div>
                 </div>
                 <div className='stats-visual'>
@@ -177,9 +187,8 @@ const StatsOverviewCard = ({ selectedItemId, item, index }) => {
                 </div>
             </div>
         </div>
-    )
-}
-
+    );
+};
 const Card = ({ setCards, setSelectedItemId, index, item }) => {
     return (
         <div className='card-item ' style={{ zIndex: `${5 - index}`, marginTop: `${index * 12}px` }} onClick={() => {
