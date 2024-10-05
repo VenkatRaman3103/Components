@@ -14,6 +14,9 @@ This project was created for learning purposes. It serves as a practical exercis
 
 Feel free to explore, modify, and learn from this project!
 
+## Screenshots
+
+
 ## Features
 
 - Dynamic visualization of storage items and sub-items
