@@ -14,6 +14,15 @@ This project was created for learning purposes. It serves as a practical exercis
 
 Feel free to explore, modify, and learn from this project!
 
+## Screenshots
+
+<img src="https://github.com/user-attachments/assets/1bc66507-bbb7-43e8-9e74-6a2e3c753ac4" alt="Screenshot 2024-10-05 225149" width="300"/>
+<img src="https://github.com/user-attachments/assets/ac6530be-25a3-4349-b08d-ad0354ab0cad" alt="Screenshot 2024-10-05 225217" width="300"/>
+<img src="https://github.com/user-attachments/assets/6836a7c9-2577-466d-8b22-b93724720cb6" alt="Screenshot 2024-10-05 225241" width="300"/>
+<img src="https://github.com/user-attachments/assets/b84702de-da32-4460-bf25-f7b8ba1968a7" alt="Screenshot 2024-10-05 225255" width="300"/>
+<img src="https://github.com/user-attachments/assets/51856b05-9cb5-48d6-9536-8829d38b6538" alt="Screenshot 2024-10-05 225321" width="300"/>
+
+
 ## Features
 
 - Dynamic visualization of storage items and sub-items
