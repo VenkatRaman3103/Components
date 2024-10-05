@@ -100,6 +100,7 @@ const Storage = () => {
     const statsBarWrapperRef = useRef(null);
 
 
+    // to update selectedArray when an item is clicked
     useEffect(() => {
         const clickedItem = itemsArray.find((item) => item.id === selectedItemId);
         if (clickedItem) {
@@ -107,6 +108,7 @@ const Storage = () => {
         }
     }, [selectedItemId]);
 
+    // to handle clicks outside the stats bar
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (statsBarWrapperRef.current && !statsBarWrapperRef.current.contains(event.target)) {
@@ -127,6 +129,12 @@ const Storage = () => {
         const statBarColor = { backgroundColor: `rgb(68, 82, 102, 0.${(n - index) + n})`, width: `${item.value}0%` }
         return statBarColor
     }
+
+    const calculateTotal = (items) => {
+        return items.reduce((sum, item) => sum + item.value, 0);
+    };
+
+    const totalValue = calculateTotal(selectedArray);
 
     return (
         <div className='storage-main-container'>
@@ -151,12 +159,16 @@ const Storage = () => {
 
                     <div className='stats-bar-wrapper' ref={statsBarWrapperRef}>
                         {selectedArray.map((item, index) => (
-                            <div
-                                key={item.id}
-                                className={`stats-highlight ${item.name}`}
-                                style={{ backgroundColor: `${item.color}`, width: `${item.value}0%` }}
-                                onClick={() => setSelectedItemId(item.id)}
-                            />
+                            <>
+                                <div
+                                    key={item.id}
+                                    className={`stats-highlight ${item.name}`}
+                                    style={{ backgroundColor: `${item.color}`, width: `${item.value}0%`, '--percentage': `${item.value}0%`, opacity: `calc(1 - 0.${index+1})` }}
+                                    onClick={() => setSelectedItemId(item.id)}
+                                >
+                                    <div className='percentage'>{item.value}0<span>%</span></div>
+                                </div>
+                            </>
                         ))}
                     </div>
 
@@ -170,6 +182,7 @@ const Storage = () => {
                                         setSelectedItemId={setSelectedItemId}
                                         index={index}
                                         item={item}
+                                        selectedItemId={selectedItemId}
                                         isSelected={item.id === selectedItemId}
                                         totalCards={itemsArray.length}
                                     />
@@ -183,6 +196,7 @@ const Storage = () => {
     );
 };
 
+// StatsOverview component to display overall statistics
 const StatsOverview = ({ selectedItemId }) => {
     return (
         <div className={`stats-overview-container ${selectedItemId !== null ? 'moveBackward' : ''}`}>
@@ -200,6 +214,7 @@ const StatsOverview = ({ selectedItemId }) => {
     )
 }
 
+// StatsOverviewCard component to display individual item statistics
 const StatsOverviewCard = ({ selectedItemId, item, index, totalItems }) => {
     const isSelected = selectedItemId === item.id;
     const position = isSelected ? 1 : (selectedItemId === null ? index + 1 : index + 2);
@@ -240,16 +255,19 @@ const StatsOverviewCard = ({ selectedItemId, item, index, totalItems }) => {
     );
 };
 
-const Card = ({ setSelectedItemId, index, item, isSelected, totalCards }) => {
+// Card component to display individual items
+const Card = ({ setSelectedItemId, index, item, isSelected, totalCards, selectedItemId }) => {
+    console.log(selectedItemId, 'selectedItemId')
     return (
         <div
             className={`card-item ${isSelected ? 'selected' : ''}`}
             style={{
-                zIndex: isSelected ? totalCards + 1 : totalCards - index,
-                marginTop: `${index * 12}px`,
+                zIndex: `calc(${index < selectedItemId ? ((index - selectedItemId)) : (((selectedItemId) - index))} + ${selectedItemId == (index + 1) ? 10 : 0})`,
+                marginTop: `${index < selectedItemId ? ((selectedItemId - index) * 10) : (((index + 1) - selectedItemId) * 10)}px`,
                 background: `linear-gradient(0deg, rgba(255,255,255,1) 0%, ${item.color} 100%)`,
                 transition: 'all 0.3s ease',
-                transform: isSelected ? 'translateY(-12px)' : 'none'
+                transform: isSelected ? 'translateY(-12px)' : 'none',
+
             }}
             onClick={() => setSelectedItemId(item.id)}
         >
@@ -267,6 +285,8 @@ const Card = ({ setSelectedItemId, index, item, isSelected, totalCards }) => {
         </div>
     )
 }
+
+// Heading component for the storage section
 const Heading = () => {
     return (
         <div className='header-container'>
@@ -281,6 +301,7 @@ const Heading = () => {
     )
 }
 
+// StatsItems component to display individual statistic items
 const StatsItems = ({ n, index, item }) => {
     return (
 
