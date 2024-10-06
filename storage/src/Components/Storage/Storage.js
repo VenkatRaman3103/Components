@@ -47,7 +47,7 @@ const itemsArray = [
         color: '#FFB9B1'
     },
     {
-        id: 3, value: 2, name: "Oranges",
+        id: 3, value: 3, name: "Oranges",
         subItems: [
             {
                 id: 1, name: "Navel", value: 1,
@@ -69,7 +69,7 @@ const itemsArray = [
         color: '#FABC1D'
     },
     {
-        id: 4, value: 3, name: "Berries",
+        id: 4, value: 4, name: "Berries",
         subItems: [
             {
                 id: 1, name: "Blueberry", value: 2,
@@ -306,7 +306,7 @@ const StatsItems = ({ n, index, item }) => {
     return (
 
         <div className='list-of-elements-item'>
-            <div className='element-dot' style={{ backgroundColor: `rgb(68, 82, 102, 0.${(n - index) + n})` }}></div>
+            <div className='element-dot' style={{ backgroundColor: `${item.color}`, opacity: `calc(1 - 0.${index+1})` }}></div>
             <div className='element-name'>{item.name}</div>
         </div>
     )
