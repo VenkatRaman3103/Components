@@ -1,0 +1,142 @@
+.container {
+    width: 35vw;
+    height: 85vh;
+
+    --base-color: #FAFAFB;
+    --border-color: #E5E5E6;
+    --light-font: #91A0AD;
+
+    .wrapper {
+        height: 90%;
+        width: 100%;
+        background-color: var(--base-color);
+        border: 2px solid var(--border-color);
+        border-radius: 65px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .current-date-section {
+            width: 100%;
+            height: auto;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .current-date-section-wrapper {
+                width: 80%;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: start;
+                align-items: center;
+                gap: 10px;
+
+                .today-date {
+                    font-size: 64px;
+                    font-weight: 600;
+                }
+
+                .month-year-events-wrapper {
+                    width: auto;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+
+                    .current-month {
+                        font-size: 20px;
+                        color: var(--light-font);
+                    }
+
+                    .day-of-the-week-event {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 20px;
+
+                        .day-of-week {
+                            font-size: 22px;
+                            color: var(--light-font);
+                        }
+
+                        .day-of-week-and-events-divider {
+                            width: 20px;
+                            height: 3px;
+                            border-radius: 100px;
+                            background-color: var(--light-font);
+                        }
+
+                        .number-of-events {
+                            font-size: 22px;
+                            color: var(--light-font);
+                        }
+                    }
+                }
+            }
+        }
+
+        .current-week-section {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: space-around;
+
+            .week-date-component{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 20px;
+
+                .week-label{
+                    color: var(--light-font);
+                    font-weight: 400;
+                    font-size: 14px;
+                }
+
+                .date-label{
+                    font-weight: 600;
+                    font-size: 16px;
+                    color: var(--light-font);
+                }
+
+                .task-accent-circles-wrapper{
+                    width: 100%;
+
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    .accent-circle{
+                        height: 5px;
+                        width: 5px;
+                        background-color: #FC6F3D;
+                        border-radius: 100px;
+                    }
+                }
+            }
+        }
+
+        .upcoming-tasks-section {
+            // styles for upcoming-tasks-section
+        }
+    }
+
+    .view-switcher {
+        height: 10%;
+        width: 100%;
+
+        .year-view {
+            // styles for year-view
+        }
+
+        .week-view {
+            // styles for week-view
+        }
+
+        .month-view {
+            // styles for month-view
+        }
+    }
+}
