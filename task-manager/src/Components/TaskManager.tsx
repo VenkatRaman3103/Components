@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './TaskManager.scss'
 
 const dummyData = [
@@ -109,8 +109,25 @@ const TaskManager = () => {
     const [tasks, setTasks] = useState(dummyData)
     const [activeItem, setActiveItem] = useState<number | null>(null)
     const [isActive, setIsActive] = useState(false)
+    const listOfTasks = useRef<any>(null)
+
+    // handle click outside the list of tasks
+    useEffect(() => {
+
+        function outsideListOfTasks(event: any) {
+            if (!listOfTasks.current.contains(event.target)) {
+                setIsActive(false)
+                setActiveItem(null)
+            }
+        }
+
+        document.addEventListener('mousedown', outsideListOfTasks)
+
+        return () => {document.removeEventListener('mousedown', outsideListOfTasks)}
+    }, [])
 
     console.log(activeItem, 'activeItem')
+    console.log(listOfTasks, 'listOfTasks')
     return (
         <div className='container'>
             <div className='wrapper'>
@@ -192,10 +209,10 @@ const TaskManager = () => {
                         </div>
                     </div>
                 </div>
-                <div className='upcoming-tasks-section' style={{ height: isActive ? '80%' : '65%', bottom: isActive ? '0' : '', position: isActive ? 'absolute' : 'relative' }}>
+                <div className='upcoming-tasks-section' ref={listOfTasks} style={{ height: isActive ? '80%' : '' }}>
                     <div className='upcoming-tasks-wrapper'>
                         {tasks?.map((item, index) =>
-                            <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} style={{ position: activeItem == item.id ? 'absolute' : 'relative', top: activeItem == item.id ? '20px' : '' }} onClick={() => {
+                            <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} onClick={() => {
                                 setActiveItem(item.id)
                                 setIsActive(!isActive)
                             }}>
