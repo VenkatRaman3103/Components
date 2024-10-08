@@ -83,7 +83,21 @@ const TaskManager = () => {
                         </div>
                     </div>
                 </div>
-                <div className='upcoming-tasks-section'></div>
+                <div className='upcoming-tasks-section'>
+                    <div className='upcoming-tasks-wrapper'>
+                        {Array.from({ length: 6 }).map((item, index) =>
+                            <div className='task-component'>
+                                <div className='accent-strip'></div>
+                                <div className='task-overview-wrapper'>
+                                    <div className='task-timing'>12:30 PM - 01:00 PM</div>
+                                    <div className='task-name'>Meeting with Person {index}</div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className='add-task-button'></div>
+                    <div className='gradient-layer'></div>
+                </div>
             </div>
             <div className='view-switcher'>
                 <div className='year-view'></div>
