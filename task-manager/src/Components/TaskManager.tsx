@@ -107,6 +107,10 @@ const dummyData = [
 
 const TaskManager = () => {
     const [tasks, setTasks] = useState(dummyData)
+    const [activeItem, setActiveItem] = useState<number | null>(null)
+    const [isActive, setIsActive] = useState(false)
+
+    console.log(activeItem, 'activeItem')
     return (
         <div className='container'>
             <div className='wrapper'>
@@ -123,7 +127,7 @@ const TaskManager = () => {
                         </div>
                     </div>
                 </div>
-                <div className='current-week-section'>
+                <div className='current-week-section' >
                     <div className='week-date-component'>
                         <div className='week-label'>Sun</div>
                         <div className='date-label'>01</div>
@@ -188,14 +192,17 @@ const TaskManager = () => {
                         </div>
                     </div>
                 </div>
-                <div className='upcoming-tasks-section'>
+                <div className='upcoming-tasks-section' style={{ height: isActive ? '80%' : '60%', top:isActive ? '-21%' : '0%' }}>
                     <div className='upcoming-tasks-wrapper'>
                         {tasks?.map((item, index) =>
-                            <div className='task-component'>
-                                <div className='accent-strip'></div>
+                            <div className='task-component' style={{ order: activeItem == item.id ? 1 : index + 2 }} onClick={() => {
+                                setActiveItem(item.id)
+                                setIsActive(!isActive)
+                            }}>
+                                <div className='accent-strip' style={{ backgroundColor: item.color }}></div>
                                 <div className='task-overview-wrapper'>
                                     <div className='task-timing'>12:30 PM - 01:00 PM</div>
-                                    <div className='task-name'>{item.title} - {item.task.type}</div>
+                                    <div className='task-name'>{index + 1} {item.title} - {item.task.type}</div>
                                 </div>
                             </div>
                         )}
