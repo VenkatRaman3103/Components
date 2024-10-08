@@ -204,8 +204,8 @@
             }
 
             .add-task-button {
-                width: 50px;
-                height: 50px;
+                width: 45px;
+                height: 45px;
                 background-color: var(--base-color);
 
                 position: absolute;
@@ -222,8 +222,8 @@
                 align-items: center;
 
                 .plus-strip-1 {
-                    height: 25px;
-                    width: 3px;
+                    height: 20px;
+                    width: 2px;
 
                     background-color: var(--border-color);
                     position: absolute;
@@ -231,8 +231,8 @@
                 }
 
                 .plus-strip-2 {
-                    height: 25px;
-                    width: 3px;
+                    height: 20px;
+                    width: 2px;
 
                     background-color: var(--border-color);
                     transform: rotate(90deg);
