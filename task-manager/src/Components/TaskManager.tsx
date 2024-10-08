@@ -95,7 +95,10 @@ const TaskManager = () => {
                             </div>
                         )}
                     </div>
-                    <div className='add-task-button'></div>
+                    <div className='add-task-button'>
+                        <div className='plus-strip-1'></div>
+                        <div className='plus-strip-2'></div>
+                    </div>
                     <div className='gradient-layer'></div>
                 </div>
             </div>
