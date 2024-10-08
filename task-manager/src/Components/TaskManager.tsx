@@ -192,10 +192,10 @@ const TaskManager = () => {
                         </div>
                     </div>
                 </div>
-                <div className='upcoming-tasks-section' style={{ height: isActive ? '80%' : '60%', top:isActive ? '-21%' : '0%' }}>
+                <div className='upcoming-tasks-section' style={{ height: isActive ? '80%' : '65%', bottom: isActive ? '0' : '', position: isActive ? 'absolute' : 'relative' }}>
                     <div className='upcoming-tasks-wrapper'>
                         {tasks?.map((item, index) =>
-                            <div className='task-component' style={{ order: activeItem == item.id ? 1 : index + 2 }} onClick={() => {
+                            <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} style={{ position: activeItem == item.id ? 'absolute' : 'relative', top: activeItem == item.id ? '20px' : '' }} onClick={() => {
                                 setActiveItem(item.id)
                                 setIsActive(!isActive)
                             }}>
@@ -219,7 +219,7 @@ const TaskManager = () => {
                 <div className='week-view'></div>
                 <div className='month-view'></div>
             </div>
-        </div>
+        </div >
     )
 }
 

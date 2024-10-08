@@ -22,7 +22,7 @@
 
         .current-date-section {
             width: 100%;
-            height: 20%;
+            height: auto;
 
             display: flex;
             justify-content: center;
@@ -82,7 +82,7 @@
 
         .current-week-section {
             width: 100%;
-            height: 20%;
+            height: auto;
             display: flex;
             justify-content: space-around;
 
@@ -155,8 +155,8 @@
 
                 overflow-y: scroll;
 
-                // border-bottom-left-radius: 60px;
-                // border-bottom-right-radius: 60px;
+                 transition: all 300ms ease-in-out;
+
 
                 .task-component {
                     width: 100%;
@@ -169,8 +169,13 @@
 
                     transition: all 300ms ease-in-out;
 
+                    &.hidden{
+                        display: none;
+                        // scale: 0;
+                    }
+
                     .accent-strip {
-                        height: 100%;
+                        height: auto;
                         width: 6px;
                         background-color: red;
                         border-radius: 100px;
