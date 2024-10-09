@@ -180,7 +180,7 @@
                         gap: 12px;
 
                         .accent-strip {
-                            height: 50px;
+                            height: auto;
                             width: 6px;
                             background-color: red;
                             border-radius: 100px;
@@ -279,8 +279,15 @@
                                     ul {
                                         display: flex;
                                         flex-direction: column;
+                                        gap: 15px;
+
                                         padding-left: 21px;
                                         color: var(--dark-font);
+
+                                        li{
+                                            font-size: 17px;
+                                            font-weight: 500;
+                                        }
                                     }
                                 }
                             }

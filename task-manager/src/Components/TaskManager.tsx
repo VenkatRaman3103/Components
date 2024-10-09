@@ -26,7 +26,7 @@ const dummyData: any = [
             tasks: [
                 {
                     members: [{ name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }],
-                    notes: ['lorem ipsum', 'lorem ipsum']
+                    notes: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.']
                 }
             ]
         }
@@ -210,7 +210,7 @@ const TaskManager = () => {
                         </div>
                     </div>
                 </div>
-                <div className='upcoming-tasks-section' ref={listOfTasks} style={{ height: isActive ? '80%' : '' }}>
+                <div className='upcoming-tasks-section' ref={listOfTasks} style={{ height: isActive ? '81%' : '' }}>
                     <div className='upcoming-tasks-wrapper' style={{ gap: isActive ? '0px' : '' }}>
                         {tasks?.map((item: any, index: any) =>
                             <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} onClick={() => {
