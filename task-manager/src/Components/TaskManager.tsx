@@ -123,7 +123,7 @@ const TaskManager = () => {
 
         document.addEventListener('mousedown', outsideListOfTasks)
 
-        return () => {document.removeEventListener('mousedown', outsideListOfTasks)}
+        return () => { document.removeEventListener('mousedown', outsideListOfTasks) }
     }, [])
 
     console.log(activeItem, 'activeItem')
@@ -210,7 +210,7 @@ const TaskManager = () => {
                     </div>
                 </div>
                 <div className='upcoming-tasks-section' ref={listOfTasks} style={{ height: isActive ? '80%' : '' }}>
-                    <div className='upcoming-tasks-wrapper'>
+                    <div className='upcoming-tasks-wrapper' style={{ gap: isActive ? '0px' : '' }}>
                         {tasks?.map((item, index) =>
                             <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} onClick={() => {
                                 setActiveItem(item.id)
