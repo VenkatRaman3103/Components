@@ -1,7 +1,8 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useRef, useState } from 'react'
 import './TaskManager.scss'
 
-const dummyData = [
+const dummyData: any = [
     {
         id: 1,
         title: 'Personal Task',
@@ -24,7 +25,7 @@ const dummyData = [
             type: 'meeting',
             tasks: [
                 {
-                    members: [{ name: 'name1', img: 'url' }],
+                    members: [{ name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }],
                     notes: ['lorem ipsum', 'lorem ipsum']
                 }
             ]
@@ -211,15 +212,40 @@ const TaskManager = () => {
                 </div>
                 <div className='upcoming-tasks-section' ref={listOfTasks} style={{ height: isActive ? '80%' : '' }}>
                     <div className='upcoming-tasks-wrapper' style={{ gap: isActive ? '0px' : '' }}>
-                        {tasks?.map((item, index) =>
+                        {tasks?.map((item: any, index: any) =>
                             <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} onClick={() => {
                                 setActiveItem(item.id)
                                 setIsActive(!isActive)
                             }}>
-                                <div className='accent-strip' style={{ backgroundColor: item.color }}></div>
-                                <div className='task-overview-wrapper'>
-                                    <div className='task-timing'>12:30 PM - 01:00 PM</div>
-                                    <div className='task-name'>{index + 1} {item.title} - {item.task.type}</div>
+                                <div className='task-preview-section'>
+                                    <div className='accent-strip' style={{ backgroundColor: item.color }}></div>
+                                    <div className='task-overview-wrapper'>
+                                        <div className='task-timing'>12:30 PM - 01:00 PM</div>
+                                        <div className='task-name'>{index + 1} {item.title} - {item.task.type}</div>
+                                    </div>
+                                </div>
+
+                                <div className={`task-content-section ${isActive == true && activeItem == item.id ? 'show' : ''}`} >
+                                    {item.task.type == 'meeting' &&
+                                        <div className='meeting-section-container'>
+                                            <div className='divider'></div>
+                                            <div className='meeting-wrapper'>
+                                                <div className='title'>Meeting with</div>
+                                                <div className='meeting-member-profiles' style={{ display: 'grid', gridTemplateColumns: `repeat(${item.task.tasks[0]?.members.length}, 35px)` }}>
+                                                    {item.task.tasks[0]?.members.map((member: any) => <div className='profile'></div>)}
+                                                </div>
+                                            </div>
+                                            <div className='divider'></div>
+                                            <div className='meeting-notes-wrapper'>
+                                                <div className='title'>Notes</div>
+                                                <div className='notes-lits-wrapper'>
+                                                    <ul>
+                                                        {item.task.tasks[0]?.notes?.map((point: any) => <li>{point}</li>)}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         )}
