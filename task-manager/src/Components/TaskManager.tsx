@@ -274,7 +274,7 @@ const TaskManager = () => {
                                                     {item.task.tasks?.map((content: any, index: any) =>
                                                         <div className='checkbox-wrapper'>
                                                             <label className="custom-checkbox">
-                                                                <input type="checkbox" 
+                                                                <input type="checkbox"
                                                                 // checked={content.isChecked}
                                                                 />
                                                                 <span className="checkmark"></span>
@@ -290,10 +290,7 @@ const TaskManager = () => {
                             </div>
                         )}
                     </div>
-                    <div className='add-task-button'>
-                        <div className='plus-strip-1'></div>
-                        <div className='plus-strip-2'></div>
-                    </div>
+                    <AddTaskButton />
                     <div className='gradient-layer'></div>
                 </div>
             </div>
@@ -303,6 +300,19 @@ const TaskManager = () => {
                 <div className='month-view'></div>
             </div>
         </div >
+    )
+}
+
+const AddTaskButton = () => {
+    const [isBtnActive, setIsBtnActive] = useState(false)
+
+    return (
+        <div className={`add-task-button ${isBtnActive ? 'expand' : ''}`} onMouseEnter={() => setIsBtnActive(true)}
+            onMouseLeave={() => setIsBtnActive(false)}
+        >
+            <div className={`plus-strip-1  ${isBtnActive ? 'makeSmall' : ''}`}></div>
+            <div className={`plus-strip-2  ${isBtnActive ? 'makeSmall' : ''}`}></div>
+        </div>
     )
 }
 
