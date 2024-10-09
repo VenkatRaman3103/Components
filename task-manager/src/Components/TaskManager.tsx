@@ -13,6 +13,26 @@ const dummyData: any = [
                 {
                     content: 'lorem ipsum',
                     isChecked: false
+                },
+                {
+                    content: 'lorem ipsum',
+                    isChecked: false
+                },
+                {
+                    content: 'lorem ipsum',
+                    isChecked: false
+                },
+                {
+                    content: 'lorem ipsum',
+                    isChecked: false
+                },
+                {
+                    content: 'lorem ipsum',
+                    isChecked: false
+                },
+                {
+                    content: 'lorem ipsum',
+                    isChecked: false
                 }
             ]
         }
@@ -226,7 +246,7 @@ const TaskManager = () => {
                                 </div>
 
                                 <div className={`task-content-section ${isActive == true && activeItem == item.id ? 'show' : ''}`} >
-                                    {item.task.type == 'meeting' &&
+                                    {item.task.type == 'meeting' ? (
                                         <div className='meeting-section-container'>
                                             <div className='divider'></div>
                                             <div className='meeting-wrapper'>
@@ -245,7 +265,27 @@ const TaskManager = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    }
+                                    ) : (
+                                        <div className='to-do-section-container'>
+                                            <div className='divider'></div>
+                                            <div className='to-do-notes-wrapper'>
+                                                <div className='title'>To Dos</div>
+                                                <div className='notes-lits-wrapper'>
+                                                    {item.task.tasks?.map((content: any, index: any) =>
+                                                        <div className='checkbox-wrapper'>
+                                                            <label className="custom-checkbox">
+                                                                <input type="checkbox" 
+                                                                // checked={content.isChecked}
+                                                                />
+                                                                <span className="checkmark"></span>
+                                                                {content.content}
+                                                            </label>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         )}
