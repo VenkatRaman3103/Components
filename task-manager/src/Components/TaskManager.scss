@@ -411,6 +411,20 @@
                     scale: 0;
                 }
             }
+
+            .add-task-selection-wrapper {
+                position: absolute;
+                left: 20px;
+                top: 20px;
+
+                transition: all 200ms ease-in-out;
+
+                scale: 0;
+
+                &.show {
+                    scale: 1;
+                }
+            }
         }
     }
 }

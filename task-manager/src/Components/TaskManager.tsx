@@ -304,16 +304,56 @@ const TaskManager = () => {
 }
 
 const AddTaskButton = () => {
-    const [isBtnActive, setIsBtnActive] = useState(false)
+    const [isBtnActive, setIsBtnActive] = useState(false);
+    const [showOptions, setShowOptions] = useState(false);
+    const [transitionComplete, setTransitionComplete] = useState(false);
+
+    function handleMouseEnter() {
+        setIsBtnActive(true)
+    }
+
+    function handleMouseLeave() {
+        setIsBtnActive(false)
+        setShowOptions(false)
+    }
+
+    function handleTransitionEnd() {
+        if (isBtnActive) {
+            setTransitionComplete(true)
+            setShowOptions(true)
+        } else {
+            setTransitionComplete(false)
+        }
+    }
+
 
     return (
-        <div className={`add-task-button ${isBtnActive ? 'expand' : ''}`} onMouseEnter={() => setIsBtnActive(true)}
-            onMouseLeave={() => setIsBtnActive(false)}
+        <div
+            className={`add-task-button ${isBtnActive ? 'expand' : ''}`}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onTransitionEnd={handleTransitionEnd}
         >
-            <div className={`plus-strip-1  ${isBtnActive ? 'makeSmall' : ''}`}></div>
-            <div className={`plus-strip-2  ${isBtnActive ? 'makeSmall' : ''}`}></div>
+            <>
+                <div className={`plus-strip-1 ${isBtnActive ? 'makeSmall' : ''}`}></div>
+                <div className={`plus-strip-2 ${isBtnActive ? 'makeSmall' : ''}`}></div>
+            </>
+
+            <div
+                className={`add-task-selection-wrapper ${transitionComplete && showOptions ? 'show' : ''}`}
+            >
+                <div className="add-task-option">
+                    <div className="task-icon">O</div>
+                    <div className="task-label">Meeting</div>
+                </div>
+                <div className="add-task-option">
+                    <div className="task-icon">O</div>
+                    <div className="task-label">Meeting</div>
+                </div>
+            </div>
         </div>
-    )
-}
+    );
+};
+
 
 export default TaskManager
