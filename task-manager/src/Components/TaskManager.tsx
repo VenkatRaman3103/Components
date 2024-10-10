@@ -1,6 +1,6 @@
 /* eslint-disable eqeqeq */
-import React, { useEffect, useRef, useState } from 'react'
-import './TaskManager.scss'
+import { useEffect, useRef, useState } from 'react';
+import './TaskManager.scss';
 
 const dummyData: any = [
     {
@@ -131,14 +131,14 @@ const TaskManager = () => {
     const [activeItem, setActiveItem] = useState<number | null>(null)
     const [isActive, setIsActive] = useState(false)
     const listOfTasks = useRef<any>(null)
+    const [isAddTaskActive, setIsAddTaskActive] = useState(false)
 
-    // handle click outside the list of tasks
     useEffect(() => {
-
         function outsideListOfTasks(event: any) {
             if (!listOfTasks.current.contains(event.target)) {
                 setIsActive(false)
                 setActiveItem(null)
+                setIsAddTaskActive(false)
             }
         }
 
@@ -152,8 +152,8 @@ const TaskManager = () => {
     return (
         <div className='container'>
             <div className='wrapper'>
-                <div className='current-date-section'>
-                    <div className='current-date-section-wrapper'>
+                <div className={`current-date-section ${isAddTaskActive ? 'smaller' : ''}`}>
+                    <div className={`current-date-section-wrapper ${isAddTaskActive ? 'makeStrip' : ''}`}>
                         <div className='today-date'>31</div>
                         <div className='month-year-events-wrapper'>
                             <div className='current-month'>March</div>
@@ -163,7 +163,12 @@ const TaskManager = () => {
                                 <div className='number-of-events'>3 Events</div>
                             </div>
                         </div>
+                        <div className={`date-strip-wrapper ${isAddTaskActive ? 'show' : ''}`}>
+                            <div className='day-strip'>March</div>
+                            <div className='month-strip'>Wednesday</div>
+                        </div>
                     </div>
+
                 </div>
                 <div className='current-week-section' >
                     <div className='week-date-component'>
@@ -230,7 +235,7 @@ const TaskManager = () => {
                         </div>
                     </div>
                 </div>
-                <div className='upcoming-tasks-section' ref={listOfTasks} style={{ height: isActive ? '81%' : '' }}>
+                <div className={`upcoming-tasks-section ${isAddTaskActive ? 'expand' : ''}`} ref={listOfTasks} style={{ height: isActive ? '81%' : '' }}>
                     <div className='upcoming-tasks-wrapper' style={{ gap: isActive ? '0px' : '' }}>
                         {tasks?.map((item: any, index: any) =>
                             <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} onClick={() => {
@@ -290,7 +295,7 @@ const TaskManager = () => {
                             </div>
                         )}
                     </div>
-                    <AddTaskButton />
+                    <AddTaskButton setIsAddTaskActive={setIsAddTaskActive} />
                     <div className='gradient-layer'></div>
                 </div>
             </div>
@@ -303,7 +308,7 @@ const TaskManager = () => {
     )
 }
 
-const AddTaskButton = () => {
+const AddTaskButton = ({ setIsAddTaskActive }: any) => {
     const [isBtnActive, setIsBtnActive] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const [transitionComplete, setTransitionComplete] = useState(false);
@@ -342,12 +347,12 @@ const AddTaskButton = () => {
             <div
                 className={`add-task-selection-wrapper ${transitionComplete && showOptions ? 'show' : ''}`}
             >
-                <div className="add-task-option">
-                    <div className="task-icon">O</div>
+                <div className="add-task-option" onClick={() => setIsAddTaskActive(true)}>
+                    <div className="task-icon"></div>
                     <div className="task-label">Meeting</div>
                 </div>
                 <div className="add-task-option">
-                    <div className="task-icon">O</div>
+                    <div className="task-icon"></div>
                     <div className="task-label">Meeting</div>
                 </div>
             </div>
