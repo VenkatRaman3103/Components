@@ -20,6 +20,8 @@
 
         position: relative;
 
+        transition: all 100ms ease-in-out;
+
         .current-date-section {
             width: 100%;
             height: auto;
@@ -31,7 +33,7 @@
             transition: all 300ms ease-in-out;
 
             &.smaller {
-                height: 10%;
+                height: 13.5%;
             }
 
             .current-date-section-wrapper {
@@ -49,6 +51,7 @@
 
                 &.makeStrip {
                     transition: all 100ms ease-in-out;
+                    margin-top: -18px;
 
                     .today-date {
                         font-size: 28px;
@@ -59,6 +62,7 @@
                         opacity: 0;
                         // size: 0;
                         width: 0;
+                        height: 0;
                         transform: scale(0) // display: flex;
                             // flex-direction: row-reverse;
 
@@ -235,6 +239,14 @@
                 overflow-y: scroll;
 
                 transition: all 500ms ease-in-out;
+                transition: opacity 200ms ease-in-out;
+                transition: size 400ms ease-in-out;
+
+                &.hide {
+                    opacity: 0;
+
+                    scale: 0;
+                }
 
                 .task-component {
                     width: 100%;

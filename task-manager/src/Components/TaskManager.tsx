@@ -236,7 +236,7 @@ const TaskManager = () => {
                     </div>
                 </div>
                 <div className={`upcoming-tasks-section ${isAddTaskActive ? 'expand' : ''}`} ref={listOfTasks} style={{ height: isActive ? '81%' : '' }}>
-                    <div className='upcoming-tasks-wrapper' style={{ gap: isActive ? '0px' : '' }}>
+                    <div className={`upcoming-tasks-wrapper ${isAddTaskActive ? 'hide' : ''}`} style={{ gap: isActive ? '0px' : '' }}>
                         {tasks?.map((item: any, index: any) =>
                             <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} onClick={() => {
                                 setActiveItem(item.id)
@@ -295,6 +295,7 @@ const TaskManager = () => {
                             </div>
                         )}
                     </div>
+                    <div className=''></div>
                     <AddTaskButton setIsAddTaskActive={setIsAddTaskActive} />
                     <div className='gradient-layer'></div>
                 </div>
