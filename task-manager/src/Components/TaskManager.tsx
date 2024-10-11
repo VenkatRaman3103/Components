@@ -132,6 +132,7 @@ const TaskManager = () => {
     const [isActive, setIsActive] = useState(false)
     const listOfTasks = useRef<any>(null)
     const [isAddTaskActive, setIsAddTaskActive] = useState(false)
+    const [typeOfTask, setTypeOfTask] = useState<'todo' | "meeting" | null>(null)
 
     useEffect(() => {
         function outsideListOfTasks(event: any) {
@@ -295,8 +296,59 @@ const TaskManager = () => {
                             </div>
                         )}
                     </div>
-                    <div className=''></div>
-                    <AddTaskButton setIsAddTaskActive={setIsAddTaskActive} />
+
+                    <div className={`add-task-container ${isAddTaskActive ? 'show' : ''}`}>
+
+                        <div className='add-task-tittle-wrapper'>
+                            <div className='accent-strip' ></div>
+                            <div className='task-overview-wrapper'>
+                                <div className='add-title-wrapper'>
+                                    <input type='text' className='task-name' placeholder='Add Title' />
+                                </div>
+                                <div className='task-timing-wrapper'>
+                                    <div className='task-timing'>12:30 PM - 01:00 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='divider'></div>
+                        {typeOfTask == 'meeting' ? (
+                            <>
+                                <div className='add-member-wrapper'>
+                                    <div className='title'>Meeting With</div>
+                                    <div className='add-member-component'>
+                                        <div className='add-icon'>
+                                            <div className='plus-strip1'></div>
+                                            <div className='plus-strip2'></div>
+                                        </div>
+                                        <div className='add-label'>Add Member</div>
+                                    </div>
+                                </div>
+                                <div className='divider'></div>
+                                <div className='add-notes-wrapper'>
+                                    <div className='title'>notes</div>
+                                    <ul>
+                                        <li>Add Note</li>
+                                    </ul>
+                                </div>
+                            </>
+                        ) : (
+                            <div className='add-notes-wrapper'>
+                                <div className='title'>notes</div>
+                                <div className='checkbox-wrapper'>
+                                    <label className="custom-checkbox">
+                                        <input type="checkbox" />
+                                        <span className="checkmark"></span>
+                                        <label>
+                                            <input type='text' />
+                                            Add Todo 
+                                        </label>
+                                    </label>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    <AddTaskButton setIsAddTaskActive={setIsAddTaskActive} setTypeOfTask={setTypeOfTask} />
                     <div className='gradient-layer'></div>
                 </div>
             </div>
@@ -309,7 +361,7 @@ const TaskManager = () => {
     )
 }
 
-const AddTaskButton = ({ setIsAddTaskActive }: any) => {
+const AddTaskButton = ({ setIsAddTaskActive, setTypeOfTask }: any) => {
     const [isBtnActive, setIsBtnActive] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const [transitionComplete, setTransitionComplete] = useState(false);
@@ -347,14 +399,15 @@ const AddTaskButton = ({ setIsAddTaskActive }: any) => {
 
             <div
                 className={`add-task-selection-wrapper ${transitionComplete && showOptions ? 'show' : ''}`}
+                onClick={() => setIsAddTaskActive(true)}
             >
-                <div className="add-task-option" onClick={() => setIsAddTaskActive(true)}>
+                <div className="add-task-option" onClick={() => setTypeOfTask('meeting')}>
                     <div className="task-icon"></div>
                     <div className="task-label">Meeting</div>
                 </div>
-                <div className="add-task-option">
+                <div className="add-task-option" onClick={() => setTypeOfTask('todo')}>
                     <div className="task-icon"></div>
-                    <div className="task-label">Meeting</div>
+                    <div className="task-label">To Do</div>
                 </div>
             </div>
         </div>

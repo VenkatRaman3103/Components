@@ -422,6 +422,122 @@
                     }
                 }
             }
+
+            .add-task-container {
+                z-index: 7;
+                scale: 0;
+
+                position: absolute;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: start;
+                align-items: start;
+                gap: 25px;
+
+                &.show {
+                    scale: 1;
+                    height: 100%;
+                    width: 80%;
+                }
+
+                .add-task-tittle-wrapper {
+                    width: 100%;
+
+                    display: flex;
+                    flex-direction: row;
+                    gap: 12px;
+
+                    .accent-strip {
+                        height: auto;
+                        width: 6px;
+                        background-color: red;
+                        border-radius: 100px;
+                    }
+
+                    .task-overview-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+
+                        .add-title-wrapper {
+                            width: 100%;
+                            height: auto;
+
+                            .task-name {
+                                font-size: 24px;
+                                font-weight: 500;
+                                color: var(--dark-font);
+
+                                border: none;
+                            }
+                        }
+
+                        .task-timing-wrapper {
+                            width: 100%;
+                            height: auto;
+
+                            .task-timing {
+                                font-size: 18px;
+                                color: var(--dark-font);
+                                font-weight: 500;
+                            }
+                        }
+
+                    }
+
+                }
+
+                .add-member-wrapper {
+                    width: 100%;
+                    height: auto;
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: start;
+
+                    gap: 20px;
+                    margin-top: -15px;
+
+                    .add-member-component {
+                        width: 100%;
+                        height: auto;
+
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 12px;
+
+                        .add-label {
+                            font-size: 18px;
+                            font-weight: 400;
+                            color: var(--light-font);
+                        }
+                    }
+                }
+
+                .add-notes-wrapper {
+                    width: 100%;
+                    height: auto;
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: start;
+
+                    gap: 12px;
+                    margin-top: -15px;
+
+                    ul {
+                        margin-top: 10px;
+                        margin-left: -20px;
+                        color: var(--light-font);
+
+                        li {
+                            color: var(--light-font);
+                        }
+                    }
+                }
+            }
         }
 
         .gradient-layer {
@@ -527,6 +643,7 @@
                     flex-direction: row;
                     align-items: center;
                     gap: 10px;
+                    cursor: pointer;
 
                     .task-icon {
                         height: 20px;
@@ -577,6 +694,40 @@
     border: 2px solid var(--border-color);
     background-color: var(--border-color);
     border-radius: 100px;
+}
+
+.add-icon {
+    width: 20px;
+    height: 20px;
+
+    border: 2px solid var(--border-color);
+    border-radius: 100px;
+
+    position: relative;
+
+    .plus-strip1 {
+        height: 12px;
+        width: 1px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+
+        background-color: var(--dark-font);
+        border-radius: 100px;
+    }
+
+    .plus-strip2 {
+        height: 12px;
+        width: 1px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%) rotate(90deg);
+
+        background-color: var(--dark-font);
+        border-radius: 100px;
+    }
 }
 
 .custom-checkbox {
