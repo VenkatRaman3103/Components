@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 import { useEffect, useRef, useState } from 'react';
 import './TaskManager.scss';
+import LongArrowMark from './LongArrowMark/LongArrowMark';
 
 const dummyData: any = [
     {
@@ -127,32 +128,147 @@ const dummyData: any = [
 ];
 
 const TaskManager = () => {
-    const [tasks, setTasks] = useState(dummyData)
+    const [tasks, setTasks] = useState<any>(dummyData)
     const [activeItem, setActiveItem] = useState<number | null>(null)
-    const [isActive, setIsActive] = useState(false)
+    const [isActive, setIsActive] = useState<any>(false)
     const listOfTasks = useRef<any>(null)
-    const [isAddTaskActive, setIsAddTaskActive] = useState(false)
+    const [isAddTaskActive, setIsAddTaskActive] = useState<any>(false)
     const [typeOfTask, setTypeOfTask] = useState<'todo' | "meeting" | null>(null)
+    const [view, setView] = useState<any>('days');
+    const [selectedYear, setSelectedYear] = useState<any>(new Date().getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState<any>(new Date().getMonth());
+    const [selectedDate, setSelectedDate] = useState<any>(new Date().getDate());
+    const [currentWeek, setCurrentWeek] = useState<any>([]);
+
+    const months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     useEffect(() => {
-        function outsideListOfTasks(event: any) {
-            if (!listOfTasks.current.contains(event.target)) {
-                setIsActive(false)
-                setActiveItem(null)
-                setIsAddTaskActive(false)
-            }
+        const today = new Date();
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay());
+
+        const week = [];
+        for (let i = 0; i < 7; i++) {
+            const day = new Date(startOfWeek);
+            day.setDate(startOfWeek.getDate() + i);
+            week.push(day);
         }
+        setCurrentWeek(week);
+    }, []);
 
-        document.addEventListener('mousedown', outsideListOfTasks)
+    const renderCurrentWeekSection = () => {
+        return (
+            <div className='current-week-section'>
+                {currentWeek.map((date:any, index:any) => (
+                    <div key={index} className={`week-date-component ${date.toDateString() === new Date().toDateString() ? 'today' : ''}`}>
+                        <div className='week-label'>{days[date.getDay()]}</div>
+                        <div className='date-label'>{date.getDate().toString().padStart(2, '0')}</div>
+                        <div className='task-accent-circles-wrapper'>
+                            <div className='accent-circle'></div>
+                            <div className='accent-circle'></div>
+                            <div className='accent-circle'></div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    };
 
-        return () => { document.removeEventListener('mousedown', outsideListOfTasks) }
-    }, [])
 
-    console.log(activeItem, 'activeItem')
-    console.log(listOfTasks, 'listOfTasks')
-    return (
-        <div className='container'>
-            <div className='wrapper'>
+    const renderMonthsView = () => {
+        const firstDay = new Date(selectedYear, selectedMonth, 1).getDay();
+        const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+        const weeks = Math.ceil((firstDay + daysInMonth) / 7);
+
+        return (
+            <div className="months-view">
+                <h2>{selectedYear}</h2>
+                <div className="months-grid">
+                    {months.map((month, index) => (
+                        <div key={month} className="month-card">
+                            <h3>{month}</h3>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Sun</th>
+                                        <th>Mon</th>
+                                        <th>Tue</th>
+                                        <th>Wed</th>
+                                        <th>Thu</th>
+                                        <th>Fri</th>
+                                        <th>Sat</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {[...Array(weeks)].map((_, weekIndex) => (
+                                        <tr key={weekIndex}>
+                                            {[...Array(7)].map((_, dayIndex) => {
+                                                const day = weekIndex * 7 + dayIndex - firstDay + 1;
+                                                const isCurrentMonth = index === new Date().getMonth();
+                                                const isCurrentYear = selectedYear === new Date().getFullYear();
+                                                const isToday = isCurrentMonth && isCurrentYear && day === new Date().getDate();
+                                                return (
+                                                    <td
+                                                        key={dayIndex}
+                                                        className={`${day > 0 && day <= daysInMonth ? 'valid-day' : 'invalid-day'} ${isToday ? 'current-day' : ''
+                                                            }`}
+                                                        onClick={() => {
+                                                            if (day > 0 && day <= daysInMonth) {
+                                                                setSelectedDate(day);
+                                                                setSelectedMonth(index);
+                                                                setView('days');
+                                                            }
+                                                        }}
+                                                    >
+                                                        {day > 0 && day <= daysInMonth ? day : ''}
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+
+    const renderYearsView = () => {
+        const currentYear = new Date().getFullYear();
+        const years = Array.from({ length: 20 }).map((_, i) => currentYear - 10 + i);
+
+        return (
+            <div className="years-view">
+                <h2>Select a Year</h2>
+                <div className="years-grid">
+                    {years.map((year) => (
+                        <div
+                            key={year}
+                            className={`year-card ${year === selectedYear ? 'selected' : ''}`}
+                            onClick={() => {
+                                setSelectedYear(year);
+                                setView('months');
+                            }}
+                        >
+                            {year}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+    const renderDaysView = () => {
+        return (
+            <div className="days-view">
                 <div className={`current-date-section ${isAddTaskActive ? 'smaller' : ''}`}>
                     <div className={`current-date-section-wrapper ${isAddTaskActive ? 'makeStrip' : ''}`}>
                         <div className='today-date'>31</div>
@@ -171,7 +287,8 @@ const TaskManager = () => {
                     </div>
 
                 </div>
-                <div className='current-week-section' >
+                {renderCurrentWeekSection()}
+                {/* <div className='current-week-section' >
                     <div className='week-date-component'>
                         <div className='week-label'>Sun</div>
                         <div className='date-label'>01</div>
@@ -235,7 +352,7 @@ const TaskManager = () => {
                             <div className='accent-circle'></div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className={`upcoming-tasks-section ${isAddTaskActive ? 'expand' : ''}`} ref={listOfTasks} style={{ height: isActive ? '81%' : '' }}>
                     <div className={`upcoming-tasks-wrapper ${isAddTaskActive ? 'hide' : ''}`} style={{ gap: isActive ? '0px' : '' }}>
                         {tasks?.map((item: any, index: any) =>
@@ -306,7 +423,7 @@ const TaskManager = () => {
                                     <input type='text' className='task-name' placeholder='Add Title' />
                                 </div>
                                 <div className='task-timing-wrapper'>
-                                    <div className='task-timing'>12:30 PM - 01:00 PM</div>
+                                    <div className='task-timing'><span>12:30 PM</span> <LongArrowMark /> <span>01:00 PM</span></div>
                                 </div>
                             </div>
                         </div>
@@ -340,7 +457,7 @@ const TaskManager = () => {
                                         <span className="checkmark"></span>
                                         <label>
                                             <input type='text' />
-                                            Add Todo 
+                                            Add Todo
                                         </label>
                                     </label>
                                 </div>
@@ -352,12 +469,38 @@ const TaskManager = () => {
                     <div className='gradient-layer'></div>
                 </div>
             </div>
-            <div className='view-switcher'>
-                <div className='year-view'></div>
-                <div className='week-view'></div>
-                <div className='month-view'></div>
+        );
+    };
+
+    useEffect(() => {
+        function outsideListOfTasks(event: any) {
+            if (!listOfTasks?.current?.contains(event.target)) {
+                setIsActive(false)
+                setActiveItem(null)
+                setIsAddTaskActive(false)
+            }
+        }
+
+        document.addEventListener('mousedown', outsideListOfTasks)
+
+        return () => { document.removeEventListener('mousedown', outsideListOfTasks) }
+    }, [])
+
+    console.log(activeItem, 'activeItem')
+    console.log(listOfTasks, 'listOfTasks')
+    return (
+        <div className="container">
+            <div className="wrapper">
+                {view === 'days' && renderDaysView()}
+                {view === 'months' && renderMonthsView()}
+                {view === 'years' && renderYearsView()}
             </div>
-        </div >
+            <div className="toggle-view-wrapper">
+                <div className="years-btn" onClick={() => setView('years')}>Years</div>
+                <div className="days-btn" onClick={() => setView('days')}>Days</div>
+                <div className="months-btn" onClick={() => setView('months')}>Months</div>
+            </div>
+        </div>
     )
 }
 
