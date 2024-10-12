@@ -184,6 +184,11 @@
                     justify-content: space-between;
                     gap: 20px;
 
+                    &.today{
+                        background-color: red;
+                        color: red;
+                    }
+
                     .week-label {
                         color: var(--light-font);
                         font-weight: 400;

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import './TaskManager.scss';
 import LongArrowMark from './LongArrowMark/LongArrowMark';
 
-const dummyData: any = [
+const dummyData = [
     {
         id: 1,
         title: 'Personal Task',
@@ -128,17 +128,18 @@ const dummyData: any = [
 ];
 
 const TaskManager = () => {
-    const [tasks, setTasks] = useState<any>(dummyData)
-    const [activeItem, setActiveItem] = useState<number | null>(null)
-    const [isActive, setIsActive] = useState<any>(false)
-    const listOfTasks = useRef<any>(null)
-    const [isAddTaskActive, setIsAddTaskActive] = useState<any>(false)
-    const [typeOfTask, setTypeOfTask] = useState<'todo' | "meeting" | null>(null)
-    const [view, setView] = useState<any>('days');
-    const [selectedYear, setSelectedYear] = useState<any>(new Date().getFullYear());
-    const [selectedMonth, setSelectedMonth] = useState<any>(new Date().getMonth());
-    const [selectedDate, setSelectedDate] = useState<any>(new Date().getDate());
-    const [currentWeek, setCurrentWeek] = useState<any>([]);
+    const [tasks, setTasks] = useState(dummyData);
+    const [activeItem, setActiveItem] = useState(null);
+    const [isActive, setIsActive] = useState(false);
+    const listOfTasks = useRef(null);
+    const [isAddTaskActive, setIsAddTaskActive] = useState(false);
+    const [typeOfTask, setTypeOfTask] = useState(null);
+    const [view, setView] = useState('days');
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+    const [selectedDate, setSelectedDate] = useState(new Date().getDate());
+    const [currentWeek, setCurrentWeek] = useState([]);
+
 
     const months = [
         'January', 'February', 'March', 'April', 'May', 'June',
@@ -148,9 +149,13 @@ const TaskManager = () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     useEffect(() => {
-        const today = new Date();
-        const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - today.getDay());
+        updateCurrentWeek();
+    }, [selectedYear, selectedMonth, selectedDate]);
+
+    const updateCurrentWeek = () => {
+        const selectedDateObj = new Date(selectedYear, selectedMonth, selectedDate);
+        const startOfWeek = new Date(selectedDateObj);
+        startOfWeek.setDate(selectedDateObj.getDate() - selectedDateObj.getDay());
 
         const week = [];
         for (let i = 0; i < 7; i++) {
@@ -159,13 +164,21 @@ const TaskManager = () => {
             week.push(day);
         }
         setCurrentWeek(week);
-    }, []);
+    };
 
     const renderCurrentWeekSection = () => {
         return (
             <div className='current-week-section'>
-                {currentWeek.map((date: any, index: any) => (
-                    <div key={index} className={`week-date-component ${date.toDateString() === new Date().toDateString() ? 'today' : ''}`}>
+                {currentWeek.map((date, index) => (
+                    <div
+                        key={index}
+                        className={`week-date-component ${date.toDateString() === new Date(selectedYear, selectedMonth, selectedDate).toDateString() ? 'today' : ''}`}
+                        onClick={() => {
+                            setSelectedDate(date.getDate());
+                            setSelectedMonth(date.getMonth());
+                            setSelectedYear(date.getFullYear());
+                        }}
+                    >
                         <div className='week-label'>{days[date.getDay()]}</div>
                         <div className='date-label'>{date.getDate().toString().padStart(2, '0')}</div>
                         <div className='task-accent-circles-wrapper'>
@@ -178,7 +191,6 @@ const TaskManager = () => {
             </div>
         );
     };
-
 
     const renderMonthsView = () => {
         const firstDay = new Date(selectedYear, selectedMonth, 1).getDay();
@@ -273,25 +285,26 @@ const TaskManager = () => {
     };
 
     const renderDaysView = () => {
+        const selectedDateObj = new Date(selectedYear, selectedMonth, selectedDate);
+
         return (
             <div className="days-view">
                 <div className={`current-date-section ${isAddTaskActive ? 'smaller' : ''}`}>
                     <div className={`current-date-section-wrapper ${isAddTaskActive ? 'makeStrip' : ''}`}>
-                        <div className='today-date'>31</div>
+                        <div className='today-date'>{selectedDate}</div>
                         <div className='month-year-events-wrapper'>
-                            <div className='current-month'>March</div>
+                            <div className='current-month'>{months[selectedMonth]}</div>
                             <div className='day-of-the-week-event'>
-                                <div className='day-of-week'>Wednesday</div>
+                                <div className='day-of-week'>{days[selectedDateObj.getDay()]}</div>
                                 <div className='day-of-week-and-events-divider'></div>
                                 <div className='number-of-events'>3 Events</div>
                             </div>
                         </div>
                         <div className={`date-strip-wrapper ${isAddTaskActive ? 'show' : ''}`}>
-                            <div className='day-strip'>March</div>
-                            <div className='month-strip'>Wednesday</div>
+                            <div className='day-strip'>{months[selectedMonth]}</div>
+                            <div className='month-strip'>{days[selectedDateObj.getDay()]}</div>
                         </div>
                     </div>
-
                 </div>
                 {renderCurrentWeekSection()}
                 {/* <div className='current-week-section' >
@@ -361,7 +374,7 @@ const TaskManager = () => {
                 </div> */}
                 <div className={`upcoming-tasks-section ${isAddTaskActive ? 'expand' : ''}`} ref={listOfTasks} style={{ height: isActive ? '81%' : '' }}>
                     <div className={`upcoming-tasks-wrapper ${isAddTaskActive ? 'hide' : ''}`} style={{ gap: isActive ? '0px' : '' }}>
-                        {tasks?.map((item: any, index: any) =>
+                        {tasks?.map((item, index) =>
                             <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} onClick={() => {
                                 setActiveItem(item.id)
                                 setIsActive(!isActive)
@@ -381,7 +394,7 @@ const TaskManager = () => {
                                             <div className='meeting-wrapper'>
                                                 <div className='title'>Meeting with</div>
                                                 <div className='meeting-member-profiles' style={{ display: 'grid', gridTemplateColumns: `repeat(${item.task.tasks[0]?.members.length}, 35px)` }}>
-                                                    {item.task.tasks[0]?.members.map((member: any) => <div className='profile'></div>)}
+                                                    {item.task.tasks[0]?.members.map((member) => <div className='profile'></div>)}
                                                 </div>
                                             </div>
                                             <div className='divider'></div>
@@ -389,7 +402,7 @@ const TaskManager = () => {
                                                 <div className='title'>Notes</div>
                                                 <div className='notes-lits-wrapper'>
                                                     <ul>
-                                                        {item.task.tasks[0]?.notes?.map((point: any) => <li>{point}</li>)}
+                                                        {item.task.tasks[0]?.notes?.map((point) => <li>{point}</li>)}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -400,7 +413,7 @@ const TaskManager = () => {
                                             <div className='to-do-notes-wrapper'>
                                                 <div className='title'>To Dos</div>
                                                 <div className='notes-lits-wrapper'>
-                                                    {item.task.tasks?.map((content: any, index: any) =>
+                                                    {item.task.tasks?.map((content, index) =>
                                                         <div className='checkbox-wrapper'>
                                                             <label className="custom-checkbox">
                                                                 <input type="checkbox"
@@ -479,7 +492,7 @@ const TaskManager = () => {
     };
 
     useEffect(() => {
-        function outsideListOfTasks(event: any) {
+        function outsideListOfTasks(event) {
             if (!listOfTasks?.current?.contains(event.target)) {
                 setIsActive(false)
                 setActiveItem(null)
@@ -499,7 +512,6 @@ const TaskManager = () => {
             <div className="wrapper">
                 {view === 'days' && renderDaysView()}
                 {view === 'months' && renderMonthsView()}
-                {/* {renderMonthsView()} */}
                 {view === 'years' && renderYearsView()}
             </div>
             <div className="toggle-view-wrapper">
@@ -511,7 +523,7 @@ const TaskManager = () => {
     )
 }
 
-const AddTaskButton = ({ setIsAddTaskActive, setTypeOfTask }: any) => {
+const AddTaskButton = ({ setIsAddTaskActive, setTypeOfTask }) => {
     const [isBtnActive, setIsBtnActive] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
     const [transitionComplete, setTransitionComplete] = useState(false);
