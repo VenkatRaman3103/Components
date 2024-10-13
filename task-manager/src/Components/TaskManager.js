@@ -148,6 +148,8 @@ const TaskManager = () => {
 
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+    console.log(new Date().getDay(), 'testDate')
+
     useEffect(() => {
         updateCurrentWeek();
     }, [selectedYear, selectedMonth, selectedDate]);
@@ -167,12 +169,14 @@ const TaskManager = () => {
     };
 
     const renderCurrentWeekSection = () => {
+        const today = new Date().getDate()
+        const isToday = (date) => date.toDateString() === new Date(selectedYear, selectedMonth, selectedDate).toDateString();
         return (
             <div className='current-week-section'>
                 {currentWeek.map((date, index) => (
                     <div
                         key={index}
-                        className={`week-date-component ${date.toDateString() === new Date(selectedYear, selectedMonth, selectedDate).toDateString() ? 'today' : ''}`}
+                        className={`week-date-component ${isToday(date) ? 'today' : ''}`}
                         onClick={() => {
                             setSelectedDate(date.getDate());
                             setSelectedMonth(date.getMonth());
@@ -180,7 +184,7 @@ const TaskManager = () => {
                         }}
                     >
                         <div className='week-label'>{days[date.getDay()]}</div>
-                        <div className='date-label'>{date.getDate().toString().padStart(2, '0')}</div>
+                        <div className={`date-label ${isToday(date) ? 'highlight' : ''}`}>{date.getDate().toString().padStart(2, '0')}</div>
                         <div className='task-accent-circles-wrapper'>
                             <div className='accent-circle'></div>
                             <div className='accent-circle'></div>
@@ -192,68 +196,74 @@ const TaskManager = () => {
         );
     };
 
-   const renderMonthsView = () => {
-        const firstDay = new Date(selectedYear, selectedMonth, 1).getDay();
-        const daysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
-        const weeks = Math.ceil((firstDay + daysInMonth) / 7);
-        const today = new Date().getDate();
-
+    const renderMonthsView = () => {
         return (
             <div className="months-view">
                 <div className='months-view-wrapper'>
                     <h3>{selectedYear}</h3>
                     <div className="list-of-months-wrapper">
-                        {months.map((month, index) => (
-                            <div key={month} className="month-card">
-                                <h3>{month}</h3>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Sun</th>
-                                            <th>Mon</th>
-                                            <th>Tue</th>
-                                            <th>Wed</th>
-                                            <th>Thu</th>
-                                            <th>Fri</th>
-                                            <th>Sat</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {[...Array(weeks)].map((_, weekIndex) => (
-                                            <tr key={weekIndex}>
-                                                {[...Array(7)].map((_, dayIndex) => {
-                                                    const day = weekIndex * 7 + dayIndex - firstDay + 1;
-                                                    const isCurrentMonth = index === new Date().getMonth();
-                                                    const isCurrentYear = selectedYear === new Date().getFullYear();
-                                                    const isToday = isCurrentMonth && isCurrentYear && day === new Date().getDate();
-                                                    return (
-                                                        <td
-                                                            key={dayIndex}
-                                                            className={`${day > 0 && day <= daysInMonth ? 'valid-day' : 'invalid-day'} ${isToday ? 'current-day' : ''}`}
-                                                            id={`${isToday ? 'current-day' : ''}`}
-                                                            onClick={() => {
-                                                                if (day > 0 && day <= daysInMonth) {
-                                                                    setSelectedDate(day);
-                                                                    setSelectedMonth(index);
-                                                                    setView('days');
-                                                                }
-                                                            }}
-                                                        >
-                                                            {day > 0 && day <= daysInMonth ? day : ''}
-                                                        </td>
-                                                    );
-                                                })}
+                        {months.map((month, monthIndex) => {
+                            const firstDay = new Date(selectedYear, monthIndex, 1).getDay();
+                            const daysInMonth = new Date(selectedYear, monthIndex + 1, 0).getDate();
+                            const weeks = Math.ceil((firstDay + daysInMonth) / 7);
+
+                            return (
+                                <div key={month} className="month-card">
+                                    <h3>{month}</h3>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                {days.map(day => <th key={day}>{day}</th>)}
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                                <div className='divider'></div>
-                            </div>
-                        ))}
+                                        </thead>
+                                        <tbody>
+                                            {[...Array(weeks)].map((_, weekIndex) => (
+                                                <tr key={weekIndex}>
+                                                    {[...Array(7)].map((_, dayIndex) => {
+                                                        const day = weekIndex * 7 + dayIndex - firstDay + 1;
+                                                        const isCurrentMonth = monthIndex === new Date().getMonth();
+                                                        const isCurrentYear = selectedYear === new Date().getFullYear();
+                                                        const isToday = isCurrentMonth && isCurrentYear && day === new Date().getDate();
+                                                        const isSelected = day === selectedDate && monthIndex === selectedMonth;
+                                                        return (
+                                                            <td
+                                                                key={dayIndex}
+                                                                className={`
+                                                                    ${day > 0 && day <= daysInMonth ? 'valid-day' : 'invalid-day'}
+                                                                    ${isToday ? 'current-day' : ''}
+                                                                    ${isSelected ? 'selected-day' : ''}
+                                                                `}
+                                                                onClick={() => {
+                                                                    if (day > 0 && day <= daysInMonth) {
+                                                                        setSelectedDate(day);
+                                                                        setSelectedMonth(monthIndex);
+                                                                        setView('days');
+                                                                    }
+                                                                }}
+                                                            >
+                                                                {day > 0 && day <= daysInMonth ? day : ''}
+                                                            </td>
+                                                        );
+                                                    })}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                    <div className='divider'></div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
         );
+    };
+    
+    const resetToToday = () => {
+        const today = new Date();
+        setSelectedYear(today.getFullYear());
+        setSelectedMonth(today.getMonth());
+        setSelectedDate(today.getDate());
     };
 
     const renderYearsView = () => {
@@ -439,6 +449,7 @@ const TaskManager = () => {
 
     console.log(activeItem, 'activeItem')
     console.log(listOfTasks, 'listOfTasks')
+
     return (
         <div className="container">
             <div className="wrapper">
@@ -451,8 +462,9 @@ const TaskManager = () => {
                 <div className="days-btn" onClick={() => setView('days')}>Days</div>
                 <div className="months-btn" onClick={() => {
                     setView('months');
+                    resetToToday();
                     setTimeout(() => {
-                        const currentDayElement = document.getElementById('current-day');
+                        const currentDayElement = document.querySelector('.current-day');
                         if (currentDayElement) {
                             currentDayElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                         }
@@ -460,7 +472,7 @@ const TaskManager = () => {
                 }}>Months</div>
             </div>
         </div>
-    )
+    );
 }
 
 const AddTaskButton = ({ setIsAddTaskActive, setTypeOfTask }) => {
