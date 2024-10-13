@@ -187,8 +187,7 @@
                     align-items: center;
                     gap: 20px;
 
-                    &.today {
-                    }
+                    &.today {}
 
                     .week-label {
                         color: var(--light-font);
@@ -202,7 +201,7 @@
                         color: var(--light-font);
                         padding: 5px;
 
-                        width: 30px; 
+                        width: 30px;
                         height: 30px;
 
                         text-align: center;
@@ -215,7 +214,7 @@
                             border-radius: 100px;
                             // border: 2px solid var(--border-color);
                             color: white;
-                            
+
                             background-color: var(--blue);
                         }
                     }
@@ -256,6 +255,8 @@
                 padding-top: 20px;
 
                 transition: all 300ms ease-in-out;
+
+                overflow: scroll;
 
                 &.expand {
                     height: 87%;
@@ -404,25 +405,6 @@
                                     display: flex;
                                     flex-direction: column;
 
-                                    .notes-lits-wrapper {
-                                        display: flex;
-                                        flex-direction: column;
-                                        gap: 10px;
-
-                                        ul {
-                                            display: flex;
-                                            flex-direction: column;
-                                            gap: 15px;
-
-                                            padding-left: 21px;
-                                            color: var(--dark-font);
-
-                                            li {
-                                                font-size: 17px;
-                                                font-weight: 500;
-                                            }
-                                        }
-                                    }
                                 }
 
                             }
@@ -882,48 +864,96 @@
     cursor: pointer;
     font-size: 18px;
     user-select: none;
+
+    input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 22px;
+        width: 22px;
+        background-color: #fafafa;
+        border: 2px solid var(--border-color);
+        border-radius: 8px;
+        transition: background-color 0.3s;
+        margin-right: 10px;
+    }
+
+    input:checked~.checkmark {
+        background-color: #2196F3;
+    }
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    input:checked~.checkmark:after {
+        display: block;
+    }
+
+    .checkmark:after {
+        left: 8px;
+        top: 1px;
+        width: 5px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
 }
 
-.custom-checkbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+.notes-list-wrapper-meeting {
+    ul {
+        // list-style-type: none;
+        padding-left: 0;
+
+        li {
+            margin-bottom: 8px;
+            margin-left: 18px;
+            color: var(--dark-font);
+
+            input[type="text"] {
+                border: none;
+                outline: none;
+                width: calc(100% - 35px);
+                // padding: 5px;
+                font-size: 14px;
+                color: var(--light-font);
+            }
+        }
+    }
 }
 
-.custom-checkbox .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 22px;
-    width: 22px;
-    background-color: #fafafa;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    transition: background-color 0.3s;
-    margin-right: 10px;
+
+.notes-list-wrapper-todo {
+    ul {
+        // list-style-type: none;
+        padding-left: 0;
+
+        li {
+            margin-bottom: 8px;
+            margin-left: 18px;
+            color: var(--dark-font);
+
+            input[type="text"] {
+                border: none;
+                outline: none;
+                width: calc(100% - 35px);
+                // padding: 5px;
+                font-size: 14px;
+                color: var(--light-font);
+            }
+        }
+    }
 }
 
-.custom-checkbox input:checked~.checkmark {
-    background-color: #2196F3;
-}
-
-.custom-checkbox .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-.custom-checkbox input:checked~.checkmark:after {
-    display: block;
-}
-
-.custom-checkbox .checkmark:after {
-    left: 8px;
-    top: 1px;
-    width: 5px;
-    height: 12px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-    //   border-radius: 100px;
+.add-note {
+    border: none;
 }

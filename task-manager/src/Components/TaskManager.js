@@ -3,132 +3,137 @@ import { useEffect, useRef, useState } from 'react';
 import './TaskManager.scss';
 import LongArrowMark from './LongArrowMark/LongArrowMark';
 
-const dummyData = [
-    {
-        id: 1,
-        title: 'Personal Task',
-        color: '#FFCC00', // Yellow
-        task: {
-            type: 'toDo',
-            tasks: [
-                {
-                    content: 'lorem ipsum',
-                    isChecked: false
-                },
-                {
-                    content: 'lorem ipsum',
-                    isChecked: false
-                },
-                {
-                    content: 'lorem ipsum',
-                    isChecked: false
-                },
-                {
-                    content: 'lorem ipsum',
-                    isChecked: false
-                },
-                {
-                    content: 'lorem ipsum',
-                    isChecked: false
-                },
-                {
-                    content: 'lorem ipsum',
-                    isChecked: false
+const dummyData = {
+    [new Date().toISOString().split("T")[0]]:
+        [
+            {
+                id: 1,
+                title: 'Personal Task',
+                color: '#FFCC00', // Yellow
+                task: {
+                    type: 'toDo',
+                    tasks: [
+                        {
+                            content: 'lorem ipsum',
+                            isChecked: false
+                        },
+                        {
+                            content: 'lorem ipsum',
+                            isChecked: false
+                        },
+                        {
+                            content: 'lorem ipsum',
+                            isChecked: false
+                        },
+                        {
+                            content: 'lorem ipsum',
+                            isChecked: false
+                        },
+                        {
+                            content: 'lorem ipsum',
+                            isChecked: false
+                        },
+                        {
+                            content: 'lorem ipsum',
+                            isChecked: false
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        id: 2,
-        title: 'Team Meeting',
-        color: '#00CCFF', // Blue
-        task: {
-            type: 'meeting',
-            tasks: [
-                {
-                    members: [{ name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }],
-                    notes: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.']
+            },
+            {
+                id: 2,
+                title: 'Team Meeting',
+                color: '#00CCFF', // Blue
+                task: {
+                    type: 'meeting',
+                    tasks: [
+                        {
+                            members: [{ name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }, { name: 'name1', img: 'url' }],
+                            notes: ['Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.']
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        id: 3,
-        title: 'Project Report',
-        color: '#FF6600', // Orange
-        task: {
-            type: 'toDo',
-            tasks: [
-                {
-                    content: 'Finish project report',
-                    isChecked: true
+            },
+            {
+                id: 3,
+                title: 'Project Report',
+                color: '#FF6600', // Orange
+                task: {
+                    type: 'toDo',
+                    tasks: [
+                        {
+                            content: 'Finish project report',
+                            isChecked: true
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        id: 4,
-        title: 'Grocery Shopping',
-        color: '#66FF66', // Green
-        task: {
-            type: 'toDo',
-            tasks: [
-                {
-                    content: 'Buy groceries',
-                    isChecked: false
+            },
+            {
+                id: 4,
+                title: 'Grocery Shopping',
+                color: '#66FF66', // Green
+                task: {
+                    type: 'toDo',
+                    tasks: [
+                        {
+                            content: 'Buy groceries',
+                            isChecked: false
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        id: 5,
-        title: 'Project Milestones Discussion',
-        color: '#FF0099', // Pink
-        task: {
-            type: 'meeting',
-            tasks: [
-                {
-                    members: [
-                        { name: 'name2', img: 'url2' },
-                        { name: 'name3', img: 'url3' }
-                    ],
-                    notes: ['Discuss project milestones', 'Allocate tasks']
+            },
+            {
+                id: 5,
+                title: 'Project Milestones Discussion',
+                color: '#FF0099', // Pink
+                task: {
+                    type: 'meeting',
+                    tasks: [
+                        {
+                            members: [
+                                { name: 'name2', img: 'url2' },
+                                { name: 'name3', img: 'url3' }
+                            ],
+                            notes: ['Discuss project milestones', 'Allocate tasks']
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        id: 6,
-        title: 'Weekly Sync-Up',
-        color: '#6600FF', // Purple
-        task: {
-            type: 'meeting',
-            tasks: [
-                {
-                    members: [{ name: 'name4', img: 'url4' }],
-                    notes: ['Weekly sync-up', 'Review previous actions']
+            },
+            {
+                id: 6,
+                title: 'Weekly Sync-Up',
+                color: '#6600FF', // Purple
+                task: {
+                    type: 'meeting',
+                    tasks: [
+                        {
+                            members: [{ name: 'name4', img: 'url4' }],
+                            notes: ['Weekly sync-up', 'Review previous actions']
+                        }
+                    ]
                 }
-            ]
-        }
-    },
-    {
-        id: 7,
-        title: 'Client Feedback Call',
-        color: '#FF3333', // Red
-        task: {
-            type: 'toDo',
-            tasks: [
-                {
-                    content: 'Call the client for feedback',
-                    isChecked: false
+            },
+            {
+                id: 7,
+                title: 'Client Feedback Call',
+                color: '#FF3333', // Red
+                task: {
+                    type: 'toDo',
+                    tasks: [
+                        {
+                            content: 'Call the client for feedback',
+                            isChecked: false
+                        }
+                    ]
                 }
-            ]
-        }
-    }
-];
+            }
+        ]
+}
 
 const TaskManager = () => {
-    const [tasks, setTasks] = useState(dummyData);
+    const [taskData, setTaskData] = useState(dummyData)
+    const [taskDate, setTaskDate] = useState(new Date().toISOString().split("T")[0])
+    const [tasks, setTasks] = useState(taskData[taskDate] || []);
     const [activeItem, setActiveItem] = useState(null);
     const [isActive, setIsActive] = useState(false);
     const listOfTasks = useRef(null);
@@ -139,6 +144,8 @@ const TaskManager = () => {
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [selectedDate, setSelectedDate] = useState(new Date().getDate());
     const [currentWeek, setCurrentWeek] = useState([]);
+    const [newTaskTitle, setNewTaskTitle] = useState('');
+    const [newTaskNotes, setNewTaskNotes] = useState([]);
 
 
     const months = [
@@ -148,11 +155,17 @@ const TaskManager = () => {
 
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    console.log(new Date().getDay(), 'testDate')
+    console.log(new Date().toISOString().split('T')[0], 'testDate')
 
     useEffect(() => {
         updateCurrentWeek();
     }, [selectedYear, selectedMonth, selectedDate]);
+
+    useEffect(() => {
+        const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, '0')}-${selectedDate.toString().padStart(2, '0')}`;
+        setTasks(taskData[formattedDate] || []);
+    }, [selectedYear, selectedMonth, selectedDate, taskData]);
+
 
     const updateCurrentWeek = () => {
         const selectedDateObj = new Date(selectedYear, selectedMonth, selectedDate);
@@ -168,8 +181,49 @@ const TaskManager = () => {
         setCurrentWeek(week);
     };
 
+    const addNewTask = () => {
+        const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, '0')}-${selectedDate.toString().padStart(2, '0')}`;
+        const newTask = {
+            id: Date.now(),
+            title: newTaskTitle,
+            color: '#FFCC00', // You can randomize this or let user choose
+            task: {
+                type: typeOfTask,
+                tasks: typeOfTask === 'meeting'
+                    ? [{ members: [], notes: newTaskNotes }]
+                    : newTaskNotes.map(note => ({ content: note, isChecked: false }))
+            }
+        };
+
+        setTaskData(prevData => ({
+            ...prevData,
+            [formattedDate]: [...(prevData[formattedDate] || []), newTask]
+        }));
+
+        setTasks(prevTasks => [...prevTasks, newTask]);
+        setIsAddTaskActive(false);
+        setNewTaskTitle('');
+        setNewTaskNotes([]);
+    };
+
+
+    // const updateCurrentWeek = () => {
+    //     const selectedDateObj = new Date(selectedYear, selectedMonth, selectedDate);
+    //     const startOfWeek = new Date(selectedDateObj);
+    //     startOfWeek.setDate(selectedDateObj.getDate() - selectedDateObj.getDay());
+
+    //     const week = [];
+    //     for (let i = 0; i < 7; i++) {
+    //         const day = new Date(startOfWeek);
+    //         day.setDate(startOfWeek.getDate() + i);
+    //         week.push(day);
+    //     }
+    //     setCurrentWeek(week);
+    // };
+
+    console.log(taskDate, 'selectedDate')
+
     const renderCurrentWeekSection = () => {
-        const today = new Date().getDate()
         const isToday = (date) => date.toDateString() === new Date(selectedYear, selectedMonth, selectedDate).toDateString();
         return (
             <div className='current-week-section'>
@@ -186,9 +240,9 @@ const TaskManager = () => {
                         <div className='week-label'>{days[date.getDay()]}</div>
                         <div className={`date-label ${isToday(date) ? 'highlight' : ''}`}>{date.getDate().toString().padStart(2, '0')}</div>
                         <div className='task-accent-circles-wrapper'>
-                            <div className='accent-circle'></div>
-                            <div className='accent-circle'></div>
-                            <div className='accent-circle'></div>
+                            {taskData[date.toISOString().split('T')[0]]?.map((_, i) => (
+                                <div key={i} className='accent-circle'></div>
+                            ))}
                         </div>
                     </div>
                 ))}
@@ -221,6 +275,9 @@ const TaskManager = () => {
                                                 <tr key={weekIndex}>
                                                     {[...Array(7)].map((_, dayIndex) => {
                                                         const day = weekIndex * 7 + dayIndex - firstDay + 1;
+                                                        const date = new Date(selectedYear, monthIndex, day);
+                                                        const formattedDate = date.toISOString().split('T')[0];
+                                                        const hasTask = taskData[formattedDate]?.length > 0;
                                                         const isCurrentMonth = monthIndex === new Date().getMonth();
                                                         const isCurrentYear = selectedYear === new Date().getFullYear();
                                                         const isToday = isCurrentMonth && isCurrentYear && day === new Date().getDate();
@@ -232,6 +289,7 @@ const TaskManager = () => {
                                                                     ${day > 0 && day <= daysInMonth ? 'valid-day' : 'invalid-day'}
                                                                     ${isToday ? 'current-day' : ''}
                                                                     ${isSelected ? 'selected-day' : ''}
+                                                                    ${hasTask ? 'has-task' : ''}
                                                                 `}
                                                                 onClick={() => {
                                                                     if (day > 0 && day <= daysInMonth) {
@@ -258,7 +316,7 @@ const TaskManager = () => {
             </div>
         );
     };
-    
+
     const resetToToday = () => {
         const today = new Date();
         setSelectedYear(today.getFullYear());
@@ -316,8 +374,8 @@ const TaskManager = () => {
                 {renderCurrentWeekSection()}
                 <div className={`upcoming-tasks-section ${isAddTaskActive ? 'expand' : ''}`} ref={listOfTasks} style={{ height: isActive ? '81%' : '' }}>
                     <div className={`upcoming-tasks-wrapper ${isAddTaskActive ? 'hide' : ''}`} style={{ gap: isActive ? '0px' : '' }}>
-                        {tasks?.map((item, index) =>
-                            <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} onClick={() => {
+                        {tasks.map((item, index) => (
+                            <div className={`task-component ${isActive == true && activeItem != item.id ? "hidden" : ''}`} key={item.id} onClick={() => {
                                 setActiveItem(item.id)
                                 setIsActive(!isActive)
                             }}>
@@ -336,15 +394,15 @@ const TaskManager = () => {
                                             <div className='meeting-wrapper'>
                                                 <div className='title'>Meeting with</div>
                                                 <div className='meeting-member-profiles' style={{ display: 'grid', gridTemplateColumns: `repeat(${item.task.tasks[0]?.members.length}, 35px)` }}>
-                                                    {item.task.tasks[0]?.members.map((member) => <div className='profile'></div>)}
+                                                    {item.task.tasks[0]?.members.map((member, idx) => <div key={idx} className='profile'></div>)}
                                                 </div>
                                             </div>
                                             <div className='divider'></div>
                                             <div className='meeting-notes-wrapper'>
                                                 <div className='title'>Notes</div>
-                                                <div className='notes-lits-wrapper'>
+                                                <div className='notes-list-wrapper-meeting'>
                                                     <ul>
-                                                        {item.task.tasks[0]?.notes?.map((point) => <li>{point}</li>)}
+                                                        {item.task.tasks[0]?.notes?.map((point, idx) => <li key={idx}>{point}</li>)}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -354,34 +412,47 @@ const TaskManager = () => {
                                             <div className='divider'></div>
                                             <div className='to-do-notes-wrapper'>
                                                 <div className='title'>To Dos</div>
-                                                <div className='notes-lits-wrapper'>
-                                                    {item.task.tasks?.map((content, index) =>
-                                                        <div className='checkbox-wrapper'>
-                                                            <label className="custom-checkbox">
-                                                                <input type="checkbox"
-                                                                // checked={content.isChecked}
-                                                                />
-                                                                <span className="checkmark"></span>
-                                                                {content.content}
-                                                            </label>
-                                                        </div>
-                                                    )}
+                                                <div className='notes-list-wrapper-todo'>
+                                                    <ul>
+                                                        {item.task.tasks?.map((content, idx) => (
+                                                            <li key={idx}>
+                                                                <label className="custom-checkbox">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={content.isChecked}
+                                                                        onChange={() => {
+                                                                            const updatedTasks = [...tasks];
+                                                                            updatedTasks[index].task.tasks[idx].isChecked = !content.isChecked;
+                                                                            setTasks(updatedTasks);
+                                                                        }}
+                                                                    />
+                                                                    <span className="checkmark"></span>
+                                                                    {content.content}
+                                                                </label>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
                                     )}
                                 </div>
                             </div>
-                        )}
+                        ))}
                     </div>
 
                     <div className={`add-task-container ${isAddTaskActive ? 'show' : ''}`}>
-
                         <div className='add-task-tittle-wrapper'>
-                            <div className='accent-strip' ></div>
+                            <div className='accent-strip'></div>
                             <div className='task-overview-wrapper'>
                                 <div className='add-title-wrapper'>
-                                    <input type='text' className='task-name' placeholder='Add Title' />
+                                    <input
+                                        type='text'
+                                        className='task-name'
+                                        placeholder='Add Title'
+                                        value={newTaskTitle}
+                                        onChange={(e) => setNewTaskTitle(e.target.value)}
+                                    />
                                 </div>
                                 <div className='task-timing-wrapper'>
                                     <div className='task-timing'><span>12:30 PM</span> <LongArrowMark /> <span>01:00 PM</span></div>
@@ -389,7 +460,7 @@ const TaskManager = () => {
                             </div>
                         </div>
                         <div className='divider'></div>
-                        {typeOfTask == 'meeting' ? (
+                        {typeOfTask === 'meeting' ? (
                             <>
                                 <div className='add-member-wrapper'>
                                     <div className='title'>Meeting With</div>
@@ -403,27 +474,60 @@ const TaskManager = () => {
                                 </div>
                                 <div className='divider'></div>
                                 <div className='add-notes-wrapper'>
-                                    <div className='title'>notes</div>
-                                    <ul>
-                                        <li>Add Note</li>
-                                    </ul>
+                                    <div className='title'>Notes</div>
+                                    <div className='notes-list-wrapper'>
+                                        <ul>
+                                            {newTaskNotes.map((note, index) => (
+                                                <li key={index}>{note}</li>
+                                            ))}
+                                            <li>
+                                                <input
+                                                    type='text'
+                                                    placeholder='Add Note'
+                                                    className='add-note'
+                                                    onKeyPress={(e) => {
+                                                        if (e.key === 'Enter' && e.target.value.trim() !== '') {
+                                                            setNewTaskNotes([...newTaskNotes, e.target.value.trim()]);
+                                                            e.target.value = '';
+                                                        }
+                                                    }}
+                                                />
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </>
                         ) : (
                             <div className='add-notes-wrapper'>
-                                <div className='title'>notes</div>
-                                <div className='checkbox-wrapper'>
-                                    <label className="custom-checkbox">
-                                        <input type="checkbox" />
-                                        <span className="checkmark"></span>
-                                        <label>
-                                            <input type='text' />
-                                            Add Todo
-                                        </label>
-                                    </label>
+                                <div className='title'>To Dos</div>
+                                <div className='notes-list-wrapper'>
+                                    <ul>
+                                        {newTaskNotes.map((todo, index) => (
+                                            <li key={index}>
+                                                <label className="custom-checkbox">
+                                                    <input type="checkbox" />
+                                                    <span className="checkmark"></span>
+                                                    {todo}
+                                                </label>
+                                            </li>
+                                        ))}
+                                        <li>
+                                            <input
+                                                type='text'
+                                                placeholder='Add Todo'
+                                                onKeyPress={(e) => {
+                                                    if (e.key === 'Enter' && e.target.value.trim() !== '') {
+                                                        setNewTaskNotes([...newTaskNotes, e.target.value.trim()]);
+                                                        e.target.value = '';
+                                                    }
+                                                }}
+                                            />
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         )}
+                        <button onClick={addNewTask}>Add Task</button>
                     </div>
 
                     <AddTaskButton setIsAddTaskActive={setIsAddTaskActive} setTypeOfTask={setTypeOfTask} />
