@@ -146,6 +146,9 @@ const TaskManager = () => {
     const [currentWeek, setCurrentWeek] = useState([]);
     const [newTaskTitle, setNewTaskTitle] = useState('');
     const [newTaskNotes, setNewTaskNotes] = useState([]);
+    const [taskMembers, setTaskMembers] = useState([]);
+
+    const [meetingMembers, setMeetingMembers] = useState([])
 
     const [isBtnActive, setIsBtnActive] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
@@ -161,6 +164,51 @@ const TaskManager = () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     console.log(new Date().toISOString().split('T')[0], 'testDate')
+
+    console.log(meetingMembers, 'taskMembers')
+
+    const addMember = (member) => {
+        const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, '0')}-${selectedDate.toString().padStart(2, '0')}`;
+        const updatedTaskData = { ...taskData };
+        const currentTask = updatedTaskData[formattedDate].find(task => task.id === activeItem);
+
+        console.log(member, 'member')
+
+        if (currentTask && currentTask.task.type === 'meeting') {
+            if (!currentTask.task.tasks[0].members) {
+                currentTask.task.tasks[0].members = [];
+            }
+
+
+            currentTask.task.tasks[0].members.push(member);
+            setTaskData(updatedTaskData);
+            setTaskMembers([...taskMembers, member]);
+        }
+    };
+
+    const removeMember = (memberToRemove) => {
+        const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, '0')}-${selectedDate.toString().padStart(2, '0')}`;
+        const updatedTaskData = { ...taskData };
+        const currentTask = updatedTaskData[formattedDate].find(task => task.id === activeItem);
+
+        if (currentTask && currentTask.task.type === 'meeting') {
+            currentTask.task.tasks[0].members = currentTask.task.tasks[0].members.filter(
+                member => member.name !== memberToRemove.name
+            );
+            setTaskData(updatedTaskData);
+            setTaskMembers(taskMembers.filter(member => member.name !== memberToRemove.name));
+        }
+    };
+
+    useEffect(() => {
+        if (activeItem) {
+            const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, '0')}-${selectedDate.toString().padStart(2, '0')}`;
+            const currentTask = taskData[formattedDate].find(task => task.id === activeItem);
+            if (currentTask && currentTask.task.type === 'meeting') {
+                setTaskMembers(currentTask.task.tasks[0].members || []);
+            }
+        }
+    }, [activeItem, taskData, selectedYear, selectedMonth, selectedDate]);
 
     useEffect(() => {
         function outsideListOfTasks(event) {
@@ -404,7 +452,11 @@ const TaskManager = () => {
                                             <div className='meeting-wrapper'>
                                                 <div className='title'>Meeting with</div>
                                                 <div className='meeting-member-profiles' style={{ display: 'grid', gridTemplateColumns: `repeat(${item.task.tasks[0]?.members.length}, 35px)` }}>
-                                                    {item.task.tasks[0]?.members.map((member, idx) => <div key={idx} className='profile'></div>)}
+                                                    {item.task.tasks[0]?.members.map((member, idx) => (
+                                                        <div key={idx} className='profile' onClick={() => removeMember(member)}>
+                                                            {member.name.charAt(0)}
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             </div>
                                             <div className='divider'></div>
@@ -474,6 +526,11 @@ const TaskManager = () => {
                             <>
                                 <div className='add-member-wrapper'>
                                     <div className='title'>Meeting With</div>
+                                    {meetingMembers.map((member) =>
+                                        <div className='profile'>
+                                            {member.name.charAt(0)}
+                                        </div>
+                                    )}
                                     <div className='add-member-component' onClick={() => setIsAddMemberActive(true)}>
                                         <div className='add-icon'>
                                             <div className='plus-strip1'></div>
@@ -543,29 +600,24 @@ const TaskManager = () => {
                                 </div>
                             </div>
                         )}
-                        {/* <button onClick={addNewTask}>Add Task</button> */}
                     </div>
+
+
                     <div className={`members-list ${isAddMemberActive ? 'show' : ''}`}>
-                        <div className='member-wrapper'>
-                            <div className='member-profile profile'></div>
-                            <div className='name'>John Doe</div>
-                            <div className='action-btn'>Add</div>
-                        </div>
-                        <div className='member-wrapper'>
-                            <div className='member-profile profile'></div>
-                            <div className='name'>John Doe</div>
-                            <div className='action-btn'>Add</div>
-                        </div>
-                        <div className='member-wrapper'>
-                            <div className='member-profile profile'></div>
-                            <div className='name'>John Doe</div>
-                            <div className='action-btn'>Add</div>
-                        </div>
-                        <div className='member-wrapper'>
-                            <div className='member-profile profile'></div>
-                            <div className='name'>John Doe</div>
-                            <div className='action-btn'>Add</div>
-                        </div>
+                        {[
+                            { name: 'Venkat', url: '' },
+                            { name: 'John Doe', url: '' },
+                            { name: 'Jane Smith', url: '' },
+                            { name: 'Bob Johnson', url: '' }
+                        ].map((member, index) => (
+                            <div className='member-wrapper' key={index}>
+                                <div className='member-profile profile'>{member.name.charAt(0)}</div>
+                                <div className='name'>{member.name}</div>
+                                <button className='action-btn' onClick={() => {
+                                    setMeetingMembers((prev) => [...prev, member])
+                                }}>Add</button>
+                            </div>
+                        ))}
                     </div>
 
                     <AddTaskButton
