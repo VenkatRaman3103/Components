@@ -475,7 +475,7 @@ const TaskManager = () => {
                                 <div className='divider'></div>
                                 <div className='add-notes-wrapper'>
                                     <div className='title'>Notes</div>
-                                    <div className='notes-list-wrapper'>
+                                    <div className='notes-list-wrapper-meeting'>
                                         <ul>
                                             {newTaskNotes.map((note, index) => (
                                                 <li key={index}>{note}</li>
@@ -498,9 +498,9 @@ const TaskManager = () => {
                                 </div>
                             </>
                         ) : (
-                            <div className='add-notes-wrapper'>
+                            <div className='add-notes-wrapper-todo'>
                                 <div className='title'>To Dos</div>
-                                <div className='notes-list-wrapper'>
+                                <div className='notes-list-wrapper-todo'>
                                     <ul>
                                         {newTaskNotes.map((todo, index) => (
                                             <li key={index}>
@@ -511,10 +511,15 @@ const TaskManager = () => {
                                                 </label>
                                             </li>
                                         ))}
-                                        <li>
+                                        <li className='add-take-li'>
+                                            <label className="custom-checkbox">
+                                                {/* <input type="checkbox" /> */}
+                                                <span className="checkmark"></span>
+                                            </label>
                                             <input
                                                 type='text'
                                                 placeholder='Add Todo'
+                                                className='text-field'
                                                 onKeyPress={(e) => {
                                                     if (e.key === 'Enter' && e.target.value.trim() !== '') {
                                                         setNewTaskNotes([...newTaskNotes, e.target.value.trim()]);
@@ -522,6 +527,7 @@ const TaskManager = () => {
                                                     }
                                                 }}
                                             />
+
                                         </li>
                                     </ul>
                                 </div>

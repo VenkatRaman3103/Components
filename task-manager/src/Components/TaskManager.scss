@@ -558,7 +558,7 @@
 
                         ul {
                             margin-top: 10px;
-                            margin-left: -20px;
+                            // margin-left: -20px;
                             color: var(--light-font);
 
                             li {
@@ -914,6 +914,7 @@
         // list-style-type: none;
         padding-left: 0;
 
+
         li {
             margin-bottom: 8px;
             margin-left: 18px;
@@ -934,12 +935,12 @@
 
 .notes-list-wrapper-todo {
     ul {
-        // list-style-type: none;
+        list-style-type: none;
         padding-left: 0;
 
         li {
             margin-bottom: 8px;
-            margin-left: 18px;
+            margin-left: 0px;
             color: var(--dark-font);
 
             input[type="text"] {
@@ -950,10 +951,23 @@
                 font-size: 14px;
                 color: var(--light-font);
             }
+
+            .text-field {
+                margin-left: -10px;
+                margin-top: 5px;
+            }
         }
     }
 }
 
 .add-note {
     border: none;
+}
+
+.add-take-li{
+    height: 20px;
+    // margin-top: -20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
