@@ -580,7 +580,6 @@ const TaskManager = () => {
                                         ))}
                                         <li className='add-take-li'>
                                             <label className="custom-checkbox">
-                                                {/* <input type="checkbox" /> */}
                                                 <span className="checkmark"></span>
                                             </label>
                                             <input
