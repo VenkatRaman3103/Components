@@ -147,6 +147,9 @@ const TaskManager = () => {
     const [newTaskTitle, setNewTaskTitle] = useState('');
     const [newTaskNotes, setNewTaskNotes] = useState([]);
 
+    const [isBtnActive, setIsBtnActive] = useState(false);
+    const [showOptions, setShowOptions] = useState(false);
+    const [transitionComplete, setTransitionComplete] = useState(false);
 
     const months = [
         'January', 'February', 'March', 'April', 'May', 'June',
@@ -156,6 +159,25 @@ const TaskManager = () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
     console.log(new Date().toISOString().split('T')[0], 'testDate')
+
+    useEffect(() => {
+        function outsideListOfTasks(event) {
+            if (!listOfTasks?.current?.contains(event.target)) {
+                setIsActive(false)
+                setActiveItem(null)
+                setIsAddTaskActive(false)
+                setTypeOfTask(null)
+                setIsBtnActive(false)
+                setShowOptions(false)
+                setTransitionComplete(false)
+            }
+        }
+
+        document.addEventListener('mousedown', outsideListOfTasks)
+
+        return () => { document.removeEventListener('mousedown', outsideListOfTasks) }
+    }, [])
+
 
     useEffect(() => {
         updateCurrentWeek();
@@ -205,21 +227,6 @@ const TaskManager = () => {
         setNewTaskTitle('');
         setNewTaskNotes([]);
     };
-
-
-    // const updateCurrentWeek = () => {
-    //     const selectedDateObj = new Date(selectedYear, selectedMonth, selectedDate);
-    //     const startOfWeek = new Date(selectedDateObj);
-    //     startOfWeek.setDate(selectedDateObj.getDate() - selectedDateObj.getDay());
-
-    //     const week = [];
-    //     for (let i = 0; i < 7; i++) {
-    //         const day = new Date(startOfWeek);
-    //         day.setDate(startOfWeek.getDate() + i);
-    //         week.push(day);
-    //     }
-    //     setCurrentWeek(week);
-    // };
 
     console.log(taskDate, 'selectedDate')
 
@@ -533,29 +540,27 @@ const TaskManager = () => {
                                 </div>
                             </div>
                         )}
-                        <button onClick={addNewTask}>Add Task</button>
+                        {/* <button onClick={addNewTask}>Add Task</button> */}
                     </div>
 
-                    <AddTaskButton setIsAddTaskActive={setIsAddTaskActive} setTypeOfTask={setTypeOfTask} />
+                    <AddTaskButton
+                        addNewTask={addNewTask}
+                        isBtnActive={isBtnActive}
+                        setIsBtnActive={setIsBtnActive}
+                        setIsAddTaskActive={setIsAddTaskActive}
+                        setTypeOfTask={setTypeOfTask}
+                        typeOfTask={typeOfTask}
+                        showOptions={showOptions}
+                        setShowOptions={setShowOptions}
+                        transitionComplete={transitionComplete}
+                        setTransitionComplete={setTransitionComplete}
+                    />
                     <div className='gradient-layer'></div>
                 </div>
             </div>
         );
     };
 
-    useEffect(() => {
-        function outsideListOfTasks(event) {
-            if (!listOfTasks?.current?.contains(event.target)) {
-                setIsActive(false)
-                setActiveItem(null)
-                setIsAddTaskActive(false)
-            }
-        }
-
-        document.addEventListener('mousedown', outsideListOfTasks)
-
-        return () => { document.removeEventListener('mousedown', outsideListOfTasks) }
-    }, [])
 
     console.log(activeItem, 'activeItem')
     console.log(listOfTasks, 'listOfTasks')
@@ -585,10 +590,18 @@ const TaskManager = () => {
     );
 }
 
-const AddTaskButton = ({ setIsAddTaskActive, setTypeOfTask }) => {
-    const [isBtnActive, setIsBtnActive] = useState(false);
-    const [showOptions, setShowOptions] = useState(false);
-    const [transitionComplete, setTransitionComplete] = useState(false);
+const AddTaskButton = ({
+    setIsAddTaskActive,
+    setTypeOfTask,
+    addNewTask,
+    typeOfTask,
+    isBtnActive,
+    setIsBtnActive,
+    showOptions,
+    setShowOptions,
+    transitionComplete,
+    setTransitionComplete
+}) => {
 
     function handleMouseEnter() {
         setIsBtnActive(true)
@@ -608,33 +621,39 @@ const AddTaskButton = ({ setIsAddTaskActive, setTypeOfTask }) => {
         }
     }
 
-
     return (
         <div
-            className={`add-task-button ${isBtnActive ? 'expand' : ''}`}
+            className={`add-task-button ${isBtnActive && typeOfTask == null ? 'expand' : ''}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onTransitionEnd={handleTransitionEnd}
         >
-            <>
-                <div className={`plus-strip-1 ${isBtnActive ? 'makeSmall' : ''}`}></div>
-                <div className={`plus-strip-2 ${isBtnActive ? 'makeSmall' : ''}`}></div>
-            </>
 
-            <div
-                className={`add-task-selection-wrapper ${transitionComplete && showOptions ? 'show' : ''}`}
-                onClick={() => setIsAddTaskActive(true)}
-            >
-                <div className="add-task-option" onClick={() => setTypeOfTask('meeting')}>
-                    <div className="task-icon"></div>
-                    <div className="task-label">Meeting</div>
-                </div>
-                <div className="add-task-option" onClick={() => setTypeOfTask('todo')}>
-                    <div className="task-icon"></div>
-                    <div className="task-label">To Do</div>
-                </div>
-            </div>
-        </div>
+
+            {typeOfTask ? <button onClick={() => {
+                addNewTask()
+                setTypeOfTask(null)
+            }}>Add Task</button> :
+                <>
+                    <div className={`plus-strip-1 ${isBtnActive ? 'makeSmall' : ''}`}></div>
+                    <div className={`plus-strip-2 ${isBtnActive ? 'makeSmall' : ''}`}></div>
+
+                    <div
+                        className={`add-task-selection-wrapper ${transitionComplete && showOptions ? 'show' : ''}`}
+                        onClick={() => setIsAddTaskActive(true)}
+                    >
+                        <div className="add-task-option" onClick={() => setTypeOfTask('meeting')}>
+                            <div className="task-icon"></div>
+                            <div className="task-label">Meeting</div>
+                        </div>
+                        <div className="add-task-option" onClick={() => setTypeOfTask('todo')}>
+                            <div className="task-icon"></div>
+                            <div className="task-label">To Do</div>
+                        </div>
+                    </div>
+                </>
+            }
+        </div >
     );
 };
 
