@@ -151,6 +151,8 @@ const TaskManager = () => {
     const [showOptions, setShowOptions] = useState(false);
     const [transitionComplete, setTransitionComplete] = useState(false);
 
+    const [isAddMemberActive, setIsAddMemberActive] = useState(false)
+
     const months = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
@@ -170,6 +172,7 @@ const TaskManager = () => {
                 setIsBtnActive(false)
                 setShowOptions(false)
                 setTransitionComplete(false)
+                setIsAddMemberActive(false)
             }
         }
 
@@ -471,7 +474,7 @@ const TaskManager = () => {
                             <>
                                 <div className='add-member-wrapper'>
                                     <div className='title'>Meeting With</div>
-                                    <div className='add-member-component'>
+                                    <div className='add-member-component' onClick={() => setIsAddMemberActive(true)}>
                                         <div className='add-icon'>
                                             <div className='plus-strip1'></div>
                                             <div className='plus-strip2'></div>
@@ -541,6 +544,28 @@ const TaskManager = () => {
                             </div>
                         )}
                         {/* <button onClick={addNewTask}>Add Task</button> */}
+                    </div>
+                    <div className={`members-list ${isAddMemberActive ? 'show' : ''}`}>
+                        <div className='member-wrapper'>
+                            <div className='member-profile profile'></div>
+                            <div className='name'>John Doe</div>
+                            <div className='action-btn'>Add</div>
+                        </div>
+                        <div className='member-wrapper'>
+                            <div className='member-profile profile'></div>
+                            <div className='name'>John Doe</div>
+                            <div className='action-btn'>Add</div>
+                        </div>
+                        <div className='member-wrapper'>
+                            <div className='member-profile profile'></div>
+                            <div className='name'>John Doe</div>
+                            <div className='action-btn'>Add</div>
+                        </div>
+                        <div className='member-wrapper'>
+                            <div className='member-profile profile'></div>
+                            <div className='name'>John Doe</div>
+                            <div className='action-btn'>Add</div>
+                        </div>
                     </div>
 
                     <AddTaskButton
@@ -623,17 +648,17 @@ const AddTaskButton = ({
 
     return (
         <div
-            className={`add-task-button ${isBtnActive && typeOfTask == null ? 'expand' : ''}`}
+            className={`add-task-button ${isBtnActive && typeOfTask == null ? 'expand' : ''} ${typeOfTask ? 'expandForSave' : ''}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onTransitionEnd={handleTransitionEnd}
         >
 
 
-            {typeOfTask ? <button onClick={() => {
+            {typeOfTask ? <button className='save-task-button' onClick={() => {
                 addNewTask()
                 setTypeOfTask(null)
-            }}>Add Task</button> :
+            }}>Save</button> :
                 <>
                     <div className={`plus-strip-1 ${isBtnActive ? 'makeSmall' : ''}`}></div>
                     <div className={`plus-strip-2 ${isBtnActive ? 'makeSmall' : ''}`}></div>
