@@ -187,7 +187,7 @@ const TaskManager = () => {
 
     useEffect(() => {
         function outsideListOfTasks(event) {
-            if (!listOfTasks?.current?.contains(event.target)) {
+            if (!listOfTasks?.current?.contains(event.target) && !isAddMemberActive) {
                 setIsActive(false)
                 setActiveItem(null)
                 setIsAddTaskActive(false)
@@ -502,14 +502,16 @@ const TaskManager = () => {
                             <>
                                 <div className='add-member-wrapper'>
                                     <div className='title'>Meeting With</div>
-                                    <div className='meeting-member-profiles' style={{ display: 'grid', gridTemplateColumns: `repeat(${meetingMembers.length}, 35px)` }}>
-                                        {meetingMembers.map((member, index) =>
-                                            <div key={index} className='profile' onClick={() => removeMember(member)}>
-                                                {member.name.charAt(0)}
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className='add-member-component' onClick={() => setIsAddMemberActive(true)}>
+                                    {/* {isAddMemberActive && */}
+                                        <div className='meeting-member-profiles' style={{ display: 'grid', gridTemplateColumns: `repeat(${meetingMembers.length}, 35px)` }}>
+                                            {meetingMembers.map((member, index) =>
+                                                <div key={index} className='profile' onClick={() => removeMember(member)}>
+                                                    {member.name.charAt(0)}
+                                                </div>
+                                            )}
+                                        </div>
+                                    {/* } */}
+                                    <div className='add-member-component' onClick={() => setIsAddMemberActive(true)} style={{ marginTop: '10px' }}>
                                         <div className='add-icon'>
                                             <div className='plus-strip1'></div>
                                             <div className='plus-strip2'></div>
@@ -581,26 +583,37 @@ const TaskManager = () => {
 
 
                     <div className={`members-list ${isAddMemberActive ? 'show' : ''}`}>
-                        {[
-                            { name: 'Venkat', url: '' },
-                            { name: 'John Doe', url: '' },
-                            { name: 'Jane Smith', url: '' },
-                            { name: 'Bob Johnson', url: '' }
-                        ].map((member, index) => {
-                            const isMemberAdded = meetingMembers.some(m => m.name === member.name);
-                            return (
-                                <div className='member-wrapper' key={index}>
-                                    <div className='member-profile profile'>{member.name.charAt(0)}</div>
-                                    <div className='name'>{member.name}</div>
-                                    <button
-                                        className={`action-btn ${isMemberAdded ? 'remove' : 'add'}`}
-                                        onClick={() => isMemberAdded ? removeMember(member) : addMember(member)}
-                                    >
-                                        {isMemberAdded ? 'Remove' : 'Add'}
-                                    </button>
+                        <div className='members-list-wrapper'>
+
+                            <div className='add-member-header'>
+                                <div className='header-text'>
+                                    select the members
                                 </div>
-                            );
-                        })}
+                                <div className='close-btn' onClick={() => setIsAddMemberActive(false)}>close</div>
+                            </div>
+                            <div className='divider'></div>
+                            {[
+                                { name: 'Venkat', url: '' },
+                                { name: 'John Doe', url: '' },
+                                { name: 'Jane Smith', url: '' },
+                                { name: 'Bob Johnson', url: '' }
+                            ].map((member, index) => {
+                                const isMemberAdded = meetingMembers.some(m => m.name === member.name);
+                                return (
+                                    <div className='member-wrapper' key={index}>
+                                        <div className='member-profile profile'>{member.name.charAt(0)}</div>
+                                        <div className='name'>{member.name}</div>
+                                        <button
+                                            className={`action-btn ${isMemberAdded ? 'remove' : 'add'}`}
+                                            onClick={() => isMemberAdded ? removeMember(member) : addMember(member)}
+                                        >
+                                            {isMemberAdded ? 'Remove' : 'Add'}
+                                        </button>
+                                    </div>
+                                );
+                            })}
+
+                        </div>
                     </div>
 
                     <AddTaskButton
