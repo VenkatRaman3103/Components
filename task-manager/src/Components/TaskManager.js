@@ -259,7 +259,7 @@ const TaskManager = () => {
         const newTask = {
             id: Date.now(),
             title: newTaskTitle,
-            color: '#FFCC00', // You can randomize this or let user choose
+            color: '#FFCC00',
             task: {
                 type: typeOfTask,
                 tasks: typeOfTask === 'meeting'
@@ -526,11 +526,13 @@ const TaskManager = () => {
                             <>
                                 <div className='add-member-wrapper'>
                                     <div className='title'>Meeting With</div>
-                                    {meetingMembers.map((member) =>
-                                        <div className='profile'>
-                                            {member.name.charAt(0)}
-                                        </div>
-                                    )}
+                                    <div className='meeting-member-profiles' style={{ display: 'grid', gridTemplateColumns: `repeat(${meetingMembers.length}, 35px)` }}>
+                                        {meetingMembers.map((member) =>
+                                            <div className='profile'>
+                                                {member.name.charAt(0)}
+                                            </div>
+                                        )}
+                                    </div>
                                     <div className='add-member-component' onClick={() => setIsAddMemberActive(true)}>
                                         <div className='add-icon'>
                                             <div className='plus-strip1'></div>
