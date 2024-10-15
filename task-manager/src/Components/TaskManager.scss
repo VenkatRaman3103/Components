@@ -1050,13 +1050,9 @@
 .meeting-member-profiles {
     width: 100%;
     height: auto;
+}  
 
-    // display: flex;
-    // flex-direction: row;
-    // gap: -10px;
-
-
-    .profile {
+.profile {
         height: 40px;
         width: 40px;
 
@@ -1067,4 +1063,3 @@
 
         box-shadow: 0px 0px 10px rgba(86, 86, 86, 0.1);
     }
-}

@@ -168,36 +168,11 @@ const TaskManager = () => {
     console.log(meetingMembers, 'taskMembers')
 
     const addMember = (member) => {
-        const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, '0')}-${selectedDate.toString().padStart(2, '0')}`;
-        const updatedTaskData = { ...taskData };
-        const currentTask = updatedTaskData[formattedDate].find(task => task.id === activeItem);
-
-        console.log(member, 'member')
-
-        if (currentTask && currentTask.task.type === 'meeting') {
-            if (!currentTask.task.tasks[0].members) {
-                currentTask.task.tasks[0].members = [];
-            }
-
-
-            currentTask.task.tasks[0].members.push(member);
-            setTaskData(updatedTaskData);
-            setTaskMembers([...taskMembers, member]);
-        }
+        setMeetingMembers(prevMembers => [...prevMembers, member]);
     };
 
     const removeMember = (memberToRemove) => {
-        const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, '0')}-${selectedDate.toString().padStart(2, '0')}`;
-        const updatedTaskData = { ...taskData };
-        const currentTask = updatedTaskData[formattedDate].find(task => task.id === activeItem);
-
-        if (currentTask && currentTask.task.type === 'meeting') {
-            currentTask.task.tasks[0].members = currentTask.task.tasks[0].members.filter(
-                member => member.name !== memberToRemove.name
-            );
-            setTaskData(updatedTaskData);
-            setTaskMembers(taskMembers.filter(member => member.name !== memberToRemove.name));
-        }
+        setMeetingMembers(prevMembers => prevMembers.filter(member => member.name !== memberToRemove.name));
     };
 
     useEffect(() => {
@@ -263,7 +238,7 @@ const TaskManager = () => {
             task: {
                 type: typeOfTask,
                 tasks: typeOfTask === 'meeting'
-                    ? [{ members: [], notes: newTaskNotes }]
+                    ? [{ members: meetingMembers, notes: newTaskNotes }]
                     : newTaskNotes.map(note => ({ content: note, isChecked: false }))
             }
         };
@@ -277,6 +252,7 @@ const TaskManager = () => {
         setIsAddTaskActive(false);
         setNewTaskTitle('');
         setNewTaskNotes([]);
+        setMeetingMembers([]); // Reset meeting members after adding the task
     };
 
     console.log(taskDate, 'selectedDate')
@@ -527,8 +503,8 @@ const TaskManager = () => {
                                 <div className='add-member-wrapper'>
                                     <div className='title'>Meeting With</div>
                                     <div className='meeting-member-profiles' style={{ display: 'grid', gridTemplateColumns: `repeat(${meetingMembers.length}, 35px)` }}>
-                                        {meetingMembers.map((member) =>
-                                            <div className='profile'>
+                                        {meetingMembers.map((member, index) =>
+                                            <div key={index} className='profile' onClick={() => removeMember(member)}>
                                                 {member.name.charAt(0)}
                                             </div>
                                         )}
@@ -610,15 +586,21 @@ const TaskManager = () => {
                             { name: 'John Doe', url: '' },
                             { name: 'Jane Smith', url: '' },
                             { name: 'Bob Johnson', url: '' }
-                        ].map((member, index) => (
-                            <div className='member-wrapper' key={index}>
-                                <div className='member-profile profile'>{member.name.charAt(0)}</div>
-                                <div className='name'>{member.name}</div>
-                                <button className='action-btn' onClick={() => {
-                                    setMeetingMembers((prev) => [...prev, member])
-                                }}>Add</button>
-                            </div>
-                        ))}
+                        ].map((member, index) => {
+                            const isMemberAdded = meetingMembers.some(m => m.name === member.name);
+                            return (
+                                <div className='member-wrapper' key={index}>
+                                    <div className='member-profile profile'>{member.name.charAt(0)}</div>
+                                    <div className='name'>{member.name}</div>
+                                    <button
+                                        className={`action-btn ${isMemberAdded ? 'remove' : 'add'}`}
+                                        onClick={() => isMemberAdded ? removeMember(member) : addMember(member)}
+                                    >
+                                        {isMemberAdded ? 'Remove' : 'Add'}
+                                    </button>
+                                </div>
+                            );
+                        })}
                     </div>
 
                     <AddTaskButton
