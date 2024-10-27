@@ -829,55 +829,36 @@ const TaskManager = () => {
 								<div className="task-timing-wrapper">
 									<div className="task-timing">
 										<input
-											type="number"
+											type="text"
 											value={taskStartTiming.hr}
-											placeholder="##"
-											onChange={(e) =>
-												setTaskStartTiming((prev) => ({
-													...prev,
-													hr: e.target.value,
-												}))
-											}
-											className="time-field"
+											onChange={(e) => {
+                                                setTaskStartTiming((prev)=>({...prev, hr:e.target.value}))
+												);
+											}}
 										/>
 										{" : "}
 										<input
-											type="number"
 											value={taskStartTiming.min}
-											placeholder="##"
-											onChange={(e) =>
-												setTaskStartTiming((prev) => ({
-													...prev,
-													min: e.target.value,
-												}))
-											}
-											className="time-field"
+											onChange={(e) => {
+												taskStartTiming.min +=
+													e.target.value;
+											}}
 										/>
 										<LongArrowMark />
 										<input
-											type="number"
 											value={taskEndTiming.hr}
-											placeholder="##"
-											onChange={(e) =>
-												setTaskEndTiming((prev) => ({
-													...prev,
-													hr: e.target.value,
-												}))
-											}
-											className="time-field"
+											onChange={(e) => {
+												taskEndTiming.hr +=
+													e.target.value;
+											}}
 										/>
 										{" : "}
 										<input
-											type="number"
 											value={taskEndTiming.min}
-											placeholder="##"
-											onChange={(e) =>
-												setTaskEndTiming((prev) => ({
-													...prev,
-													min: e.target.value,
-												}))
-											}
-											className="time-field"
+											onChange={(e) => {
+												taskEndTiming.min +=
+													e.target.value;
+											}}
 										/>
 									</div>
 								</div>
