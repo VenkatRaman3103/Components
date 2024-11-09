@@ -784,10 +784,46 @@
   }
 
   .toggle-view-wrapper {
-    width: 100%;
+
+    width: auto;
     height: auto;
     display: flex;
     justify-content: space-around;
+
+    position: relative;
+
+    .days-btn,
+    .years-btn,
+    .months-btn {
+      position: relative;
+
+      padding: 10px 0px;
+
+      z-index: 3;
+
+      &.active {
+        /* background-color: var(--blue); */
+
+        /* padding: 10px 20px; */
+        /* border-radius: 30px; */
+        /* border: 2px solid var(--border-color); */
+      }
+    }
+
+    .highlighter {
+      width: 100px;
+      height: 50px;
+
+      position: absolute;
+      left: 204px;
+      bottom: 0;
+
+      transform: translateX(-28%) translateY(10%);
+
+      background-color: red;
+      z-index: 2;
+
+    }
   }
 }
 
@@ -847,6 +883,8 @@
     background-color: var(--dark-font);
     border-radius: 100px;
   }
+
+  border-radius: 100px;
 
   .plus-strip2 {
     height: 12px;
@@ -1130,4 +1168,42 @@
 ::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.years-view {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  .years-grid {
+    width: 60%;
+    /* height: 100%; */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+
+    overflow: scroll;
+
+    .year-card {
+
+      font-size: 18px;
+      padding: 10px 20px;
+
+      border-radius: 20px;
+
+      &.selected {
+        background-color: var(--blue);
+        color: white;
+      }
+    }
+
+  }
 }

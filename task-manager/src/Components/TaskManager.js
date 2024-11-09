@@ -285,9 +285,9 @@ const TaskManager = () => {
 
 	const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-	console.log(new Date().toISOString().split("T")[0], "testDate");
+	//console.log(new Date().toISOString().split("T")[0], "testDate");
 
-	console.log(meetingMembers, "taskMembers");
+	//console.log(meetingMembers, "taskMembers");
 
 	const addMember = (member) => {
 		setMeetingMembers((prevMembers) => [...prevMembers, member]);
@@ -333,11 +333,7 @@ const TaskManager = () => {
 		return () => {
 			document.removeEventListener("mousedown", outsideListOfTasks);
 		};
-	}, []);
-
-	useEffect(() => {
-		updateCurrentWeek();
-	}, [selectedYear, selectedMonth, selectedDate]);
+	}, [isAddMemberActive]);
 
 	useEffect(() => {
 		const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, "0")}-${selectedDate.toString().padStart(2, "0")}`;
@@ -363,6 +359,10 @@ const TaskManager = () => {
 		}
 		setCurrentWeek(week);
 	};
+
+	useEffect(() => {
+		updateCurrentWeek();
+	}, [selectedYear, selectedMonth, selectedDate]);
 
 	const addNewTask = () => {
 		const formattedDate = `${selectedYear}-${(selectedMonth + 1).toString().padStart(2, "0")}-${selectedDate.toString().padStart(2, "0")}`;
@@ -417,7 +417,7 @@ const TaskManager = () => {
 		});
 	};
 
-	console.log(taskDate, "selectedDate");
+	//console.log(taskDate, "selectedDate");
 
 	const renderCurrentWeekSection = () => {
 		const isToday = (date) =>
@@ -1067,8 +1067,10 @@ const TaskManager = () => {
 		);
 	};
 
-	console.log(activeItem, "activeItem");
-	console.log(listOfTasks, "listOfTasks");
+	//console.log(activeItem, "activeItem");
+	//console.log(listOfTasks, "listOfTasks");
+
+	const [position, sePosition] = useState();
 
 	return (
 		<div className="container">
@@ -1077,15 +1079,36 @@ const TaskManager = () => {
 				{view === "months" && renderMonthsView()}
 				{view === "years" && renderYearsView()}
 			</div>
+
 			<div className="toggle-view-wrapper">
-				<div className="years-btn" onClick={() => setView("years")}>
+				<div
+					className={`years-btn ${view == "years" ? "active" : ""}`}
+					onClick={() => {
+						setView("years");
+
+						const getPosition =
+							document.querySelector(".years-btn");
+						sePosition(getPosition.offsetLeft);
+					}}
+				>
 					Years
 				</div>
-				<div className="days-btn" onClick={() => setView("days")}>
+
+				<div
+					className={`days-btn ${view == "days" ? "active" : ""}`}
+					onClick={() => {
+						const getPosition = document.querySelector(".days-btn");
+						console.log(getPosition.offsetLeft);
+						sePosition(getPosition.offsetLeft);
+
+						setView("days");
+					}}
+				>
 					Days
 				</div>
+
 				<div
-					className="months-btn"
+					className={`months-btn ${view == "months" ? "active" : ""}`}
 					onClick={() => {
 						setView("months");
 						resetToToday();
@@ -1099,10 +1122,23 @@ const TaskManager = () => {
 								});
 							}
 						}, 0);
+
+						const getPosition =
+							document.querySelector(".months-btn");
+						console.log(getPosition.offsetLeft);
+						sePosition(getPosition.offsetLeft);
+
+						console.log(position);
 					}}
 				>
 					Months
 				</div>
+
+				<div
+					className="highlighter"
+					// style={{ transform: `translateX(${position}px)` }}
+					style={{ left: `${position}px` }}
+				></div>
 			</div>
 		</div>
 	);
@@ -1138,7 +1174,7 @@ const AddTaskButton = ({
 		}
 	}
 
-	console.log("hello wold");
+	//console.log("hello wold");
 
 	return (
 		<div
