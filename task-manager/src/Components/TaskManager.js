@@ -381,14 +381,14 @@ const TaskManager = () => {
 
 		setTaskData((prevData) => ({
 			...prevData,
-			[formattedDate]: [...(prevData[formattedDate] || []), newTask],
+			[formattedDate]: [newTask, ...(prevData[formattedDate] || [])],
 		}));
 
-		setTasks((prevTasks) => [...prevTasks, newTask]);
+		setTasks((prevTasks) => [newTask, ...prevTasks]);
 		setIsAddTaskActive(false);
 		setNewTaskTitle("");
 		setNewTaskNotes([]);
-		setMeetingMembers([]); // Reset meeting members after adding the task
+		setMeetingMembers([]);
 		setTaskStartTiming({
 			hr: "",
 			min: "",
