@@ -8,17 +8,15 @@ const dummyData = {
 		{
 			id: 1,
 			title: "Personal Task",
-			color: "#FFCC00", // Yellow
+			color: "#FFCC00",
 			time: {
 				startTime: {
-					hr: "09",
+					hr: "21",
 					min: "30",
-					meridians: "PM",
 				},
 				endTime: {
 					hr: "11",
 					min: "30",
-					meridians: "AM",
 				},
 			},
 			task: {
@@ -54,18 +52,15 @@ const dummyData = {
 		{
 			id: 2,
 			title: "Team Meeting",
-			color: "#00CCFF", // Blue
-
+			color: "#00CCFF",
 			time: {
 				startTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "10",
+					min: "00",
 				},
 				endTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "11",
+					min: "30",
 				},
 			},
 			task: {
@@ -95,17 +90,15 @@ const dummyData = {
 		{
 			id: 3,
 			title: "Project Report",
-			color: "#FF6600", // Orange
+			color: "#FF6600",
 			time: {
 				startTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "14",
+					min: "00",
 				},
 				endTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "15",
+					min: "30",
 				},
 			},
 			task: {
@@ -121,17 +114,15 @@ const dummyData = {
 		{
 			id: 4,
 			title: "Grocery Shopping",
-			color: "#66FF66", // Green
+			color: "#66FF66",
 			time: {
 				startTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "16",
+					min: "00",
 				},
 				endTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "17",
+					min: "00",
 				},
 			},
 			task: {
@@ -147,17 +138,15 @@ const dummyData = {
 		{
 			id: 5,
 			title: "Project Milestones Discussion",
-			color: "#FF0099", // Pink
+			color: "#FF0099",
 			time: {
 				startTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "09",
+					min: "00",
 				},
 				endTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "10",
+					min: "30",
 				},
 			},
 			task: {
@@ -176,17 +165,15 @@ const dummyData = {
 		{
 			id: 6,
 			title: "Weekly Sync-Up",
-			color: "#6600FF", // Purple
+			color: "#6600FF",
 			time: {
 				startTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "11",
+					min: "00",
 				},
 				endTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "12",
+					min: "00",
 				},
 			},
 			task: {
@@ -202,17 +189,15 @@ const dummyData = {
 		{
 			id: 7,
 			title: "Client Feedback Call",
-			color: "#FF3333", // Red
+			color: "#FF3333",
 			time: {
 				startTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "15",
+					min: "30",
 				},
 				endTime: {
-					hr: "",
-					min: "",
-					meridians: "",
+					hr: "16",
+					min: "00",
 				},
 			},
 			task: {
@@ -622,15 +607,8 @@ const TaskManager = () => {
 
 		function startAndEndTime(item) {
 			const starting =
-				item.time.startTime.hr +
-				":" +
-				item.time.startTime.min +
-				item.time.startTime.meridians;
-			const ending =
-				item.time.endTime.hr +
-				":" +
-				item.time.endTime.min +
-				item.time.endTime.meridians;
+				item.time.startTime.hr + ":" + item.time.startTime.min;
+			const ending = item.time.endTime.hr + ":" + item.time.endTime.min;
 
 			return starting + " - " + ending;
 		}
@@ -1070,7 +1048,7 @@ const TaskManager = () => {
 	//console.log(activeItem, "activeItem");
 	//console.log(listOfTasks, "listOfTasks");
 
-	const [position, sePosition] = useState();
+	const [position, setPosition] = useState(0);
 
 	return (
 		<div className="container">
@@ -1079,36 +1057,30 @@ const TaskManager = () => {
 				{view === "months" && renderMonthsView()}
 				{view === "years" && renderYearsView()}
 			</div>
-
 			<div className="toggle-view-wrapper">
 				<div
-					className={`years-btn ${view == "years" ? "active" : ""}`}
+					className={`years-btn ${view === "years" ? "active" : ""}`}
 					onClick={() => {
 						setView("years");
-
 						const getPosition =
 							document.querySelector(".years-btn");
-						sePosition(getPosition.offsetLeft);
+						setPosition(getPosition.offsetLeft);
 					}}
 				>
 					Years
 				</div>
-
 				<div
-					className={`days-btn ${view == "days" ? "active" : ""}`}
+					className={`days-btn ${view === "days" ? "active" : ""}`}
 					onClick={() => {
 						const getPosition = document.querySelector(".days-btn");
-						console.log(getPosition.offsetLeft);
-						sePosition(getPosition.offsetLeft);
-
+						setPosition(getPosition.offsetLeft);
 						setView("days");
 					}}
 				>
 					Days
 				</div>
-
 				<div
-					className={`months-btn ${view == "months" ? "active" : ""}`}
+					className={`months-btn ${view === "months" ? "active" : ""}`}
 					onClick={() => {
 						setView("months");
 						resetToToday();
@@ -1122,21 +1094,15 @@ const TaskManager = () => {
 								});
 							}
 						}, 0);
-
 						const getPosition =
 							document.querySelector(".months-btn");
-						console.log(getPosition.offsetLeft);
-						sePosition(getPosition.offsetLeft);
-
-						console.log(position);
+						setPosition(getPosition.offsetLeft);
 					}}
 				>
 					Months
 				</div>
-
 				<div
 					className="highlighter"
-					// style={{ transform: `translateX(${position}px)` }}
 					style={{ left: `${position}px` }}
 				></div>
 			</div>
