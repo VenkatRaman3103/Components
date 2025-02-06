@@ -2,9 +2,7 @@
 
 A sophisticated React-based task management application focusing on complex state management and UI interaction.
 
-
 https://github.com/user-attachments/assets/db319b9a-de1c-4ae4-a70f-b723186631e5
-
 
 ## Purpose
 
@@ -16,6 +14,7 @@ This project demonstrates advanced React development techniques, providing hands
 - Interactive component development
 
 ## Screenshots
+
 ![Screenshot 2025-02-06 234010](https://github.com/user-attachments/assets/3e5ec7bd-03bf-469b-9af1-0ab6517193d4)
 
 ![Screenshot 2025-02-06 234028](https://github.com/user-attachments/assets/ee6a9d4d-62b6-4d7c-ba00-1ea59b891af6)
@@ -32,13 +31,16 @@ This project demonstrates advanced React development techniques, providing hands
 
 ![Screenshot 2025-02-06 234412](https://github.com/user-attachments/assets/9a700cd7-ae59-44ee-b078-618f2e55374c)
 
-
 ## Features
 
 - Dynamic task creation and management
 - Advanced state handling
 - Responsive and interactive UI
 - Intuitive user experience
+
+## Current Status
+
+This component needs some refinements, and I'm actively working on it, particularly focusing on custom icon development and UI enhancements
 
 ## Installation
 
