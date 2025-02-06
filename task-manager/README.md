@@ -15,8 +15,6 @@ This project demonstrates advanced React development techniques, providing hands
 
 ## Screenshots
 
-<img src="https://github.com/user-attachments/assets/1bc66507-bbb7-43e8-9e74-6a2e3c753ac4" alt="Screenshot 2024-10-05 225149" width="300"/>
-
 <img src="https://github.com/user-attachments/assets/3e5ec7bd-03bf-469b-9af1-0ab6517193d4" alt="Screenshot 2025-02-06 234010" width="300"/>
 
 <img src="https://github.com/user-attachments/assets/ee6a9d4d-62b6-4d7c-ba00-1ea59b891af6" alt="Screenshot 2025-02-06 234028" width="300"/>
