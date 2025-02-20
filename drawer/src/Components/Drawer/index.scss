@@ -45,6 +45,8 @@
 
       transition: height .5s cubic-bezier(.86, 0, .07, 1), scale .5s cubic-bezier(.86, 0, .07, 1);
 
+      overflow: hidden;
+
       &.expand {
         height: 200px;
         scale: 1.1;
@@ -110,8 +112,8 @@
   position: absolute;
   background-color: var(--blue);
   border-radius: 12px;
-  transition: all 0.3s ease-in-out; // Smooth movement
-  pointer-events: none; // Prevent interaction issues
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
 }
 
 //}

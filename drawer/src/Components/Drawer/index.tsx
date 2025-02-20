@@ -71,7 +71,7 @@ type btnPositionType = {
 };
 
 export const Drawer = () => {
-    const [isMouseEnter, setIsMouseEnter] = useState<boolean>(true);
+    const [isMouseEnter, setIsMouseEnter] = useState<boolean>(false);
 
     const [activeOption, setActiveOption] = useState<null | number>(null);
 
@@ -110,7 +110,15 @@ export const Drawer = () => {
                 <div
                     className={`options-tray-container ${isMouseEnter ? "expand" : ""}`}
                     onMouseEnter={() => setIsMouseEnter(true)}
-                    onMouseLeave={() => setIsMouseEnter(true)}
+                    onMouseLeave={() => {
+                        setIsMouseEnter(false);
+                        setOptionBtnDimension({ width: 0, height: 0 });
+                        setOptionBtnPosition({
+                            top: 100,
+                            left: optionBtnPosition.left,
+                        });
+                        setActiveOption(null);
+                    }}
                 >
                     <div
                         className={`content-wraper ${isMouseEnter ? "open" : ""}`}
