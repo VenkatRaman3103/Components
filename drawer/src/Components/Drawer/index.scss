@@ -15,7 +15,7 @@
   justify-content: center;
 
   .wrapper {
-    width: 35vw;
+    // width: 35vw;
     height: 70vh;
 
     display: flex;
@@ -46,19 +46,6 @@
         scale: 1.1;
       }
 
-      .content-wraper {
-        height: 0px;
-        width: 100%;
-        background-color: red;
-
-        overflow: hidden;
-
-        &.open {
-          height: 100%;
-          width: 100%;
-        }
-      }
-
       .options-tray-wrapper {
         display: flex;
         gap: 8px;
@@ -79,5 +66,30 @@
         }
       }
     }
+  }
+}
+
+.content-wraper {
+  height: 0px;
+  width: 100%;
+
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+
+  &.open {
+    height: 100%;
+    width: 100%;
+  }
+
+  .divider {
+    height: 1px;
+    width: calc(100% - 10px);
+
+    background-color: var(--border-color);
+    border-radius: 100px;
   }
 }
