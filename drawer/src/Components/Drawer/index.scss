@@ -53,6 +53,8 @@
       .options-tray-wrapper {
         display: flex;
         gap: 8px;
+        position: relative;
+        z-index: 3;
 
         .option {
           height: 35px;
@@ -65,9 +67,11 @@
           padding: 10px 25px;
           border-radius: 12px;
 
+          z-index: 3;
+
           &.active {
             color: white;
-            background-color: var(--blue);
+            // background-color: var(--blue);
           }
         }
       }
@@ -99,6 +103,15 @@
     border-radius: 100px;
   }
 
+}
+
+.highlight {
+  z-index: 2;
+  position: absolute;
+  background-color: var(--blue);
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out; // Smooth movement
+  pointer-events: none; // Prevent interaction issues
 }
 
 //}
