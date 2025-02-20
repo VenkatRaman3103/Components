@@ -56,17 +56,19 @@
 
         .option {
           height: 35px;
+          color: black;
 
           display: flex;
           align-items: center;
           justify-content: center;
 
           padding: 10px 25px;
-
-          background-color: var(--blue);
-          color: white;
-
           border-radius: 12px;
+
+          &.active {
+            color: white;
+            background-color: var(--blue);
+          }
         }
       }
     }
