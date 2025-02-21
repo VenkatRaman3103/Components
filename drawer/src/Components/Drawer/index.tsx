@@ -10,14 +10,16 @@ import React, {
 } from "react";
 import "./index.scss";
 
+type contentType = {
+    icon?: string;
+    heading?: string;
+    description: string;
+};
+
 type objectType = {
     type: "app" | "link" | "notes" | "search";
     label: string;
-    content?: {
-        icon: string;
-        heading?: string;
-        description: string;
-    }[];
+    content?: contentType[];
 };
 
 type dataType = objectType[];
@@ -25,11 +27,22 @@ type dataType = objectType[];
 const data: dataType = [
     {
         type: "app",
-        label: "App",
+        label: "Apps",
         content: [
             {
                 icon: "red",
-                description: "incididunt ut labore et dolore magna aliqua",
+                heading: "heading 1",
+                description: "1 incididunt ut labore et dolore magna aliqua",
+            },
+            {
+                icon: "red",
+                heading: "heading 2",
+                description: "2 incididunt ut labore et dolore magna aliqua",
+            },
+            {
+                icon: "red",
+                heading: "heading 3",
+                description: "3 incididunt ut labore et dolore magna aliqua",
             },
         ],
     },
@@ -38,8 +51,16 @@ const data: dataType = [
         label: "Links",
         content: [
             {
-                icon: "red",
-                description: "incididunt ut labore et dolore magna aliqua",
+                description: "2 incididunt ut labore et dolore magna aliqua",
+            },
+            {
+                description: "21 incididunt ut labore et dolore magna aliqua",
+            },
+            {
+                description: "22 incididunt ut labore et dolore magna aliqua",
+            },
+            {
+                description: "23 incididunt ut labore et dolore magna aliqua",
             },
         ],
     },
@@ -50,7 +71,7 @@ const data: dataType = [
             {
                 icon: "red",
                 heading: "heading",
-                description: "incididunt ut labore et dolore magna aliqua",
+                description: "3 incididunt ut labore et dolore magna aliqua",
             },
         ],
     },
@@ -71,15 +92,11 @@ type btnPositionType = {
 };
 
 export const Drawer = () => {
-    const [isMouseEnter, setIsMouseEnter] = useState<boolean>(false);
-
-    const [activeOption, setActiveOption] = useState<null | number>(null);
-
+    const [isMouseEnter, setIsMouseEnter] = useState<boolean>(true);
+    const [activeOption, setActiveOption] = useState<number | null>(1);
     const optionRef = useRef<HTMLDivElement>(null);
-
     const [optionBtnDimension, setOptionBtnDimension] =
         useState<btnDimensionType>({ width: 0, height: 0 });
-
     const [optionBtnPosition, setOptionBtnPosition] = useState<btnPositionType>(
         { top: 0, left: 0 },
     );
@@ -96,13 +113,46 @@ export const Drawer = () => {
                 setOptionBtnDimension({ width, height });
                 setOptionBtnPosition({
                     top: top - wrapper?.top - 2,
-                    left: left - wrapper?.left - activeOption * 12,
+                    left: left - wrapper?.left - (activeOption || 0) * 12,
                 });
             }
         }
     }, [activeOption]);
 
-    console.log(optionBtnDimension, optionBtnPosition);
+    function renderContent(type: objectType["type"] | undefined) {
+        if (!type || activeOption === null) return null;
+
+        switch (type) {
+            case "app":
+                return data[activeOption]?.content?.map(
+                    (item: contentType, ind: number) => (
+                        <AppOption
+                            key={ind}
+                            heading={item.heading || ""}
+                            description={item.description}
+                            icon={item.icon}
+                        />
+                    ),
+                );
+            case "link":
+                return data[activeOption]?.content?.map(
+                    (item: contentType, ind: number) => (
+                        <LinkOption key={ind} description={item.description} />
+                    ),
+                );
+            case "notes":
+                return data[activeOption]?.content?.map(
+                    (item: contentType, ind: number) => (
+                        <div key={ind} className="note-item">
+                            {item.heading && <h3>{item.heading}</h3>}
+                            <p>{item.description}</p>
+                        </div>
+                    ),
+                );
+            default:
+                return null;
+        }
+    }
 
     return (
         <div className="container">
@@ -111,7 +161,7 @@ export const Drawer = () => {
                     className={`options-tray-container ${isMouseEnter ? "expand" : ""}`}
                     onMouseEnter={() => setIsMouseEnter(true)}
                     onMouseLeave={() => {
-                        setIsMouseEnter(false);
+                        setIsMouseEnter(true);
                         setOptionBtnDimension({ width: 0, height: 0 });
                         setOptionBtnPosition({
                             top: 100,
@@ -121,8 +171,12 @@ export const Drawer = () => {
                     }}
                 >
                     <div
-                        className={`content-wraper ${isMouseEnter ? "open" : ""}`}
+                        className={`content-container ${isMouseEnter ? "open" : ""}`}
                     >
+                        <div className="content-wrapper">
+                            {activeOption !== null &&
+                                renderContent(data[activeOption]?.type)}
+                        </div>
                         <div className="divider"></div>
                     </div>
                     <div className="options-tray-wrapper">
@@ -152,27 +206,58 @@ export const Drawer = () => {
     );
 };
 
+const LinkOption = ({ description }: { description: string }) => {
+    return <div className="link-item">{description}</div>;
+};
+
+type AppOptionProps = {
+    heading: string;
+    description: string;
+    icon?: string;
+};
+
+const AppOption: React.FC<AppOptionProps> = ({
+    heading,
+    description,
+    icon,
+}) => {
+    return (
+        <div className="app-container">
+            <div className="app-wrapper">
+                <div
+                    className="app-icon"
+                    style={{ backgroundColor: icon }}
+                ></div>
+                <div className="app-content-wrapper">
+                    <div className="heading">{heading}</div>
+                    <div className="description">{description}</div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 type ButtonPropType = {
     label: string;
     activeOption: null | number;
-    setActiveOption: Dispatch<SetStateAction<null | number>>;
+    setActiveOption: Dispatch<SetStateAction<number | null>>;
     index: number;
     ref: Ref<HTMLDivElement>;
 };
-const Button: React.FC<ButtonPropType> = ({
-    label,
-    activeOption,
-    setActiveOption,
-    index,
-    ref,
-}) => {
+
+const Button: React.FC<ButtonPropType> = React.forwardRef<
+    HTMLDivElement,
+    Omit<ButtonPropType, "ref">
+>(({ label, activeOption, setActiveOption, index }, ref) => {
     return (
         <div
-            ref={activeOption == index ? ref : null}
-            className={`option ${activeOption == index ? "active" : ""}`}
-            onClick={() => setActiveOption(index)}
+            ref={activeOption === index ? ref : null}
+            className={`option ${activeOption === index ? "active" : ""}`}
+            onMouseEnter={() => setActiveOption(index)}
         >
             {label}
         </div>
     );
-};
+});
+
+Button.displayName = "Button";
