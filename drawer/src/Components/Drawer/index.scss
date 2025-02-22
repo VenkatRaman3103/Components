@@ -231,3 +231,55 @@
 .images-container::-webkit-scrollbar {
   display: none;
 }
+
+.search-container {
+  height: 200px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  .search-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+
+  .search-results {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .search-suggestion {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+
+    .suggestion-content {
+      margin-bottom: 4px;
+    }
+
+    .suggestion-path {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .search-highlight {
+      font-weight: 700;
+    }
+  }
+}
+
+.search-container::-webkit-scrollbar {
+  display: none;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+//}

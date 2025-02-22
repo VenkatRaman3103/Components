@@ -43,13 +43,13 @@ const data = [
     },
 ];
 
-function flatTheObj(data, result = []) {
-    if (typeof data == "object") {
-        Object.keys(data).map((key) => {
-            flatTheObj(data[key], result);
+export function flatTheObj(data, result = [], path = "") {
+    if (typeof data === "object" && data !== null) {
+        Object.entries(data).forEach(([key, value]) => {
+            flatTheObj(value, result, path ? `${path}.${key}` : key);
         });
     } else {
-        result.push(data);
+        result.push({ path, value: data });
     }
 
     return result;
