@@ -148,7 +148,6 @@ export const Drawer = () => {
         function flatTheObj(data: any, result: any[] = [], path = "") {
             if (typeof data === "object" && data !== null) {
                 Object.entries(data).forEach(([key, value]) => {
-                    // Only include description, heading, and label fields
                     if (
                         key === "description" ||
                         key === "heading" ||
