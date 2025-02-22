@@ -32,8 +32,8 @@ const data: dataType = [
         content: [
             {
                 icon: "red",
-                heading: "heading 1",
-                description: "1 incididunt ut labore et dolore magna aliqua",
+                heading: "heading 1 appHeading",
+                description: "1 some ut labore et dolore magna aliqua",
             },
             {
                 icon: "red",
@@ -52,7 +52,8 @@ const data: dataType = [
         label: "Links",
         content: [
             {
-                description: "2 incididunt ut labore et dolore magna aliqua",
+                description:
+                    "2 linkitem incididunt ut labore et dolore magna aliqua",
             },
             {
                 description: "21 incididunt ut labore et dolore magna aliqua",
@@ -71,7 +72,8 @@ const data: dataType = [
         content: [
             {
                 url: "red",
-                description: "3 incididunt ut labore et dolore magna aliqua",
+                description:
+                    "3 imageSearch incididunt ut labore1 et dolore magna aliqua",
             },
             {
                 url: "red",
@@ -151,9 +153,9 @@ export const Drawer = () => {
                     if (
                         key === "description" ||
                         key === "heading" ||
-                        key === "label" ||
-                        key === "url" ||
-                        key === "type"
+                        // key === "label" ||
+                        key === "url"
+                        // key === "type"
                     ) {
                         result.push({ path, value, type: key });
                     }
@@ -198,6 +200,37 @@ export const Drawer = () => {
         }
     }, [searchString, flatenData]);
 
+    function findSerachComponent(type, path) {
+        const getValueByPath = (obj: any, path: string) => {
+            return path.split(".").reduce((acc, key) => {
+                if (acc && typeof acc === "object") {
+                    return acc[key];
+                }
+                return undefined;
+            }, obj);
+        };
+
+        const item = getValueByPath(data, path);
+        console.log(item, "itemComponent");
+
+        switch (type) {
+            case "image":
+                return <ImageOption item={item} />;
+            case "app":
+                return (
+                    <AppOption
+                        heading={item.heading}
+                        description={item.description}
+                        icon={item.icon}
+                    />
+                );
+            case "link":
+                return <LinkOption description={item.description} />;
+            default:
+                break;
+        }
+    }
+
     function renderContent(type: objectType["type"] | undefined) {
         if (!type || activeOption === null) return null;
 
@@ -224,10 +257,7 @@ export const Drawer = () => {
                     <div className="images-container">
                         {data[activeOption]?.content?.map(
                             (item: contentType, ind: number) => (
-                                <div key={ind} className="note-item">
-                                    {item.heading && <h3>{item.heading}</h3>}
-                                    <p>{item.description}</p>
-                                </div>
+                                <ImageOption item={item} key={ind} />
                             ),
                         )}
                     </div>
@@ -261,13 +291,19 @@ export const Drawer = () => {
                                                 key={ind}
                                                 className="search-suggestion"
                                             >
-                                                <div className="suggestion-content">
+                                                <div className="suggestion-path">
+                                                    {findSerachComponent(
+                                                        data[path.split(".")[0]]
+                                                            .type,
+                                                        path,
+                                                    )}
+                                                    {type}:
                                                     {parts.map((part, index) =>
                                                         part.toLowerCase() ===
                                                         searchString.toLowerCase() ? (
                                                             <span
                                                                 key={index}
-                                                                className="search-highlight"
+                                                                className=""
                                                             >
                                                                 {part}
                                                             </span>
@@ -275,9 +311,6 @@ export const Drawer = () => {
                                                             part
                                                         ),
                                                     )}
-                                                </div>
-                                                <div className="suggestion-path">
-                                                    {type}: {path}
                                                 </div>
                                             </div>
                                         );
@@ -346,6 +379,15 @@ export const Drawer = () => {
                     </div>
                 </div>
             </div>
+        </div>
+    );
+};
+
+const ImageOption = ({ item }) => {
+    return (
+        <div className="note-item">
+            {item.heading && <h3>{item.heading}</h3>}
+            <p>{item.description}</p>
         </div>
     );
 };
