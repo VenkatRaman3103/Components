@@ -12,12 +12,13 @@ import "./index.scss";
 
 type contentType = {
     icon?: string;
+    url?: string;
     heading?: string;
     description: string;
 };
 
 type objectType = {
-    type: "app" | "link" | "notes" | "search";
+    type: "app" | "link" | "image" | "search";
     label: string;
     content?: contentType[];
 };
@@ -65,12 +66,28 @@ const data: dataType = [
         ],
     },
     {
-        type: "notes",
-        label: "Notes",
+        type: "image",
+        label: "Images",
         content: [
             {
-                icon: "red",
-                heading: "heading",
+                url: "red",
+                description: "3 incididunt ut labore et dolore magna aliqua",
+            },
+            {
+                url: "red",
+                description: "3 incididunt ut labore et dolore magna aliqua",
+            },
+            {
+                url: "red",
+                description: "3 incididunt ut labore et dolore magna aliqua",
+            },
+
+            {
+                url: "red",
+                description: "3 incididunt ut labore et dolore magna aliqua",
+            },
+            {
+                url: "red",
                 description: "3 incididunt ut labore et dolore magna aliqua",
             },
         ],
@@ -140,14 +157,18 @@ export const Drawer = () => {
                         <LinkOption key={ind} description={item.description} />
                     ),
                 );
-            case "notes":
-                return data[activeOption]?.content?.map(
-                    (item: contentType, ind: number) => (
-                        <div key={ind} className="note-item">
-                            {item.heading && <h3>{item.heading}</h3>}
-                            <p>{item.description}</p>
-                        </div>
-                    ),
+            case "image":
+                return (
+                    <div className="images-container">
+                        {data[activeOption]?.content?.map(
+                            (item: contentType, ind: number) => (
+                                <div key={ind} className="note-item">
+                                    {item.heading && <h3>{item.heading}</h3>}
+                                    <p>{item.description}</p>
+                                </div>
+                            ),
+                        )}
+                    </div>
                 );
             default:
                 return null;
